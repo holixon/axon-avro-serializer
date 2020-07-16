@@ -1,4 +1,5 @@
 version: '3'
+# https://hub.docker.com/r/axoniq/axonserver
 services:
   axon-server:
     image: axoniq/axonserver:4.3.5

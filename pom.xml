@@ -63,6 +63,11 @@
         <artifactId>axon-modelling</artifactId>
         <version>${axon.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.axonframework</groupId>
+        <artifactId>axon-spring-boot-starter</artifactId>
+        <version>${axon.version}</version>
+      </dependency>
 
       <!-- AVRO -->
       <dependency>
@@ -101,6 +106,12 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.1.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.avro</groupId>
+          <artifactId>avro-maven-plugin</artifactId>
+          <version>${avro.version}</version>
         </plugin>
 
         <!-- Coverage metering -->

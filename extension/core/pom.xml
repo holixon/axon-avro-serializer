@@ -13,6 +13,7 @@
   <artifactId>axon-avro-serializer</artifactId>
 
   <dependencies>
+    <!-- TODO make provided? -->
     <dependency>
       <groupId>org.axonframework</groupId>
       <artifactId>axon-messaging</artifactId>

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: bankaccount
+
+#axon:
+#  serializer:
+#    general: xstream
+#    messages: xstream
+#    events: jackson
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"

@@ -1,0 +1,21 @@
+{
+  "type": "record",
+  "namespace": "example.bankaccount.event",
+  "name": "MoneyWithdrawnEvent",
+  "fields": [
+    {
+      "name": "bankAccountId",
+      "type": "string"
+    },
+    {
+      "name": "transactionId",
+      "type": "string",
+      "avro.java.string": "String"
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    }
+  ],
+  "revision": "1"
+}

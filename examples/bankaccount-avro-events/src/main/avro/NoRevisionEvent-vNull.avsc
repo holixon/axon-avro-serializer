@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "namespace": "example.test.event",
+  "name": "NoRevisionEvent",
+  "fields": [
+    {
+      "name": "aggregateId",
+      "type": "string"
+    }
+  ]
+}
