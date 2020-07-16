@@ -579,20 +579,20 @@
   </profile>
     -->
 
-    <!--
-  <profile>
-      Profile for building examples
-    <id>examples</id>
-    <activation>
-      <property>
-        <name>!skipExamples</name>
-      </property>
-    </activation>
-    <modules>
-      <module>examples</module>
-    </modules>
-  </profile>
-    -->
+    <profile>
+      <!--
+        Profile for building examples
+      -->
+      <id>examples</id>
+      <activation>
+        <property>
+          <name>!skipExamples</name>
+        </property>
+      </activation>
+      <modules>
+        <module>examples</module>
+      </modules>
+    </profile>
 
   </profiles>
 

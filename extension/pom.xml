@@ -44,8 +44,7 @@
       <plugin>
         <groupId>com.tngtech.jgiven</groupId>
         <artifactId>jgiven-maven-plugin</artifactId>
-        <version>1.0.0-RC5</version>
-        <!--        <version>${jgiven.version}</version>-->
+        <version>${jgiven.version}</version>
         <executions>
           <execution>
             <goals>
