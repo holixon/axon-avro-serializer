@@ -11,3 +11,7 @@ target/
 pom.xml.versionsBackup
 
 **/.tmp/
+.repository
+
+
+lib/
