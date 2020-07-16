@@ -13,8 +13,8 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>core</module>
     <!--
-    <module>generator</module>
     <module>model</module>
     <module>runtime</module>
     -->
@@ -30,14 +30,12 @@
       <artifactId>kotlin-reflect</artifactId>
     </dependency>
 
-    <!-- Testing
+    <!-- Testing -->
     <dependency>
-      <groupId>io.holunda.decision.lib</groupId>
-      <artifactId>camunda-decision-lib-test</artifactId>
+      <groupId>io.toolisticon.axon.avro.lib</groupId>
+      <artifactId>axon-avro-serializer-lib-test</artifactId>
       <scope>test</scope>
     </dependency>
-     -->
-
   </dependencies>
 
   <build>
