@@ -39,9 +39,8 @@
     </dependency>
 
     <dependency>
-      <!-- unfortunately, we have to use junit 4 here, camunda testing is not yet junit5 ready -->
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <scope>compile</scope>
     </dependency>
 
@@ -59,20 +58,20 @@
 
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-test-junit</artifactId>
+      <artifactId>kotlin-test-junit5</artifactId>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.tngtech.jgiven</groupId>
-      <artifactId>jgiven-junit</artifactId>
+      <artifactId>jgiven-junit5</artifactId>
       <version>${jgiven.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>com.tngtech.jgiven</groupId>
-      <artifactId>jgiven-spring</artifactId>
+      <artifactId>jgiven-spring-junit5</artifactId>
       <version>${jgiven.version}</version>
       <scope>compile</scope>
     </dependency>
