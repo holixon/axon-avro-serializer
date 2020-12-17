@@ -1,12 +1,11 @@
-package io.toolisticon.axon.avro.examples.bankaccount.rest;
+package io.holixon.axon.avro.examples.bankaccount.rest;
 
-import io.toolisticon.axon.avro.examples.bankaccount.command.CreateBankAccountCommand;
-import io.toolisticon.axon.avro.examples.bankaccount.command.DepositMoneyCommand;
-import io.toolisticon.axon.avro.examples.bankaccount.command.WithdrawMoneyCommand;
-import io.toolisticon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection;
-import io.toolisticon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection.BankAccountInfoDto;
-import io.toolisticon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection.FindAll;
-import io.toolisticon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection.FindById;
+import io.holixon.axon.avro.examples.bankaccount.command.CreateBankAccountCommand;
+import io.holixon.axon.avro.examples.bankaccount.command.DepositMoneyCommand;
+import io.holixon.axon.avro.examples.bankaccount.command.WithdrawMoneyCommand;
+import io.holixon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection.BankAccountInfoDto;
+import io.holixon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection.FindAll;
+import io.holixon.axon.avro.examples.bankaccount.projection.CurrentBalanceProjection.FindById;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.http.ResponseEntity;

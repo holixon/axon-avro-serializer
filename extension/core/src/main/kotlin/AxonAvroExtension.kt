@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro
+package io.holixon.axon.avro
 
 import org.apache.avro.specific.SpecificData
 import org.apache.avro.util.ClassUtils

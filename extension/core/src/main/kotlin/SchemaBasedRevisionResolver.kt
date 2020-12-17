@@ -1,7 +1,7 @@
-package io.toolisticon.axon.avro
+package io.holixon.axon.avro
 
-import io.toolisticon.axon.avro.AxonAvroExtension.PROP_REVISION
-import io.toolisticon.axon.avro.AxonAvroExtension.schemaForClass
+import io.holixon.axon.avro.AxonAvroExtension.PROP_REVISION
+import io.holixon.axon.avro.AxonAvroExtension.schemaForClass
 import org.axonframework.serialization.RevisionResolver
 import kotlin.reflect.KClass
 

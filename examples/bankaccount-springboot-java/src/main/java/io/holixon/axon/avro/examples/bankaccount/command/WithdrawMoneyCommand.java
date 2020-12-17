@@ -1,48 +1,47 @@
-package io.toolisticon.axon.avro.examples.bankaccount.command;
+package io.holixon.axon.avro.examples.bankaccount.command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 import java.util.Objects;
 
-public class CreateBankAccountCommand {
+public class WithdrawMoneyCommand {
 
   @TargetAggregateIdentifier
   private final String bankAccountId;
+  private final int amount;
 
-  private final int initialBalance;
-
-  public CreateBankAccountCommand(String bankAccountId, int initialBalance) {
+  public WithdrawMoneyCommand(String bankAccountId, int amount) {
     this.bankAccountId = bankAccountId;
-    this.initialBalance = initialBalance;
+    this.amount = amount;
   }
 
   public String getBankAccountId() {
     return bankAccountId;
   }
 
-  public int getInitialBalance() {
-    return initialBalance;
+  public int getAmount() {
+    return amount;
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    CreateBankAccountCommand that = (CreateBankAccountCommand) o;
-    return initialBalance == that.initialBalance &&
+    WithdrawMoneyCommand that = (WithdrawMoneyCommand) o;
+    return amount == that.amount &&
       Objects.equals(bankAccountId, that.bankAccountId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bankAccountId, initialBalance);
+    return Objects.hash(bankAccountId, amount);
   }
 
   @Override
   public String toString() {
-    return "CreateBankAccountCommand{" +
+    return "WithdrawMoneyCommand{" +
       "bankAccountId='" + bankAccountId + '\'' +
-      ", initialBalance=" + initialBalance +
+      ", amount=" + amount +
       '}';
   }
 }

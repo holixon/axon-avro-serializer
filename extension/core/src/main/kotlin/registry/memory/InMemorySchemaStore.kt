@@ -1,7 +1,7 @@
-package io.toolisticon.axon.avro.registry.memory
+package io.holixon.axon.avro.registry.memory
 
-import io.toolisticon.axon.avro.registry.SchemaSerializedType
-import io.toolisticon.axon.avro.registry.SchemaStore
+import io.holixon.axon.avro.registry.SchemaSerializedType
+import io.holixon.axon.avro.registry.SchemaStore
 import org.apache.avro.Schema
 import org.apache.avro.SchemaNormalization
 import org.axonframework.serialization.SimpleSerializedType

@@ -4,12 +4,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.toolisticon.axon.avro.project</groupId>
+    <groupId>io.holixon.axon.avro.project</groupId>
     <artifactId>axon-avro-serializer-examples-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>io.toolisticon.axon.avro.examples</groupId>
+  <groupId>io.holixon.axon.avro.examples</groupId>
   <artifactId>axon-bankaccount-avro-events</artifactId>
 
   <dependencies>

@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro.examples.bankaccount.command;
+package io.holixon.axon.avro.examples.bankaccount.command;
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 

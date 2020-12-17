@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.toolisticon.axon.avro.project</groupId>
+    <groupId>io.holixon.axon.avro.project</groupId>
     <artifactId>axon-avro-serializer-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -32,7 +32,7 @@
 
     <!-- Testing -->
     <dependency>
-      <groupId>io.toolisticon.axon.avro.lib</groupId>
+      <groupId>io.holixon.axon.avro.lib</groupId>
       <artifactId>axon-avro-serializer-lib-test</artifactId>
       <scope>test</scope>
     </dependency>

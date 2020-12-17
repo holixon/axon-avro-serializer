@@ -1,8 +1,8 @@
-package io.toolisticon.axon.avro
+package io.holixon.axon.avro
 
-import io.toolisticon.axon.avro.registry.SchemaRegistry
-import io.toolisticon.axon.avro.registry.SchemaSerializedType
-import io.toolisticon.axon.avro.registry.memory.InMemorySchemaStore
+import io.holixon.axon.avro.registry.SchemaRegistry
+import io.holixon.axon.avro.registry.SchemaSerializedType
+import io.holixon.axon.avro.registry.memory.InMemorySchemaStore
 import test.fixture.SampleEvent
 
 internal object AxonAvroExtensionTestContext {

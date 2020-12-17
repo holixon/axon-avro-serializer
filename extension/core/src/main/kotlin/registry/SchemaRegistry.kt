@@ -1,6 +1,6 @@
-package io.toolisticon.axon.avro.registry
+package io.holixon.axon.avro.registry
 
-import io.toolisticon.axon.avro.SchemaBasedRevisionResolver
+import io.holixon.axon.avro.SchemaBasedRevisionResolver
 import org.apache.avro.specific.SpecificRecord
 
 class SchemaRegistry(

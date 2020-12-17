@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro.registry
+package io.holixon.axon.avro.registry
 
 import org.apache.avro.Schema
 import org.axonframework.serialization.SimpleSerializedType

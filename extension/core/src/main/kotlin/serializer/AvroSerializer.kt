@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro.serializer
+package io.holixon.axon.avro.serializer
 
 import org.axonframework.serialization.Converter
 import org.axonframework.serialization.SerializedObject

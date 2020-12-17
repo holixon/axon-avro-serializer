@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro.examples.bankaccount.event;
+package io.holixon.axon.avro.examples.bankaccount.event;
 
 import java.util.Objects;
 

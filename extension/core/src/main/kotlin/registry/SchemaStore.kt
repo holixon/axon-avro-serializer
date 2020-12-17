@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro.registry
+package io.holixon.axon.avro.registry
 
 /**
  * Write access to schema repository.

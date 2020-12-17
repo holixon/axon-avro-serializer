@@ -1,8 +1,8 @@
-package io.toolisticon.axon.avro.examples.bankaccount.projection;
+package io.holixon.axon.avro.examples.bankaccount.projection;
 
-import io.toolisticon.axon.avro.examples.bankaccount.event.BankAccountCreatedEvent;
-import io.toolisticon.axon.avro.examples.bankaccount.event.MoneyDepositedEvent;
-import io.toolisticon.axon.avro.examples.bankaccount.event.MoneyWithdrawnEvent;
+import io.holixon.axon.avro.examples.bankaccount.event.BankAccountCreatedEvent;
+import io.holixon.axon.avro.examples.bankaccount.event.MoneyDepositedEvent;
+import io.holixon.axon.avro.examples.bankaccount.event.MoneyWithdrawnEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;

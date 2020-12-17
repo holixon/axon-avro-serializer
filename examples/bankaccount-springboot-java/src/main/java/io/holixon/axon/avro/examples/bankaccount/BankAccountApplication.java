@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro.examples.bankaccount;
+package io.holixon.axon.avro.examples.bankaccount;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

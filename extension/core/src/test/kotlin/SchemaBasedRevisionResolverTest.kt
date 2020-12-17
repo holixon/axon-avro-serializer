@@ -1,4 +1,4 @@
-package io.toolisticon.axon.avro
+package io.holixon.axon.avro
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

@@ -1,11 +1,11 @@
-package io.toolisticon.axon.avro.examples.bankaccount.aggregate;
+package io.holixon.axon.avro.examples.bankaccount.aggregate;
 
-import io.toolisticon.axon.avro.examples.bankaccount.command.CreateBankAccountCommand;
-import io.toolisticon.axon.avro.examples.bankaccount.command.DepositMoneyCommand;
-import io.toolisticon.axon.avro.examples.bankaccount.command.WithdrawMoneyCommand;
-import io.toolisticon.axon.avro.examples.bankaccount.event.BankAccountCreatedEvent;
-import io.toolisticon.axon.avro.examples.bankaccount.event.MoneyDepositedEvent;
-import io.toolisticon.axon.avro.examples.bankaccount.event.MoneyWithdrawnEvent;
+import io.holixon.axon.avro.examples.bankaccount.event.MoneyWithdrawnEvent;
+import io.holixon.axon.avro.examples.bankaccount.command.CreateBankAccountCommand;
+import io.holixon.axon.avro.examples.bankaccount.command.DepositMoneyCommand;
+import io.holixon.axon.avro.examples.bankaccount.command.WithdrawMoneyCommand;
+import io.holixon.axon.avro.examples.bankaccount.event.BankAccountCreatedEvent;
+import io.holixon.axon.avro.examples.bankaccount.event.MoneyDepositedEvent;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
