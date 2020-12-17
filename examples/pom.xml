@@ -19,7 +19,7 @@
     <maven.install.skip>true</maven.install.skip>
     <gpg.skip>true</gpg.skip>
 
-    <springdoc.version>1.4.3</springdoc.version>
+    <springdoc.version>1.5.2</springdoc.version>
   </properties>
 
   <modules>
