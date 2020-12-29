@@ -13,11 +13,11 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>core</module>
-    <!--
-    <module>model</module>
-    <module>runtime</module>
-    -->
+    <module>kotlin</module>
+    <module>serializer</module>
+
+    <module>schema/api</module>
+    <module>schema/adapter/apicurio</module>
   </modules>
 
   <dependencies>
@@ -34,6 +34,11 @@
     <dependency>
       <groupId>io.holixon.axon.avro.lib</groupId>
       <artifactId>axon-avro-serializer-lib-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.holixon.axon.avro.lib</groupId>
+      <artifactId>axon-avro-serializer-lib-fixtures</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

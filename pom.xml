@@ -17,7 +17,10 @@
     <spring-boot.version>2.4.1</spring-boot.version>
     <axon.version>4.4.5</axon.version>
     <avro.version>1.10.1</avro.version>
+    <kotlin-logging.version>2.0.3</kotlin-logging.version>
     <jgiven.version>1.0.0-RC7</jgiven.version>
+
+    <apicurio-registry.version>1.3.2.Final</apicurio-registry.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
@@ -27,18 +30,24 @@
     <additionalparam>-Xdoclint:none</additionalparam>
     <!-- Skip instrumentalization by default -->
     <jacoco.skip>true</jacoco.skip>
-    <!-- toolisticon GPG key -->
+    <!-- holixon GPG key -->
     <!-- <gpg.keyname>86F8C6FC</gpg.keyname> -->
   </properties>
 
   <modules>
     <module>extension</module>
-    <module>lib/test</module>
+    <module>lib</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
       <!-- PROJECT -->
+      <dependency>
+        <groupId>io.holixon.axon.avro.schema</groupId>
+        <artifactId>axon-avro-schema-api</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>io.holixon.axon.avro</groupId>
         <artifactId>axon-avro-serializer</artifactId>
@@ -46,8 +55,20 @@
       </dependency>
 
       <dependency>
+        <groupId>io.holixon.axon.avro.kotlin</groupId>
+        <artifactId>axon-avro-kotlin-extension</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
         <groupId>io.holixon.axon.avro.lib</groupId>
         <artifactId>axon-avro-serializer-lib-test</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.holixon.axon.avro.lib</groupId>
+        <artifactId>axon-avro-serializer-lib-fixtures</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
@@ -85,7 +106,7 @@
         <scope>import</scope>
       </dependency>
 
-      <!-- KOTLIN -->
+      <!-- KOTLIN (note: this has to be defined AFTER spring boot or the version is overwritten)-->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-bom</artifactId>

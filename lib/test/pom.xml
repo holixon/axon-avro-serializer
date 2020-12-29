@@ -5,28 +5,21 @@
 
   <parent>
     <groupId>io.holixon.axon.avro.project</groupId>
-    <artifactId>axon-avro-serializer-root</artifactId>
+    <artifactId>axon-avro-serializer-lib-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <groupId>io.holixon.axon.avro.lib</groupId>
   <artifactId>axon-avro-serializer-lib-test</artifactId>
-
-  <properties>
-    <jacoco.skip>true</jacoco.skip>
-    <maven.javadoc.skip>true</maven.javadoc.skip>
-    <maven.sources.skip>true</maven.sources.skip>
-    <maven.install.skip>true</maven.install.skip>
-    <gpg.skip>true</gpg.skip>
-  </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.axonframework</groupId>
       <artifactId>axon-test</artifactId>
       <version>${axon.version}</version>
+      <scope>compile</scope>
     </dependency>
+
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -80,6 +73,13 @@
       <groupId>com.tngtech.jgiven</groupId>
       <artifactId>jgiven-html5-report</artifactId>
       <version>${jgiven.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.github.microutils</groupId>
+      <artifactId>kotlin-logging-jvm</artifactId>
+      <version>${kotlin-logging.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>

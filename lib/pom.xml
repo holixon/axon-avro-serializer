@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.holixon.axon.avro.project</groupId>
+    <artifactId>axon-avro-serializer-root</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>axon-avro-serializer-lib-root</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <jacoco.skip>true</jacoco.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.sources.skip>true</maven.sources.skip>
+    <maven.install.skip>true</maven.install.skip>
+    <gpg.skip>true</gpg.skip>
+  </properties>
+
+  <modules>
+    <module>test</module>
+    <module>fixtures</module>
+  </modules>
+
+</project>
