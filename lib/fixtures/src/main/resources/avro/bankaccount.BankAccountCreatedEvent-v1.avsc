@@ -15,6 +15,6 @@
       "type": "int"
     }
   ],
-  "__comment": "a new bankaccount has been created with initial balance ",
+  "__comment": "A new BankAccount has been created with initial balance.",
   "revision": "1"
 }
