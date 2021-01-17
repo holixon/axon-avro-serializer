@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "BankAccountCreated",
-  "namespace": "bankaccount",
+  "namespace": "bankaccount.event",
   "fields": [
     {
       "name": "accountId",

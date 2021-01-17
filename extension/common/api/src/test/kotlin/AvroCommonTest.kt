@@ -1,6 +1,6 @@
 package io.holixon.axon.avro.common
 
-import bankaccount.BankAccountCreated
+import bankaccount.event.BankAccountCreated
 import io.holixon.axon.avro.common.AvroCommon.propertyBasedSchemaRevisionResolver
 import io.holixon.axon.avro.common.ext.FunctionExt.invoke
 import org.assertj.core.api.Assertions.assertThat

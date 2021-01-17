@@ -83,24 +83,6 @@ class AvroSerializer(
     return SimpleSerializedObject(singleObject, expectedRepresentation, typeForClass(ObjectUtils.nullSafeTypeOf(data)))
   }
 
-  //  //
-//  @Override
-//  public <T> SerializedObject<T> serialize(Object object, Class<T> expectedRepresentation) {
-//    try {
-//      if (String.class.equals(expectedRepresentation)) {
-//        //noinspection unchecked
-//        return new SimpleSerializedObject<>((T) getWriter().writeValueAsString(object), expectedRepresentation,
-//        typeForClass(ObjectUtils.nullSafeTypeOf(object)));
-//      }
-//
-//      byte[] serializedBytes = getWriter().writeValueAsBytes(object);
-//      T serializedContent = converter.convert(serializedBytes, expectedRepresentation);
-//      return new SimpleSerializedObject<>(serializedContent, expectedRepresentation,
-//      typeForClass(ObjectUtils.nullSafeTypeOf(object)));
-//    } catch (JsonProcessingException e) {
-//      throw new SerializationException("Unable to serialize object", e);
-//    }
-//  }
   override fun <S : Any, T : Any> deserialize(serializedObject: SerializedObject<S>): T? {
     if (SerializedType.emptyType() == serializedObject.type) return null
     val type = classForType(serializedObject.type)

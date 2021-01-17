@@ -23,6 +23,11 @@
       <artifactId>axon-modelling</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.axonframework</groupId>
+      <artifactId>axon-eventsourcing</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>

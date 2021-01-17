@@ -1,6 +1,6 @@
 package io.holixon.axon.avro.common
 
-import bankaccount.BankAccountCreated
+import bankaccount.event.BankAccountCreated
 import io.holixon.axon.avro.common.AvroCommon.propertyBasedSchemaRevisionResolver
 import io.holixon.axon.avro.common.ext.SchemaExt.fingerprint
 import org.assertj.core.api.Assertions.assertThat
@@ -40,7 +40,7 @@ internal class InMemoryAvroSchemaRegistryTest {
     assertThat(registry.findByContextAndName("bankaccount", "BankAccountCreated")).isEmpty()
     registry.register(BankAccountCreated.getClassSchema())
 
-    assertThat(registry.findByContextAndName("bankaccount", "BankAccountCreated")).hasSize(1)
+    assertThat(registry.findByContextAndName("bankaccount.event", "BankAccountCreated")).hasSize(1)
   }
 
   @Test
