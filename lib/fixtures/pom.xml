@@ -18,6 +18,11 @@
       <artifactId>avro</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.axonframework</groupId>
+      <artifactId>axon-modelling</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>

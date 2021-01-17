@@ -12,7 +12,7 @@ abstract class AbstractContentTypeConverter<S : Any, T : Any>(
   protected val targetType: Class<T>
 ) : ContentTypeConverter<S, T> {
 
-  protected constructor(expectedSourceType: KClass<S>, targetType: KClass<T>) : this(expectedSourceType.java, targetType.java)
+  constructor(expectedSourceType: KClass<S>, targetType: KClass<T>) : this(expectedSourceType.java, targetType.java)
 
   override fun targetType(): Class<T> = targetType
 

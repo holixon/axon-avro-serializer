@@ -1,8 +1,9 @@
 package io.holixon.axon.avro.serializer
 
+import io.holixon.axon.avro.common.type.AvroSchemaWithId
+import io.holixon.axon.avro.serializer.ext.SchemaExt.info
+import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
 import org.apache.avro.Schema
-import org.apache.avro.specific.SpecificData
-import org.apache.avro.specific.SpecificRecord
 import org.axonframework.serialization.SerializedType
 import org.axonframework.serialization.SimpleSerializedType
 
@@ -10,24 +11,27 @@ import org.axonframework.serialization.SimpleSerializedType
  * Data class representing an entry in a schema registry.
  */
 data class SchemaSerializedType(
-  val id: Int,
+  val globalId: Long,
   val serializedType: SimpleSerializedType,
   val schema: Schema
 ) : SerializedType by serializedType {
 
-  companion object {
-    // secondary constructor
-    operator fun invoke(id: Int, name: String, revision: String, schema: Schema) =
-      SchemaSerializedType(id, SimpleSerializedType(name, revision), schema)
+  constructor(globalId: Long, name: String, revision: String?, schema: Schema) : this(
+    globalId = globalId,
+    serializedType = SimpleSerializedType(name, revision),
+    schema = schema
+  )
 
-    @JvmStatic
-    fun <T: SpecificRecord> create(id: Int, recordClass: Class<T>, revision: String) = SchemaSerializedType(
-      id = id,
-      serializedType = SimpleSerializedType(recordClass.name, revision),
-      schema = SpecificData(recordClass.classLoader).getSchema(recordClass)
-    )
-  }
+  constructor(globalId: Long, schema: Schema) : this(
+    globalId = globalId,
+    name = schema.info.canonicalName,
+    revision = schema.revision,
+    schema = schema
+  )
 
-  constructor(id: Int, name: String, revision: String, schema: Schema) : this(id, SimpleSerializedType(name, revision), schema)
+  constructor(arvoSchema: AvroSchemaWithId) : this(
+    globalId = arvoSchema.id,
+    schema = arvoSchema.schema
+  )
 
 }

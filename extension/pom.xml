@@ -13,11 +13,9 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>common</module>
     <module>kotlin</module>
     <module>serializer</module>
-
-    <module>schema/api</module>
-    <module>schema/adapter/apicurio</module>
   </modules>
 
   <dependencies>

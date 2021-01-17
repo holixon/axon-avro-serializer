@@ -16,3 +16,7 @@ AVRO Serialization for Axon axon.serializer.[command|event|general]
 
 * <https://blog.cloudera.com/robust-message-serialization-in-apache-kafka-using-apache-avro-part-1/>
 * <https://github.com/cloudera/kafka-examples>
+
+## Useful avro implementations on JVM
+
+* [darwin](https://github.com/agile-lab-dev/darwin) - written in scala, provides single object serialization and schema registry adapters for DB, Confluent and in-mem. See [also](https://www.agilelab.it/darwin-avro-schema-evolution-made-easy/)

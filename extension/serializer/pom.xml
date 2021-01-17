@@ -14,8 +14,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.holixon.axon.avro.schema</groupId>
-      <artifactId>axon-avro-schema-api</artifactId>
+      <groupId>io.holixon.axon.avro</groupId>
+      <artifactId>avro-common-darwin</artifactId>
     </dependency>
     <dependency>
       <groupId>io.holixon.axon.avro.kotlin</groupId>
@@ -35,6 +35,16 @@
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/it.agilelab/darwin-core-common -->
+<!--    <dependency>-->
+<!--      <groupId>it.agilelab</groupId>-->
+<!--      <artifactId>darwin-core-common_2.11</artifactId>-->
+<!--      <version>1.1.1</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+
+
   </dependencies>
 
 </project>

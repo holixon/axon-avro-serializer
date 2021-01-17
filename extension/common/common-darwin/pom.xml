@@ -5,29 +5,27 @@
 
   <parent>
     <groupId>io.holixon.axon.avro.project</groupId>
-    <artifactId>axon-avro-serializer-extension-root</artifactId>
+    <artifactId>axon-avro-serializer-extension-common-root</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <groupId>io.holixon.axon.avro.kotlin</groupId>
-  <artifactId>axon-avro-kotlin-extension</artifactId>
+  <groupId>io.holixon.axon.avro</groupId>
+  <artifactId>avro-common-darwin</artifactId>
 
   <dependencies>
-    <!-- TODO make provided? -->
-    <dependency>
-      <groupId>org.axonframework</groupId>
-      <artifactId>axon-messaging</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.axonframework</groupId>
-      <artifactId>axon-modelling</artifactId>
-    </dependency>
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
     </dependency>
-
-
+    <dependency>
+      <groupId>io.holixon.axon.avro</groupId>
+      <artifactId>avro-common-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>it.agilelab</groupId>
+      <artifactId>darwin-core-common_2.13</artifactId>
+      <version>${darwin.version}</version>
+    </dependency>
   </dependencies>
 
 </project>

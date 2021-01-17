@@ -1,9 +1,4 @@
-package io.holixon.axon.avro
-
-import io.holixon.axon.avro.schema.api.AxonAvroSchemaApi
-import io.holixon.axon.avro.serializer.SchemaBasedRevisionResolver
-import io.holixon.axon.avro.serializer.SchemaSerializedType
-import test.fixture.SampleEvent
+package io.holixon.axon.avro.serializer
 
 internal object AxonAvroExtensionTestContext {
 //

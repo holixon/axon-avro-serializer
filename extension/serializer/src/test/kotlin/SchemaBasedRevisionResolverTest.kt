@@ -1,5 +1,6 @@
 package io.holixon.axon.avro.serializer
 
+import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import test.fixture.SampleEvent
