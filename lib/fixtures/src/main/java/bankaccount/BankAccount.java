@@ -23,12 +23,12 @@ public class BankAccount {
   }
 
   @CommandHandler
-  public static String handle(CreateBankAccount cmd) {
+  public static BankAccount handle(CreateBankAccount cmd) {
     AggregateLifecycle.apply(BankAccountCreated.newBuilder()
       .setAccountId(cmd.getAccountId())
       .setInitialBalance(cmd.getInitialBalance())
       .build());
-    return cmd.getAccountId();
+    return new BankAccount();
   }
 
   @CommandHandler

@@ -7,6 +7,7 @@ import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,7 +15,15 @@ import static java.util.Objects.requireNonNull;
 
 public class CurrentBalanceProjection {
 
-  private final Map<String, Integer> accounts = new ConcurrentHashMap<>();
+  private final Map<String, Integer> accounts;
+
+  public CurrentBalanceProjection() {
+    this(new ConcurrentHashMap<>());
+  }
+
+  public CurrentBalanceProjection(final Map<String, Integer> accounts) {
+    this.accounts = accounts;
+  }
 
   @EventHandler
   public void on(BankAccountCreated evt) {
@@ -37,7 +46,7 @@ public class CurrentBalanceProjection {
   }
 
   private void newBalance(String accountId, int amount) {
-    accounts.compute(accountId, (k,v) -> requireNonNull(v) + amount);
+    accounts.compute(accountId, (k, v) -> requireNonNull(v) + amount);
   }
 
   public enum Queries {
@@ -71,6 +80,28 @@ public class CurrentBalanceProjection {
 
     public int getBalance() {
       return balance;
+    }
+
+    @Override
+    public String toString() {
+      return "CurrentBalance{" +
+        "accountId='" + accountId + '\'' +
+        ", balance=" + balance +
+        '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      CurrentBalance that = (CurrentBalance) o;
+      return balance == that.balance &&
+        accountId.equals(that.accountId);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(accountId, balance);
     }
   }
 }

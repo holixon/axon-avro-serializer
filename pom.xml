@@ -96,6 +96,11 @@
       </dependency>
       <dependency>
         <groupId>org.axonframework</groupId>
+        <artifactId>axon-configuration</artifactId>
+        <version>${axon.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.axonframework</groupId>
         <artifactId>axon-spring-boot-starter</artifactId>
         <version>${axon.version}</version>
       </dependency>
@@ -678,6 +683,17 @@
       </releases>
     </pluginRepository>
   </pluginRepositories>
+  <repositories>
+    <!-- toolisticon addons -->
+    <repository>
+      <id>jcenter</id>
+      <name>JCenter</name>
+      <url>https://jcenter.bintray.com/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+    </repository>
+  </repositories>
 
   <developers>
     <developer>

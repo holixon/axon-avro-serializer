@@ -36,14 +36,12 @@
       <artifactId>avro</artifactId>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/it.agilelab/darwin-core-common -->
-<!--    <dependency>-->
-<!--      <groupId>it.agilelab</groupId>-->
-<!--      <artifactId>darwin-core-common_2.11</artifactId>-->
-<!--      <version>1.1.1</version>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
-
+    <dependency>
+      <groupId>org.axonframework</groupId>
+      <artifactId>axon-configuration</artifactId>
+      <version>${axon.version}</version>
+      <scope>test</scope>
+    </dependency>
 
   </dependencies>
 
