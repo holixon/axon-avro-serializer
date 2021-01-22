@@ -1,8 +1,8 @@
 package io.holixon.axon.avro.examples.bankaccount.projection;
 
-import io.holixon.axon.avro.examples.bankaccount.event.BankAccountCreatedEvent;
-import io.holixon.axon.avro.examples.bankaccount.event.MoneyDepositedEvent;
-import io.holixon.axon.avro.examples.bankaccount.event.MoneyWithdrawnEvent;
+import example.bankaccount.event.BankAccountCreatedEvent;
+import example.bankaccount.event.MoneyDepositedEvent;
+import example.bankaccount.event.MoneyWithdrawnEvent;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.stereotype.Component;
@@ -16,9 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class CurrentBalanceProjection {
 
-
   private final Map<String, BankAccountInfoDto> store = new ConcurrentHashMap<>();
-
 
   @QueryHandler
   public Optional<BankAccountInfoDto> query(FindById query) {
@@ -34,7 +32,6 @@ public class CurrentBalanceProjection {
   void on(BankAccountCreatedEvent evt) {
     store.put(evt.getBankAccountId(), new BankAccountInfoDto(evt.getBankAccountId(), evt.getInitialBalance()));
   }
-
 
   @EventHandler
   void on(MoneyDepositedEvent evt) {

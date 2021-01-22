@@ -23,17 +23,11 @@
   </properties>
 
   <modules>
-    <module>bankaccount-avro-events</module>
     <module>bankaccount-springboot-java</module>
   </modules>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>io.holixon.axon.avro.examples</groupId>
-        <artifactId>axon-bankaccount-avro-events</artifactId>
-        <version>${project.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.springdoc</groupId>
         <artifactId>springdoc-openapi-ui</artifactId>
