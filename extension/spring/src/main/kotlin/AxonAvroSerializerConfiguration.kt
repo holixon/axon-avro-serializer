@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
 
-open class AxonAvroConfiguration {
+open class AxonAvroSerializerConfiguration {
   companion object {
     const val EVENT_SERIALIZER = "eventSerializer"
   }

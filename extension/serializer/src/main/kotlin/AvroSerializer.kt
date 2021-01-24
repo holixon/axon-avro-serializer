@@ -9,7 +9,9 @@ import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.ClassUtils
 import org.axonframework.common.ObjectUtils
+import org.axonframework.messaging.MetaData
 import org.axonframework.serialization.*
+import org.axonframework.serialization.json.JacksonSerializer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory
  */
 class AvroSerializer(
   private val revisionResolver: RevisionResolver,
+  private val metaDataSerializer: Serializer,
   private val schemaRegistry: AvroSchemaRegistry,
   private val converter: Converter,
   private val logger: Logger
@@ -42,6 +45,7 @@ class AvroSerializer(
 
   constructor(builder: Builder) : this(
     revisionResolver = builder.revisionResolver,
+    metaDataSerializer = JacksonSerializer.defaultSerializer(),
     schemaRegistry = builder.schemaRegistry,
     converter = if (builder.converter is ChainingConverter) {
       (builder.converter as ChainingConverter).registerSpecificRecordConverters(builder.schemaRegistry)
@@ -80,41 +84,35 @@ class AvroSerializer(
    * @param <T> type of target representation, e.g. ByteArray
    */
   override fun <T : Any> serialize(data: Any, expectedRepresentation: Class<T>): SerializedObject<T> {
+    if (data is MetaData) {
+      return metaDataSerializer.serialize(data, expectedRepresentation)
+    }
     require(expectedRepresentation == ByteArray::class.java) { "Currently, ByteArray is the only allowed representation, was: $expectedRepresentation" }
     require(data is SpecificRecordBase) { "Currently, data must be subtype of SpecificRecordBase, was: ${data.javaClass}" }
 
     val singleObject: T = converter.convert(data, expectedRepresentation)
-    logger.info("serialized: {} to {}", data, (singleObject as ByteArray).toHexString())
+    logger.debug("serialized: {} to {}", data, (singleObject as ByteArray).toHexString())
 
     return SimpleSerializedObject(singleObject, expectedRepresentation, typeForClass(ObjectUtils.nullSafeTypeOf(data)))
   }
 
   override fun <S : Any, T : Any> deserialize(serializedObject: SerializedObject<S>): T? {
     if (SerializedType.emptyType() == serializedObject.type) return null
-    val type = classForType(serializedObject.type)
-    if (type is UnknownSerializedType) {
+    val type: Class<*> = classForType(serializedObject.type)
+
+    if (type == UnknownSerializedType::class.java) {
       return UnknownSerializedType(this, serializedObject) as T
     }
+    if (type == MetaData::class.java) {
+      return metaDataSerializer.deserialize(serializedObject)
+    }
+
     return (converter.convert(serializedObject, SpecificRecordBase::class.java).data as T)
       .apply {
-        logger.info("deserialized: ${(serializedObject.data as ByteArray).toHexString()} to $this")
+        logger.debug("deserialized: ${(serializedObject.data as ByteArray).toHexString()} to $this")
       }
 
   }
-
-//
-//  try {
-//    if (JsonNode.class.equals(serializedObject.getContentType())) {
-//      return getReader(type)
-//        .readValue((JsonNode) serializedObject.getData());
-//    }
-//    SerializedObject<byte[]> byteSerialized = converter.convert(serializedObject, byte[].class);
-//    return getReader(type).readValue(byteSerialized.getData());
-//  } catch (IOException e) {
-//    throw new SerializationException("Error while deserializing object", e);
-//  }
-
-
 
   class Builder {
     var revisionResolver: RevisionResolver = SchemaBasedRevisionResolver()
@@ -134,6 +132,5 @@ class AvroSerializer(
     }
 
     fun build() = AvroSerializer(this)
-
   }
 }

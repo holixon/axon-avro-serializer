@@ -1,0 +1,6 @@
+# curl -X POST "http://localhost:8080/api/bankaccounts/1?initialBalance=100" -H  "accept: */*" -d ""
+POST http://localhost:8080/api/bankaccounts/11?initialBalance=200
+accept: */*
+Content-Type: application/x-www-form-urlencoded
+
+###
