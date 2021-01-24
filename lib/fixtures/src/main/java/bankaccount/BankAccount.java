@@ -10,13 +10,15 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
+import org.axonframework.spring.stereotype.Aggregate;
 
+@Aggregate
 public class BankAccount {
 
   @AggregateIdentifier
-  private String accountId;
+  protected String accountId;
 
-  private int balance;
+  protected int balance;
 
   public BankAccount() {
     // empty default constructor for eventSourcing

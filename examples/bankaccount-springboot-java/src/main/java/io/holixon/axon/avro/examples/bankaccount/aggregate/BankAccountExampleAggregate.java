@@ -15,7 +15,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.axonframework.modelling.command.AggregateLifecycle.apply;
 
 @Aggregate
-public class BankAccountAggregate {
+public class BankAccountExampleAggregate  {
 
   @AggregateIdentifier
   private String bankAccountId;
@@ -23,12 +23,12 @@ public class BankAccountAggregate {
   private int currentBalance;
 
   @CommandHandler
-  public static BankAccountAggregate create(final CreateBankAccountCommand cmd) {
+  public static BankAccountExampleAggregate create(final CreateBankAccountCommand cmd) {
     apply(BankAccountCreatedEvent.newBuilder()
       .setBankAccountId(cmd.getBankAccountId())
       .setInitialBalance(cmd.getInitialBalance())
       .build());
-    return new BankAccountAggregate();
+    return new BankAccountExampleAggregate();
   }
 
   @EventSourcingHandler

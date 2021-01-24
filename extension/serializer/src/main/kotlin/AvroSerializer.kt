@@ -1,6 +1,7 @@
 package io.holixon.axon.avro.serializer
 
 import io.holixon.axon.avro.common.AvroSchemaRegistry
+import io.holixon.axon.avro.common.ext.ByteArrayExt.toHexString
 import io.holixon.axon.avro.serializer.AxonAvroExtension.defaultInMemorySchemaRegistry
 import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerSpecificRecordConverters
 import io.holixon.axon.avro.serializer.ext.SchemaExt.findOrRegister
@@ -9,6 +10,8 @@ import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.ClassUtils
 import org.axonframework.common.ObjectUtils
 import org.axonframework.serialization.*
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Serializer implementation that uses Avro to serialize objects into Single Object format.
@@ -16,7 +19,8 @@ import org.axonframework.serialization.*
 class AvroSerializer(
   private val revisionResolver: RevisionResolver,
   private val schemaRegistry: AvroSchemaRegistry,
-  private val converter: Converter
+  private val converter: Converter,
+  private val logger: Logger
 ) : Serializer {
 
   companion object {
@@ -43,7 +47,8 @@ class AvroSerializer(
       (builder.converter as ChainingConverter).registerSpecificRecordConverters(builder.schemaRegistry)
     } else {
       builder.converter
-    }
+    },
+    logger = LoggerFactory.getLogger(AvroSerializer::class.java)
   )
 
   override fun classForType(type: SerializedType): Class<*> {
@@ -75,10 +80,11 @@ class AvroSerializer(
    * @param <T> type of target representation, e.g. ByteArray
    */
   override fun <T : Any> serialize(data: Any, expectedRepresentation: Class<T>): SerializedObject<T> {
-    require(expectedRepresentation == ByteArray::class.java) { "Currently, ByteArray is the only allowed representation" }
-    require(data is SpecificRecordBase) { "Currently, data must be subtype of SpecificRecordBase" }
+    require(expectedRepresentation == ByteArray::class.java) { "Currently, ByteArray is the only allowed representation, was: $expectedRepresentation" }
+    require(data is SpecificRecordBase) { "Currently, data must be subtype of SpecificRecordBase, was: ${data.javaClass}" }
 
     val singleObject: T = converter.convert(data, expectedRepresentation)
+    logger.info("serialized: {} to {}", data, (singleObject as ByteArray).toHexString())
 
     return SimpleSerializedObject(singleObject, expectedRepresentation, typeForClass(ObjectUtils.nullSafeTypeOf(data)))
   }
@@ -89,7 +95,10 @@ class AvroSerializer(
     if (type is UnknownSerializedType) {
       return UnknownSerializedType(this, serializedObject) as T
     }
-    return converter.convert(serializedObject, SpecificRecordBase::class.java).data as T
+    return (converter.convert(serializedObject, SpecificRecordBase::class.java).data as T)
+      .apply {
+        logger.info("deserialized: ${(serializedObject.data as ByteArray).toHexString()} to $this")
+      }
 
   }
 

@@ -4,14 +4,19 @@ import bankaccount.event.BankAccountCreated;
 import bankaccount.event.MoneyDeposited;
 import bankaccount.event.MoneyWithdrawn;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
 import org.axonframework.queryhandling.QueryHandler;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
 
 public class CurrentBalanceProjection {
 
@@ -41,16 +46,34 @@ public class CurrentBalanceProjection {
   }
 
   @QueryHandler
-  public Optional<CurrentBalance> getCurrentBalance(Queries.CurrentBalanceQuery query) {
+  public Optional<CurrentBalance> getCurrentBalance(CurrentBalanceQueries.CurrentBalanceQuery query) {
     return Optional.of(accounts.get(query.accountId)).map(it -> new CurrentBalance(query.accountId, it));
+  }
+
+  @QueryHandler
+  public List<CurrentBalance> getAll(CurrentBalanceQueries.FindAll query) {
+    return accounts.entrySet().stream().map(it -> new CurrentBalance(it.getKey(), it.getValue())).collect(toList());
   }
 
   private void newBalance(String accountId, int amount) {
     accounts.compute(accountId, (k, v) -> requireNonNull(v) + amount);
   }
 
-  public enum Queries {
-    ;
+  public static class CurrentBalanceQueries {
+
+    private final QueryGateway queryGateway;
+
+    public CurrentBalanceQueries(QueryGateway queryGateway) {
+      this.queryGateway = queryGateway;
+    }
+
+    public CompletableFuture<Optional<CurrentBalance>> findByAccountId(String accountId) {
+      return queryGateway.query(new CurrentBalanceQuery(accountId), ResponseTypes.optionalInstanceOf(CurrentBalance.class));
+    }
+
+    public CompletableFuture<List<CurrentBalance>> findAll() {
+      return queryGateway.query(FindAll.INSTANCE, ResponseTypes.multipleInstancesOf(CurrentBalance.class));
+    }
 
     public static class CurrentBalanceQuery {
       private final String accountId;
@@ -62,6 +85,10 @@ public class CurrentBalanceProjection {
       public String getAccountId() {
         return accountId;
       }
+    }
+
+    public static class FindAll {
+      public static final FindAll INSTANCE = new FindAll();
     }
   }
 

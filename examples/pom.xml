@@ -23,7 +23,7 @@
   </properties>
 
   <modules>
-    <module>bankaccount-springboot-java</module>
+    <module>bankaccount-springboot-kotlin</module>
   </modules>
 
   <dependencyManagement>
@@ -31,6 +31,11 @@
       <dependency>
         <groupId>org.springdoc</groupId>
         <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-kotlin</artifactId>
         <version>${springdoc.version}</version>
       </dependency>
     </dependencies>

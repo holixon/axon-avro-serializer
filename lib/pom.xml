@@ -23,6 +23,7 @@
   <modules>
     <module>test</module>
     <module>fixtures</module>
+<!--    <module>spring-h2</module>-->
   </modules>
 
 
