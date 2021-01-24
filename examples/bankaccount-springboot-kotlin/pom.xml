@@ -25,7 +25,7 @@
       <groupId>org.axonframework</groupId>
       <artifactId>axon-spring-boot-starter</artifactId>
     </dependency>
-     <dependency>
+    <dependency>
       <groupId>io.holixon.axon.avro</groupId>
       <artifactId>axon-avro-serializer-spring</artifactId>
     </dependency>
@@ -47,31 +47,31 @@
       <scope>runtime</scope>
     </dependency>
 
-<!--    <dependency>-->
-<!--      <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--      <artifactId>jackson-core</artifactId>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.fasterxml.jackson.core</groupId>-->
+    <!--      <artifactId>jackson-core</artifactId>-->
+    <!--    </dependency>-->
 
-<!--    <dependency>-->
-<!--      <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--      <artifactId>jackson-annotations</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--      <artifactId>jackson-databind</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>com.fasterxml.jackson.datatype</groupId>-->
-<!--      <artifactId>jackson-datatype-jsr310</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>com.fasterxml.jackson.datatype</groupId>-->
-<!--      <artifactId>jackson-datatype-jdk8</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>com.fasterxml.jackson.module</groupId>-->
-<!--      <artifactId>jackson-module-kotlin</artifactId>-->
-<!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.fasterxml.jackson.core</groupId>-->
+    <!--      <artifactId>jackson-annotations</artifactId>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.fasterxml.jackson.core</groupId>-->
+    <!--      <artifactId>jackson-databind</artifactId>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.fasterxml.jackson.datatype</groupId>-->
+    <!--      <artifactId>jackson-datatype-jsr310</artifactId>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.fasterxml.jackson.datatype</groupId>-->
+    <!--      <artifactId>jackson-datatype-jdk8</artifactId>-->
+    <!--    </dependency>-->
+    <!--    <dependency>-->
+    <!--      <groupId>com.fasterxml.jackson.module</groupId>-->
+    <!--      <artifactId>jackson-module-kotlin</artifactId>-->
+    <!--    </dependency>-->
 
     <dependency>
       <groupId>org.springdoc</groupId>
@@ -83,36 +83,4 @@
     </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>kotlin-maven-plugin</artifactId>
-        <groupId>org.jetbrains.kotlin</groupId>
-
-        <configuration>
-          <compilerPlugins>
-            <plugin>spring</plugin>
-          </compilerPlugins>
-        </configuration>
-
-      </plugin>
-      <plugin>
-        <groupId>org.apache.avro</groupId>
-        <artifactId>avro-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase>
-            <goals>
-              <goal>schema</goal>
-            </goals>
-            <configuration>
-              <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
-              <outputDirectory>${project.build.directory}/generated-sources/avro/</outputDirectory>
-              <stringType>String</stringType>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
 </project>
