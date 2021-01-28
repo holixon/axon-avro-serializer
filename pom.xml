@@ -15,7 +15,7 @@
     <kotlin.version>1.4.21-2</kotlin.version>
 
     <spring-boot.version>2.4.2</spring-boot.version>
-    <axon.version>4.4.6</axon.version>
+    <axon-framework.version>4.4.6</axon-framework.version>
     <avro.version>1.10.1</avro.version>
     <kotlin-logging.version>2.0.4</kotlin-logging.version>
     <jgiven.version>1.0.0-RC7</jgiven.version>
@@ -84,34 +84,11 @@
 
       <!-- AXON -->
       <dependency>
-        <groupId>org.axonframework</groupId>
-        <artifactId>axon-messaging</artifactId>
-        <version>${axon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.axonframework</groupId>
-        <artifactId>axon-modelling</artifactId>
-        <version>${axon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.axonframework</groupId>
-        <artifactId>axon-eventsourcing</artifactId>
-        <version>${axon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.axonframework</groupId>
-        <artifactId>axon-configuration</artifactId>
-        <version>${axon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.axonframework</groupId>
-        <artifactId>axon-spring-boot-starter</artifactId>
-        <version>${axon.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.axonframework</groupId>
-        <artifactId>axon-spring</artifactId>
-        <version>${axon.version}</version>
+        <groupId>io.holixon.axon</groupId>
+        <artifactId>axon-framework-bom</artifactId>
+        <version>${axon-framework.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
 
       <!-- AVRO -->

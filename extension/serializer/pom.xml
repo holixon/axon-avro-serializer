@@ -39,7 +39,7 @@
     <dependency>
       <groupId>org.axonframework</groupId>
       <artifactId>axon-configuration</artifactId>
-      <version>${axon.version}</version>
+      <version>${axon-framework.version}</version>
       <scope>test</scope>
     </dependency>
 
