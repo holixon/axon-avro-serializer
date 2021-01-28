@@ -1,4 +1,4 @@
-= axon-avro-serializer
+# axon-avro-serializer
 
 [![Build Status](https://github.com/holixon/axon-avro-serializer/workflows/Development%20branches/badge.svg)](https://github.com/holixon/axon-avro-serializer/actions)
 [![sponsored](https://img.shields.io/badge/sponsoredBy-Holisticon-RED.svg)](https://holisticon.de/)
@@ -21,13 +21,12 @@ see on link:/docs/README.md[component overview]
 
 
 
-== Links
+## Links
 
 * <https://hub.docker.com/r/axoniq/axonserver>
 
 
 AVRO Serialization for Axon axon.serializer.[command|event|general]
-
 
 
 ## Notes
