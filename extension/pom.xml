@@ -4,12 +4,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>io.holixon.axon.avro.project</groupId>
-    <artifactId>axon-avro-serializer-root</artifactId>
+    <groupId>io.holixon.axon.avro._</groupId>
+    <artifactId>axon-avro-serializer_</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>axon-avro-serializer-extension-root</artifactId>
+  <artifactId>extension</artifactId>
   <packaging>pom</packaging>
 
   <modules>
