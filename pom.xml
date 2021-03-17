@@ -20,7 +20,7 @@
     <kotlin-logging.version>2.0.4</kotlin-logging.version>
     <jgiven.version>1.0.0-RC7</jgiven.version>
 
-    <darwin.version>1.1.1</darwin.version>
+    <darwin.version>1.2.1</darwin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
