@@ -12,7 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>11.0</java.version>
-    <kotlin.version>1.4.21-2</kotlin.version>
+    <kotlin.version>1.4.32</kotlin.version>
 
     <spring-boot.version>2.4.2</spring-boot.version>
     <axon-framework.version>4.4.7</axon-framework.version>
