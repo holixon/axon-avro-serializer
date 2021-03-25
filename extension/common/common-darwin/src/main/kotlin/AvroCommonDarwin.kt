@@ -12,6 +12,7 @@ object AvroCommonDarwin {
   val connector = object : Connector {
     override fun fullLoad(): Seq<Tuple2<Any, Schema>> = TODO("Not implemented")
     override fun insert(schemas: Seq<Tuple2<Any, Schema>>?) = TODO("Not implemented")
+    override fun retrieveLatestSchema(identifier: String?): Option<Tuple2<Any, Schema>> = TODO("Not yet implemented")
     override fun findSchema(id: Long): Option<Schema> = TODO("Not implemented")
     override fun tableCreationHint(): String = TODO("Not implemented")
     override fun tableExists(): Boolean = TODO("Not implemented")

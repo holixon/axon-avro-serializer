@@ -23,7 +23,7 @@
     <jgiven-kotlin.version>0.1.0</jgiven-kotlin.version>
     <axon-testing.version>0.0.1</axon-testing.version>
 
-    <darwin.version>1.1.1</darwin.version>
+    <darwin.version>1.2.1</darwin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
@@ -450,7 +450,6 @@
             </execution>
           </executions>
         </plugin>
-
 
         <!-- Install -->
         <plugin>
