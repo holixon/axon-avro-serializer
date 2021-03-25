@@ -18,7 +18,10 @@
     <axon-framework.version>4.4.6</axon-framework.version>
     <avro.version>1.10.1</avro.version>
     <kotlin-logging.version>2.0.4</kotlin-logging.version>
-    <jgiven.version>1.0.0-RC7</jgiven.version>
+    <jgiven.version>1.0.0</jgiven.version>
+
+    <jgiven-kotlin.version>0.1.0</jgiven-kotlin.version>
+    <axon-testing.version>0.0.1</axon-testing.version>
 
     <darwin.version>1.1.1</darwin.version>
 
@@ -61,7 +64,7 @@
       <dependency>
         <groupId>io.holixon.axon.avro</groupId>
         <artifactId>axon-avro-serializer-spring</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.holixon.axon.avro.kotlin</groupId>

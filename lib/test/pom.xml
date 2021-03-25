@@ -21,6 +21,12 @@
     </dependency>
 
     <dependency>
+      <groupId>io.holixon.axon.testing</groupId>
+      <artifactId>axon-testing-jgiven-core</artifactId>
+      <version>${axon-testing.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-stdlib-jdk8</artifactId>
     </dependency>
@@ -89,50 +95,10 @@
     </dependency>
 
     <dependency>
-      <groupId>io.toolisticon.addons.jgiven</groupId>
+      <groupId>io.toolisticon.testing</groupId>
       <artifactId>jgiven-kotlin</artifactId>
-      <!-- FIXME -->
-      <version>0.6.0</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>com.tngtech.jgiven</groupId>
-          <artifactId>jgiven-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jetbrains.kotlin</groupId>
-          <artifactId>kotlin-stdlib-jdk8</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>io.toolisticon.addons.axon</groupId>
-      <artifactId>axon-jgiven</artifactId>
-      <!-- FIXME -->
-      <version>0.1.1</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>io.toolisticon.addons.jgiven</groupId>
-          <artifactId>jgiven-kotlin</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>com.tngtech.jgiven</groupId>
-          <artifactId>jgiven-junit5</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.axonframework</groupId>
-          <artifactId>axon-test</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.jetbrains.kotlin</groupId>
-          <artifactId>kotlin-stdlib-jdk8</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>${jgiven-kotlin.version}</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
