@@ -1,6 +1,7 @@
 package io.holixon.axon.avro.serializer.converter
 
 import io.holixon.axon.avro.serializer.AxonAvroExtension
+import io.toolisticon.avro.adapter.common.AvroAdapterDefault
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -8,7 +9,7 @@ import test.fixture.SampleEvent
 
 internal class SpecificRecordConverterTest {
 
-  private val registry = AxonAvroExtension.defaultInMemorySchemaRegistry()
+  private val registry = AvroAdapterDefault.inMemorySchemaRepository()
 
   private val converter = SpecificRecordConverter(registry)
 

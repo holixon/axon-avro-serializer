@@ -1,5 +1,6 @@
 package io.holixon.axon.avro.serializer
 
+import io.toolisticon.avro.adapter.common.AvroAdapterDefault
 import mu.KLogging
 import org.apache.avro.specific.SpecificRecordBase
 import org.assertj.core.api.Assertions.assertThat
@@ -11,7 +12,7 @@ internal class AvroSerializerTest {
 
   companion object : KLogging()
 
-  private val registry = AxonAvroExtension.defaultInMemorySchemaRegistry()
+  private val registry = AvroAdapterDefault.inMemorySchemaRepository()
 
   private val serializer = AvroSerializer.builder()
     .schemaRegistry(registry)
@@ -32,7 +33,7 @@ internal class AvroSerializerTest {
   internal fun `can serialize to byteArray`() {
     val serialized: SerializedObject<ByteArray> = serializer.serialize(event, ByteArray::class.java)
 
-    val deserialized : SampleEvent? = serializer.deserialize(serialized)
+    val deserialized: SampleEvent? = serializer.deserialize(serialized)
 
     assertThat(deserialized).isEqualTo(event)
   }

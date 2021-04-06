@@ -33,7 +33,7 @@
     <dependency>
       <groupId>org.axonframework.extensions.kotlin</groupId>
       <artifactId>axon-kotlin</artifactId>
-      <version>0.1.0</version>
+      <version>${axon-kotlin.version}</version>
     </dependency>
 
     <dependency>

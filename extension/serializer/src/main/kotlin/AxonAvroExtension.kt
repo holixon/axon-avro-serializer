@@ -1,13 +1,11 @@
 package io.holixon.axon.avro.serializer
 
-import io.holixon.axon.avro.common.AvroCommon.AvroSchemaInfoData
-import io.holixon.axon.avro.common.AvroCommon.AvroSchemaWithIdData
-import io.holixon.axon.avro.common.AvroCommon.InMemoryAvroSchemaRegistry
-import io.holixon.axon.avro.common.SchemaId
-import io.holixon.axon.avro.common.SchemaIdSupplier
-import io.holixon.axon.avro.common.SchemaRevision
-import io.holixon.axon.avro.serializer.ext.SchemaExt
+
 import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
+import io.toolisticon.avro.adapter.api.SchemaId
+import io.toolisticon.avro.adapter.api.SchemaRevision
+import io.toolisticon.avro.adapter.api.type.AvroSchemaInfoData
+import io.toolisticon.avro.adapter.api.type.AvroSchemaWithIdData
 import org.apache.avro.Schema
 import org.apache.avro.specific.SpecificData
 import org.apache.avro.util.ClassUtils
@@ -19,11 +17,6 @@ object AxonAvroExtension {
 
   fun avroSchemaInfo(context: String, name: String, revision: SchemaRevision?) = AvroSchemaInfoData(context = context, name = name, revision = revision)
   fun avroSchema(id: SchemaId, schema: Schema) = AvroSchemaWithIdData(id = id, schema = schema, revision = schema.revision)
-
-  fun defaultInMemorySchemaRegistry() = InMemoryAvroSchemaRegistry(
-    schemaIdSupplier = SchemaIdSupplier.DEFAULT,
-    schemaRevisionResolver = SchemaExt.axonRevisionResolver
-  )
 
   @JvmStatic
   fun schemaForClass(recordClass: Class<*>) = SpecificData(recordClass.classLoader).getSchema(recordClass)!!

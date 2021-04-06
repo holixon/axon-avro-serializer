@@ -10,7 +10,7 @@ spring:
 
 axon:
   axonserver:
-    enabled: false
+    enabled: true
   serializer:
     general: xstream
 

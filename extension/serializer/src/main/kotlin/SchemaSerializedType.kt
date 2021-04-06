@@ -1,7 +1,7 @@
 package io.holixon.axon.avro.serializer
 
-import io.holixon.axon.avro.common.SchemaId
-import io.holixon.axon.avro.common.type.AvroSchemaWithId
+import io.toolisticon.avro.adapter.api.AvroSchemaWithId
+import io.toolisticon.avro.adapter.api.SchemaId
 import org.axonframework.serialization.SerializedType
 import org.axonframework.serialization.SimpleSerializedType
 

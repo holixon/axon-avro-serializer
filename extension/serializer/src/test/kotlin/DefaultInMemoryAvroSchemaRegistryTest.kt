@@ -2,6 +2,7 @@ package io.holixon.axon.avro.serializer
 
 
 import io.holixon.axon.avro.common.ext.SchemaExt.fingerprint
+import io.toolisticon.avro.adapter.common.AvroAdapterDefault
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -9,7 +10,7 @@ import test.fixture.SampleEvent
 
 internal class DefaultInMemoryAvroSchemaRegistryTest {
 
-  private val defaultRegistry = AxonAvroExtension.defaultInMemorySchemaRegistry()
+  private val defaultRegistry = AvroAdapterDefault.inMemorySchemaRepository()
 
   private val schema = SampleEvent.getClassSchema()
   private val schemaId = schema.fingerprint
