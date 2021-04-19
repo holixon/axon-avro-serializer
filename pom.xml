@@ -20,7 +20,7 @@
     <kotlin-logging.version>2.0.6</kotlin-logging.version>
     <jgiven.version>1.0.0</jgiven.version>
 
-    <jgiven-kotlin.version>0.1.0</jgiven-kotlin.version>
+    <jgiven-kotlin.version>1.0.0</jgiven-kotlin.version>
     <axon-testing.version>0.0.2</axon-testing.version>
 
     <darwin.version>1.2.1</darwin.version>
