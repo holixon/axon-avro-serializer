@@ -1,7 +1,9 @@
 {
   "type": "record",
-  "name": "MoneyWithdrawn",
   "namespace": "bankaccount.event",
+  "name": "MoneyWithdrawn",
+  "doc": "Money was withdrawn from BankAccount.",
+  "revision": "1",
   "fields": [
     {
       "name": "accountId",
@@ -14,7 +16,5 @@
       "name": "amount",
       "type": "int"
     }
-  ],
-  "__comment": "Money was withdrawn from BankAccount.",
-  "revision": "1"
+  ]
 }

@@ -1,7 +1,9 @@
 {
   "type": "record",
-  "name": "SampleEvent",
   "namespace": "test.fixture",
+  "name": "SampleEvent",
+  "doc": "used for testing only!",
+  "revision": "4711",
   "fields": [
     {
       "name": "value",
@@ -10,7 +12,5 @@
         "avro.java.string": "String"
       }
     }
-  ],
-  "__comment": "used for testing only!",
-  "revision": "4711"
+  ]
 }

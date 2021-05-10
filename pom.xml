@@ -12,20 +12,18 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>11.0</java.version>
-    <kotlin.version>1.4.32</kotlin.version>
+    <kotlin.version>1.5.0</kotlin.version>
 
-    <spring-boot.version>2.4.4</spring-boot.version>
-    <axon-framework.version>4.4.8</axon-framework.version>
+    <spring-boot.version>2.4.5</spring-boot.version>
+    <axon-framework.version>4.5.0</axon-framework.version>
     <avro-adapter.version>0.0.1-SNAPSHOT</avro-adapter.version>
     <avro.version>1.10.2</avro.version>
     <kotlin-logging.version>2.0.6</kotlin-logging.version>
     <jgiven.version>1.0.0</jgiven.version>
 
-    <jgiven-kotlin.version>0.1.0</jgiven-kotlin.version>
+    <jgiven-kotlin.version>1.0.0</jgiven-kotlin.version>
     <axon-testing.version>0.0.1</axon-testing.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
-
-    <darwin.version>1.2.1</darwin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
@@ -46,24 +44,22 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- AXON -->
       <dependency>
-        <groupId>io.toolisticon.avro</groupId>
+        <groupId>io.holixon.axon</groupId>
+        <artifactId>axon-framework-bom</artifactId>
+        <version>${axon-framework.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- AVRO -->
+      <dependency>
+        <groupId>io.holixon.avro</groupId>
         <artifactId>avro-adapter-bom</artifactId>
         <version>${avro-adapter.version}</version>
         <scope>import</scope>
         <type>pom</type>
-      </dependency>
-
-      <!-- PROJECT -->
-      <dependency>
-        <groupId>io.holixon.axon.avro</groupId>
-        <artifactId>avro-common-api</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.holixon.axon.avro</groupId>
-        <artifactId>avro-common-darwin</artifactId>
-        <version>${project.version}</version>
       </dependency>
 
       <dependency>
@@ -95,29 +91,11 @@
         <scope>test</scope>
       </dependency>
 
-      <!-- AXON -->
-      <dependency>
-        <groupId>io.holixon.axon</groupId>
-        <artifactId>axon-framework-bom</artifactId>
-        <version>${axon-framework.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-
       <!-- AVRO -->
       <dependency>
         <groupId>org.apache.avro</groupId>
         <artifactId>avro</artifactId>
         <version>${avro.version}</version>
-      </dependency>
-
-      <!-- SPRING -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring-boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
       </dependency>
 
       <!-- KOTLIN (note: this has to be defined AFTER spring boot or the version is overwritten)-->
@@ -127,6 +105,15 @@
         <version>${kotlin.version}</version>
         <scope>import</scope>
         <type>pom</type>
+      </dependency>
+
+      <!-- SPRING -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -638,7 +625,6 @@
         <module>examples</module>
       </modules>
     </profile>
-
   </profiles>
 
   <licenses>
@@ -660,38 +646,15 @@
       <id>README</id>
       <url>https://github.com/toolisticon/axon-avro-serializer</url>
     </site>
-    <snapshotRepository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
+<!--    <snapshotRepository>-->
+<!--      <id>ossrh</id>-->
+<!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--    </snapshotRepository>-->
+<!--    <repository>-->
+<!--      <id>ossrh</id>-->
+<!--      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--    </repository>-->
   </distributionManagement>
-
-  <pluginRepositories>
-    <!-- required for Dokka (Kotlin javadoc), Orchid (Docs) -->
-    <pluginRepository>
-      <id>jcenter</id>
-      <name>JCenter</name>
-      <url>https://jcenter.bintray.com/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </pluginRepository>
-  </pluginRepositories>
-  <repositories>
-    <!-- toolisticon addons -->
-    <repository>
-      <id>jcenter</id>
-      <name>JCenter</name>
-      <url>https://jcenter.bintray.com/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-  </repositories>
 
   <developers>
     <developer>

@@ -1,8 +1,7 @@
 package io.holixon.axon.avro.examples.bankaccount
 
-import io.holixon.axon.avro.common.AvroCommon
-import io.holixon.axon.avro.common.AvroSchemaRegistry
-import io.holixon.axon.avro.common.type.AvroSchemaInfo
+import io.holixon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.api.type.AvroSchemaInfoData
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -15,9 +14,15 @@ class SchemaRegistryController(
 ) {
 
   @GetMapping("/")
-  fun findAll(): ResponseEntity<List<AvroSchemaInfo>> = ResponseEntity.ok().body(
+  fun findAll() = ResponseEntity.ok().body(
     schemaRegistry.findAll()
-      .map { AvroCommon.AvroSchemaInfoData(it.context, it.name, it.revision) }
+      .map {
+        AvroSchemaInfoData(
+          namespace = it.namespace,
+          name = it.name,
+          revision = it.revision
+        )
+      }
   )
 
 }

@@ -1,6 +1,6 @@
 package io.holixon.axon.avro.serializer
 
-import io.toolisticon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.common.AvroAdapterDefault
 import mu.KLogging
 import org.apache.avro.specific.SpecificRecordBase
 import org.assertj.core.api.Assertions.assertThat

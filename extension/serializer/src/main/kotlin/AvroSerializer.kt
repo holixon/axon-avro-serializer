@@ -3,9 +3,9 @@ package io.holixon.axon.avro.serializer
 import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerSpecificRecordConverters
 import io.holixon.axon.avro.serializer.ext.SchemaExt.findOrRegister
 import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
-import io.toolisticon.avro.adapter.api.AvroAdapterApi.toHexString
-import io.toolisticon.avro.adapter.api.AvroSchemaRegistry
-import io.toolisticon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
+import io.holixon.avro.adapter.common.AvroAdapterDefault
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.ClassUtils
 import org.axonframework.common.ObjectUtils
@@ -58,7 +58,7 @@ class AvroSerializer(
   override fun classForType(type: SerializedType): Class<*> {
     return if (SimpleSerializedType.emptyType() == type) {
       Void::class.java
-    } else  {
+    } else {
       ClassUtils.forName(type.name)
     }
   }
@@ -73,7 +73,8 @@ class AvroSerializer(
 
   override fun getConverter(): Converter = converter
 
-  override fun <T : Any> canSerializeTo(expectedRepresentation: Class<T>): Boolean = converter.canConvert(ByteArray::class.java, expectedRepresentation)
+  override fun <T : Any> canSerializeTo(expectedRepresentation: Class<T>): Boolean =
+    converter.canConvert(ByteArray::class.java, expectedRepresentation)
 
 //  return JsonNode.class.equals(expectedRepresentation) || String.class.equals(expectedRepresentation) ||
 //  converter.canConvert(byte[].class, expectedRepresentation);

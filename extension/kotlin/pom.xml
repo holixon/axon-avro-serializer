@@ -13,7 +13,6 @@
   <artifactId>axon-avro-kotlin-extension</artifactId>
 
   <dependencies>
-    <!-- TODO make provided? -->
     <dependency>
       <groupId>org.axonframework</groupId>
       <artifactId>axon-messaging</artifactId>
@@ -26,8 +25,5 @@
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
     </dependency>
-
-
   </dependencies>
-
 </project>

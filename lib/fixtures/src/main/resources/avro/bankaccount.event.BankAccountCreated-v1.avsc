@@ -1,7 +1,9 @@
 {
   "type": "record",
-  "name": "BankAccountCreated",
   "namespace": "bankaccount.event",
+  "name": "BankAccountCreated",
+  "doc": "A new BankAccount has been created with initial balance.",
+  "revision": "1",
   "fields": [
     {
       "name": "accountId",
@@ -14,7 +16,5 @@
       "name": "initialBalance",
       "type": "int"
     }
-  ],
-  "__comment": "A new BankAccount has been created with initial balance.",
-  "revision": "1"
+  ]
 }

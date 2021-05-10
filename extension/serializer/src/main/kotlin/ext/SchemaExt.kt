@@ -1,8 +1,8 @@
 package io.holixon.axon.avro.serializer.ext
 
-import io.toolisticon.avro.adapter.api.*
-import io.toolisticon.avro.adapter.api.AvroAdapterApi.extractSchemaInfo
-import io.toolisticon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.api.*
+import io.holixon.avro.adapter.api.AvroAdapterApi.extractSchemaInfo
+import io.holixon.avro.adapter.common.AvroAdapterDefault
 import org.apache.avro.Schema
 
 /**

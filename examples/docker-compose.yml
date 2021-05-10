@@ -2,7 +2,7 @@ version: '3.1'
 # https://hub.docker.com/r/axoniq/axonserver
 services:
   axon-server:
-    image: axoniq/axonserver:4.4.10
+    image: axoniq/axonserver:4.5.1
     environment:
       - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
     ports:
@@ -16,7 +16,7 @@ services:
       POSTGRES_USER: apicurio-registry
       POSTGRES_PASSWORD: password
   registry:
-    image: apicurio/apicurio-registry-sql:2.0.0.RC1
+    image: apicurio/apicurio-registry-sql:2.0.0.Final
     ports:
       - "7777:8080"
     environment:

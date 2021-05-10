@@ -1,8 +1,9 @@
 package io.holixon.axon.avro.serializer.spring
 
 import io.holixon.axon.avro.serializer.AvroSerializer
-import io.toolisticon.avro.adapter.api.AvroSchemaRegistry
-import io.toolisticon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.common.AvroAdapterDefault
+import org.axonframework.serialization.Serializer
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean
@@ -12,9 +13,6 @@ open class AxonAvroSerializerConfiguration {
     const val EVENT_SERIALIZER = "eventSerializer"
   }
 
-  @Bean
-  @ConditionalOnMissingBean(AvroSchemaRegistry::class)
-  fun inMemorySchemaRegistry() = AvroAdapterDefault.inMemorySchemaRepository()
 
   @Bean
   @ConditionalOnMissingBean(AvroSerializer.Builder::class)
@@ -23,6 +21,6 @@ open class AxonAvroSerializerConfiguration {
 
   @Bean
   @Qualifier(EVENT_SERIALIZER)
-  fun avroSerializer(builder: AvroSerializer.Builder) = AvroSerializer(builder)
+  fun avroSerializer(builder: AvroSerializer.Builder): Serializer = AvroSerializer(builder)
 
 }

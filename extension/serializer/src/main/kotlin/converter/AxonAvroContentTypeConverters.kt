@@ -1,6 +1,6 @@
 package io.holixon.axon.avro.serializer.converter
 
-import io.toolisticon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.api.AvroSchemaRegistry
 import org.axonframework.serialization.ChainingConverter
 
 object AxonAvroContentTypeConverters {

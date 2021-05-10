@@ -1,9 +1,10 @@
 package io.holixon.axon.avro.serializer.converter
 
+
 import io.holixon.extensions.kotlin.AxonAvroKotlinExtensions.contentTypeConverter
-import io.toolisticon.avro.adapter.api.AvroAdapterApi.schemaResolver
-import io.toolisticon.avro.adapter.api.AvroSchemaRegistry
-import io.toolisticon.avro.adapter.common.converter.DefaultSpecificRecordToSingleObjectConverter
+import io.holixon.avro.adapter.api.AvroAdapterApi.schemaResolver
+import io.holixon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToSingleObjectConverter
 import org.apache.avro.specific.SpecificRecordBase
 import org.axonframework.serialization.ContentTypeConverter
 

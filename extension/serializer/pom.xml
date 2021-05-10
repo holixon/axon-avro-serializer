@@ -14,19 +14,18 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.toolisticon.avro</groupId>
-      <artifactId>avro-adapter-default</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.holixon.axon.avro</groupId>
-      <artifactId>avro-common-darwin</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.holixon.axon.avro.kotlin</groupId>
       <artifactId>axon-avro-kotlin-extension</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.holixon.avro</groupId>
+      <artifactId>avro-adapter-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.holixon.avro</groupId>
+      <artifactId>avro-adapter-default</artifactId>
+    </dependency>
 
-    <!-- TODO make provided? -->
     <dependency>
       <groupId>org.axonframework</groupId>
       <artifactId>axon-messaging</artifactId>
@@ -43,7 +42,6 @@
     <dependency>
       <groupId>org.axonframework</groupId>
       <artifactId>axon-configuration</artifactId>
-      <version>${axon-framework.version}</version>
       <scope>test</scope>
     </dependency>
 

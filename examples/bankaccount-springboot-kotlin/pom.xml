@@ -43,6 +43,11 @@
     </dependency>
 
     <dependency>
+      <groupId>io.holixon.avro</groupId>
+      <artifactId>avro-adapter-apicurio-rest</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
       <scope>runtime</scope>
@@ -83,5 +88,25 @@
       <artifactId>springdoc-openapi-kotlin</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>io.holixon.axon.avro.examples.bankaccount.BankAccountExampleKotlinApplicationKt</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

@@ -14,6 +14,11 @@ axon:
   serializer:
     general: xstream
 
+apicurio:
+  registry:
+    host: localhost
+    port: 7777
+
 #axon:
 #  serializer:
 #    general: xstream
