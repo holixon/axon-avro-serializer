@@ -22,8 +22,10 @@
     <jgiven.version>1.0.0</jgiven.version>
 
     <jgiven-kotlin.version>1.0.0</jgiven-kotlin.version>
-    <axon-testing.version>0.0.1</axon-testing.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
+    <axon-testing.version>0.0.2</axon-testing.version>
+
+    <darwin.version>1.2.1</darwin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
@@ -98,6 +100,15 @@
         <version>${avro.version}</version>
       </dependency>
 
+      <!-- SPRING -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
       <!-- KOTLIN (note: this has to be defined AFTER spring boot or the version is overwritten)-->
       <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -107,14 +118,6 @@
         <type>pom</type>
       </dependency>
 
-      <!-- SPRING -->
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${spring-boot.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -401,7 +404,6 @@
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.6</version>
           <configuration>
-            <keyname>${gpg.keyname}</keyname>
             <gpgArguments>
               <arg>--batch</arg>
               <arg>--yes</arg>
@@ -470,6 +472,9 @@
                   <requireMavenVersion>
                     <version>3.6.0</version>
                   </requireMavenVersion>
+                  <requireJavaVersion>
+                    <version>11</version>
+                  </requireJavaVersion>
                 </rules>
               </configuration>
             </execution>
