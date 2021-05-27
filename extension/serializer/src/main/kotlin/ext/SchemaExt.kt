@@ -13,7 +13,7 @@ object SchemaExt {
   fun Schema.findOrRegister(registry: AvroSchemaRegistry): AvroSchemaWithId = registry.register(this)
 
 
-  val Schema.revision : SchemaRevision?
+  val Schema.revision : AvroSchemaRevision?
     get() = AvroAdapterDefault.schemaRevisionResolver.apply(this).orElse(null)
 
   val Schema.info : AvroSchemaInfo

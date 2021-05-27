@@ -1,7 +1,7 @@
 package io.holixon.axon.avro.serializer
 
 import io.holixon.avro.adapter.api.AvroSchemaWithId
-import io.holixon.avro.adapter.api.SchemaId
+import io.holixon.avro.adapter.api.AvroSchemaId
 import org.axonframework.serialization.SerializedType
 import org.axonframework.serialization.SimpleSerializedType
 
@@ -13,7 +13,7 @@ data class SchemaSerializedType(
   private val schemaWithId: AvroSchemaWithId
 ) : SerializedType by serializedType {
 
-  val schemaId: SchemaId = schemaWithId.schemaId
+  val schemaId: AvroSchemaId = schemaWithId.schemaId
   val schema = schemaWithId.schema
 
   constructor(arvoSchema: AvroSchemaWithId) : this(
