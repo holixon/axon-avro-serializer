@@ -12,7 +12,7 @@ internal class AvroSerializerTest {
 
   companion object : KLogging()
 
-  private val registry = AvroAdapterDefault.inMemorySchemaRepository()
+  private val registry = AvroAdapterDefault.inMemorySchemaRegistry()
 
   private val serializer = AvroSerializer.builder()
     .schemaRegistry(registry)

@@ -1,11 +1,11 @@
 package io.holixon.axon.avro.serializer
 
-import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerSpecificRecordConverters
-import io.holixon.axon.avro.serializer.ext.SchemaExt.findOrRegister
-import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import io.holixon.avro.adapter.api.AvroSchemaRegistry
 import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerSpecificRecordConverters
+import io.holixon.axon.avro.serializer.ext.SchemaExt.findOrRegister
+import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.ClassUtils
 import org.axonframework.common.ObjectUtils
@@ -118,7 +118,7 @@ class AvroSerializer(
   class Builder {
     var revisionResolver: RevisionResolver = SchemaBasedRevisionResolver()
     var converter: Converter = ChainingConverter()
-    var schemaRegistry: AvroSchemaRegistry = AvroAdapterDefault.inMemorySchemaRepository()
+    var schemaRegistry: AvroSchemaRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
 
     fun revisionResolver(revisionResolver: RevisionResolver) = apply {
       this.revisionResolver = revisionResolver
