@@ -4,6 +4,7 @@
 [![Build Status](https://github.com/holixon/axon-avro-serializer/workflows/Development%20branches/badge.svg)](https://github.com/holixon/axon-avro-serializer/actions)
 [![sponsored](https://img.shields.io/badge/sponsoredBy-Holisticon-RED.svg)](https://holisticon.de/)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.holixon.axon.avro/axon-avro-serializer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.holixon.axon.avro/axon-avro-serializer)
+[![codecov](https://codecov.io/gh/holixon/axon-avro-serializer/branch/develop/graph/badge.svg?token=ZKDNW1QJ1Y)](https://codecov.io/gh/holixon/axon-avro-serializer)
 
 
 * DISCLAYMER: early draft, heavy development, *everything* might still change
