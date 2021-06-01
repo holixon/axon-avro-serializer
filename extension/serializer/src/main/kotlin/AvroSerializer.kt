@@ -118,7 +118,7 @@ class AvroSerializer(
   class Builder {
     var revisionResolver: RevisionResolver = SchemaBasedRevisionResolver()
     var converter: Converter = ChainingConverter()
-    var schemaRegistry: AvroSchemaRegistry = AvroAdapterDefault.inMemorySchemaRepository()
+    var schemaRegistry: AvroSchemaRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
 
     fun revisionResolver(revisionResolver: RevisionResolver) = apply {
       this.revisionResolver = revisionResolver

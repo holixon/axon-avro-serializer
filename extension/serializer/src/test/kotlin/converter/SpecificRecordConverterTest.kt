@@ -8,7 +8,7 @@ import test.fixture.SampleEvent
 
 internal class SpecificRecordConverterTest {
 
-  private val registry = AvroAdapterDefault.inMemorySchemaRepository()
+  private val registry = AvroAdapterDefault.inMemorySchemaRegistry()
 
   private val converter = SpecificRecordConverter(registry)
 
