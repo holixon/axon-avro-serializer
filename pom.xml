@@ -5,38 +5,31 @@
   <groupId>io.holixon.axon.avro._</groupId>
   <artifactId>axon-avro-serializer_</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>${project.artifactId}</name>
+  <description>Axon Avro Serializier</description>
   <url>https://github.com/holixon/axon-avro-serializer/</url>
   <packaging>pom</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>11.0</java.version>
+    <java.version>11</java.version>
     <kotlin.version>1.5.10</kotlin.version>
 
-    <spring-boot.version>2.4.5</spring-boot.version>
+    <spring-boot.version>2.5.0</spring-boot.version>
     <axon-framework.version>4.5.1</axon-framework.version>
     <avro-registry-adapter.version>0.0.1</avro-registry-adapter.version>
-    <avro.version>1.10.2</avro.version>
-    <kotlin-logging.version>2.0.6</kotlin-logging.version>
-    <jgiven.version>1.0.0</jgiven.version>
 
-    <jgiven-kotlin.version>1.0.0</jgiven-kotlin.version>
+    <avro.version>1.10.2</avro.version>
+    <kotlin-logging.version>2.0.8</kotlin-logging.version>
+    <jgiven.version>1.0.0</jgiven.version>
+    <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
     <axon-testing.version>0.0.2</axon-testing.version>
 
-    <darwin.version>1.2.1</darwin.version>
-
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
-
-    <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-    <!-- disable javadoc linter for JDK8 to not fail on incomplete javadoc -->
-    <additionalparam>-Xdoclint:none</additionalparam>
-    <!-- Skip instrumentalization by default -->
     <jacoco.skip>true</jacoco.skip>
-    <!-- holixon GPG key -->
-    <!-- <gpg.keyname>86F8C6FC</gpg.keyname> -->
   </properties>
 
   <modules>
@@ -268,7 +261,7 @@
         <!-- Unit Tests -->
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>3.0.0-M5</version>
           <configuration>
             <useSystemClassLoader>false</useSystemClassLoader>
             <shutdown>kill</shutdown>
@@ -280,8 +273,7 @@
             <!-- Sets the VM argument line used when unit tests are run. -->
             <!-- prevent the annoying ForkedBooter process from stealing window focus on Mac OS -->
             <!--suppress UnresolvedMavenProperty -->
-            <argLine>--illegal-access=permit -Djava.awt.headless=true ${argLine} -XX:+StartAttachListener -Xmx1024m -XX:MaxPermSize=256m
-            </argLine>
+            <argLine>--illegal-access=permit -Djava.awt.headless=true ${argLine} -XX:+StartAttachListener -Xmx1024m</argLine>
             <systemPropertyVariables>
               <jgiven.report.dir>${project.build.directory}/jgiven-reports</jgiven.report.dir>
             </systemPropertyVariables>
@@ -292,13 +284,27 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>2.22.2</version>
+          <version>3.0.0-M5</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>integration-test</goal>
+              </goals>
+            </execution>
+          </executions>
           <configuration>
-            <argLine>
-              --illegal-access=permit
-            </argLine>
+            <includes>
+              <include>${pattern.class.itest}</include>
+              <include>${pattern.package.itest}</include>
+            </includes>
+            <!-- Sets the VM argument line used when unit tests are run. -->
+            <!-- prevent the annoying ForkedBooter process from stealing window focus on Mac OS -->
+            <!--suppress UnresolvedMavenProperty -->
+            <argLine>-Djava.awt.headless=true ${argLine} -XX:+StartAttachListener --illegal-access=permit</argLine>
+            <runOrder>random</runOrder>
           </configuration>
         </plugin>
+
 
         <!-- javadoc for kotlin -->
         <plugin>
@@ -325,7 +331,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <id>attach-javadocs</id>
@@ -499,26 +505,6 @@
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
-        <version>${kotlin.version}</version>
-        <executions>
-          <execution>
-            <id>compile</id>
-            <phase>compile</phase>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>test-compile</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>test-compile</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <jvmTarget>1.8</jvmTarget>
-        </configuration>
       </plugin>
     </plugins>
 
@@ -547,26 +533,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>integration-test</goal>
-                </goals>
-              </execution>
-            </executions>
-            <configuration>
-              <includes>
-                <include>${pattern.class.itest}</include>
-                <include>${pattern.package.itest}</include>
-              </includes>
-              <!-- Sets the VM argument line used when unit tests are run. -->
-              <!-- prevent the annoying ForkedBooter process from stealing window focus on Mac OS -->
-              <!--suppress UnresolvedMavenProperty -->
-              <argLine>-Djava.awt.headless=true ${argLine} -XX:+StartAttachListener</argLine>
-              <runOrder>random</runOrder>
-            </configuration>
           </plugin>
-
         </plugins>
       </build>
     </profile>
@@ -583,6 +550,10 @@
       </activation>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.jetbrains.dokka</groupId>
+            <artifactId>dokka-maven-plugin</artifactId>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
@@ -603,19 +574,6 @@
       </build>
     </profile>
 
-    <!--
-  <profile>
-    Profile for documentation
-    <id>docs</id>
-    <activation>
-      <activeByDefault>false</activeByDefault>
-    </activation>
-    <modules>
-      <module>docs</module>
-    </modules>
-  </profile>
-    -->
-
     <profile>
       <!--
         Profile for building examples
@@ -635,7 +593,7 @@
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
 
@@ -651,14 +609,6 @@
       <id>README</id>
       <url>https://github.com/toolisticon/axon-avro-serializer</url>
     </site>
-<!--    <snapshotRepository>-->
-<!--      <id>ossrh</id>-->
-<!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--    </snapshotRepository>-->
-<!--    <repository>-->
-<!--      <id>ossrh</id>-->
-<!--      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--    </repository>-->
   </distributionManagement>
 
   <developers>
@@ -672,6 +622,16 @@
       <organization>Holisticon AG</organization>
       <organizationUrl>https://holisticon.de</organizationUrl>
     </developer>
+    <developer>
+      <id>zambrovski</id>
+      <name>Simon Zambrovski</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <organization>Holisticon AG</organization>
+      <organizationUrl>https://holisticon.de</organizationUrl>
+    </developer>
+
   </developers>
 
 </project>

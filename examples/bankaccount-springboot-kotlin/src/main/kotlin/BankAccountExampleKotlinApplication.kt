@@ -7,9 +7,9 @@ import bankaccount.event.MoneyWithdrawn
 import bankaccount.projection.CurrentBalanceProjection
 import io.apicurio.registry.rest.client.RegistryClient
 import io.holixon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.avro.adapter.registry.apicurio.ApicurioAvroSchemaRegistry
 import io.holixon.avro.adapter.registry.apicurio.AvroAdapterApicurioRest
-import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired

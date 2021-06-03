@@ -24,10 +24,12 @@ import org.axonframework.serialization.SerializedType
 import org.axonframework.serialization.Serializer
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import test.fixture.SampleEvent
 import java.util.concurrent.ConcurrentHashMap
 
+@Disabled
 class AvroSerializerITest {
 
 
@@ -47,7 +49,6 @@ class AvroSerializerITest {
   private val eventStore = InMemoryEventStorageEngine()
   private val projectionMap = ConcurrentHashMap<String, Int>()
   private val projection = CurrentBalanceProjection(projectionMap)
-  //private val jacksonSerializer = JacksonSerializer.defaultSerializer()
   private val avroSerializer = AvroSerializer.defaultSerializer()
 
 
