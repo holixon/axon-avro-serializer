@@ -13,7 +13,6 @@ open class AxonAvroSerializerConfiguration {
     const val EVENT_SERIALIZER = "eventSerializer"
   }
 
-
   @Bean
   @ConditionalOnMissingBean(AvroSerializer.Builder::class)
   fun defaultAxonSerializerBuilder(schemaRegistry: AvroSchemaRegistry): AvroSerializer.Builder = AvroSerializer.builder()

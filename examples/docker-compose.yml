@@ -2,7 +2,7 @@ version: '3.1'
 # https://hub.docker.com/r/axoniq/axonserver
 services:
   axon-server:
-    image: axoniq/axonserver:4.5.1
+    image: axoniq/axonserver:4.5.2
     environment:
       - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
     ports:

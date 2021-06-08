@@ -47,7 +47,7 @@ public class CurrentBalanceProjection {
 
   @QueryHandler
   public Optional<CurrentBalance> getCurrentBalance(CurrentBalanceQueries.CurrentBalanceQuery query) {
-    return Optional.of(accounts.get(query.accountId)).map(it -> new CurrentBalance(query.accountId, it));
+    return Optional.ofNullable(accounts.get(query.accountId)).map(it -> new CurrentBalance(query.accountId, it));
   }
 
   @QueryHandler
