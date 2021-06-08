@@ -1,24 +1,28 @@
 package bankaccount.projection;
 
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toList;
+
 import bankaccount.event.BankAccountCreated;
 import bankaccount.event.MoneyDeposited;
 import bankaccount.event.MoneyWithdrawn;
-import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
-import org.axonframework.queryhandling.QueryHandler;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toList;
+import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.MetaData;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.queryhandling.QueryHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CurrentBalanceProjection {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(CurrentBalanceProjection.class);
 
   private final Map<String, Integer> accounts;
 
@@ -31,18 +35,24 @@ public class CurrentBalanceProjection {
   }
 
   @EventHandler
-  public void on(BankAccountCreated evt) {
+  public void on(BankAccountCreated evt, MetaData metaData) {
     accounts.put(evt.getAccountId(), evt.getInitialBalance());
+
+    LOGGER.info("received evt: {} with metaData: {}", evt, metaData);
   }
 
   @EventHandler
-  public void on(MoneyWithdrawn evt) {
+  public void on(MoneyWithdrawn evt, MetaData metaData) {
     newBalance(evt.getAccountId(), -evt.getAmount());
+
+    LOGGER.info("received evt: {} with metaData: {}", evt, metaData);
   }
 
   @EventHandler
-  public void on(MoneyDeposited evt) {
+  public void on(MoneyDeposited evt, MetaData metaData) {
     newBalance(evt.getAccountId(), evt.getAmount());
+
+    LOGGER.info("received evt: {} with metaData: {}", evt, metaData);
   }
 
   @QueryHandler
@@ -76,6 +86,7 @@ public class CurrentBalanceProjection {
     }
 
     public static class CurrentBalanceQuery {
+
       private final String accountId;
 
       public CurrentBalanceQuery(String accountId) {
@@ -88,11 +99,13 @@ public class CurrentBalanceProjection {
     }
 
     public static class FindAll {
+
       public static final FindAll INSTANCE = new FindAll();
     }
   }
 
   public static class CurrentBalance {
+
     private final String accountId;
     private final int balance;
 
@@ -119,8 +132,12 @@ public class CurrentBalanceProjection {
 
     @Override
     public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
       CurrentBalance that = (CurrentBalance) o;
       return balance == that.balance &&
         accountId.equals(that.accountId);
