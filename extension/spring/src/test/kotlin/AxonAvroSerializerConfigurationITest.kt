@@ -95,9 +95,7 @@ class AxonServerContainer : GenericContainer<AxonServerContainer>("axoniq/axonse
   }
 
   val url by lazy {
-    val u = "localhost:${getMappedPort(8124)}"
-    logger.info { "THE URL IS: $u" }
-    u
+    "localhost:${getMappedPort(8124)}"
   }
 }
 
