@@ -4,6 +4,7 @@ import bankaccount.command.CreateBankAccount
 import bankaccount.command.DepositMoney
 import bankaccount.command.WithdrawMoney
 import bankaccount.projection.CurrentBalanceProjection
+import bankaccount.query.CurrentBalanceQueries
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/bankaccounts")
 class BankAccountController(
   private val commandGateway: CommandGateway,
-  private val currentBalanceQueries: CurrentBalanceProjection.CurrentBalanceQueries
+  private val currentBalanceQueries: CurrentBalanceQueries
 ) {
 
   @PostMapping("/{bankAccountId}")

@@ -5,6 +5,7 @@ import bankaccount.event.BankAccountCreated
 import bankaccount.event.MoneyDeposited
 import bankaccount.event.MoneyWithdrawn
 import bankaccount.projection.CurrentBalanceProjection
+import bankaccount.query.CurrentBalanceQueries
 import io.apicurio.registry.rest.client.RegistryClient
 import io.holixon.avro.adapter.api.AvroSchemaRegistry
 import io.holixon.avro.adapter.common.AvroAdapterDefault
@@ -32,7 +33,7 @@ class BankAccountExampleKotlinApplication : CommandLineRunner {
   fun projection() = CurrentBalanceProjection()
 
   @Bean
-  fun currentBalanceQueries(queryGateway: QueryGateway) = CurrentBalanceProjection.CurrentBalanceQueries(queryGateway)
+  fun currentBalanceQueries(queryGateway: QueryGateway) = CurrentBalanceQueries(queryGateway)
 
   @Bean
   fun apicurioRegistryClient(

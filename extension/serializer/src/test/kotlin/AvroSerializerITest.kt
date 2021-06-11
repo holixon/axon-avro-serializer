@@ -4,7 +4,7 @@ import bankaccount.BankAccount
 import bankaccount.command.CreateBankAccount
 import bankaccount.projection.CurrentBalanceProjection
 import bankaccount.projection.CurrentBalanceProjection.CurrentBalance
-import bankaccount.projection.CurrentBalanceProjection.CurrentBalanceQueries.CurrentBalanceQuery
+import bankaccount.query.CurrentBalanceQueries.CurrentBalanceQuery
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
 import org.axonframework.commandhandling.SimpleCommandBus

@@ -1,12 +1,15 @@
+@file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
 package io.holixon.axon.avro.serializer.spring
 
 import bankaccount.BankAccount
 import bankaccount.command.CreateBankAccount
+import bankaccount.command.DepositMoney
 import bankaccount.event.BankAccountCreated
 import bankaccount.event.MoneyDeposited
 import bankaccount.event.MoneyWithdrawn
 import bankaccount.projection.CurrentBalanceProjection
-import bankaccount.projection.CurrentBalanceProjection.CurrentBalanceQueries
+import bankaccount.query.BankAccountAuditQuery
+import bankaccount.query.CurrentBalanceQueries
 import io.holixon.avro.adapter.common.AvroAdapterDefault
 import mu.KLogging
 import org.assertj.core.api.Assertions.assertThat
@@ -20,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.GenericContainer
@@ -27,9 +31,11 @@ import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.Wait.forLogMessage
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import java.util.*
 
 @SpringBootTest(classes = [AxonAvroSerializerConfigurationITestApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
+@ActiveProfiles("itest")
 internal class AxonAvroSerializerConfigurationITest {
   companion object : KLogging() {
     @Container
@@ -49,18 +55,33 @@ internal class AxonAvroSerializerConfigurationITest {
   lateinit var queries : CurrentBalanceQueries
 
   @Autowired
-  lateinit var projection : CurrentBalanceProjection
+  lateinit var auditEventQuery : BankAccountAuditQuery
 
   @Test
-  internal fun name() {
-    assertThat(queries.findByAccountId("1").join()).isEmpty
+  internal fun `create account and deposit money`() {
+    val accountId = UUID.randomUUID().toString()
 
-    commandGateway.sendAndWait<Any>(CreateBankAccount("1", 100))
+    assertThat(queries.findByAccountId(accountId).join()).isEmpty
+
+    commandGateway.sendAndWait<Any>(CreateBankAccount(accountId, 100))
 
     await.untilAsserted {
-      assertThat(queries.findByAccountId("1").join()).isNotEmpty
+      assertThat(queries.findByAccountId(accountId).join()).isNotEmpty
     }
 
+    val auditEvents = auditEventQuery.apply(accountId)
+    assertThat(auditEvents.events).isNotEmpty
+    assertThat(auditEvents.events.first().correlationId).isNotNull
+
+    logger.info { "auditEvents for accountId='$accountId': ${auditEventQuery.apply(accountId)}" }
+
+    commandGateway.sendAndWait<Any>(DepositMoney(accountId, 50))
+
+    await.untilAsserted {
+      assertThat(queries.findByAccountId(accountId).join().orElseThrow().balance).isEqualTo(150)
+    }
+
+    logger.info { "auditEvents for accountId='$accountId': ${auditEventQuery.apply(accountId)}" }
   }
 }
 
@@ -96,5 +117,8 @@ class AxonAvroSerializerConfigurationITestApplication {
   }
 
   @Bean
-  fun currentBalanceQueries(queryGateway: QueryGateway) = CurrentBalanceQueries(queryGateway)
+  fun currentBalanceQueries(queryGateway: QueryGateway) : CurrentBalanceQueries = CurrentBalanceQueries(queryGateway)
+
+  @Bean
+  fun bankAccountAuditEventQuery(queryGateway: QueryGateway) : BankAccountAuditQuery = BankAccountAuditQuery.create(queryGateway)
 }

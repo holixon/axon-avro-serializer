@@ -6,16 +6,21 @@ import static java.util.stream.Collectors.toList;
 import bankaccount.event.BankAccountCreated;
 import bankaccount.event.MoneyDeposited;
 import bankaccount.event.MoneyWithdrawn;
+import bankaccount.query.BankAccountAuditQuery.BankAccountAuditEvents;
+import bankaccount.query.BankAccountAuditQuery.FindBankAccountAuditEventByAccountId;
+import bankaccount.query.CurrentBalanceQueries;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import org.axonframework.eventhandling.EventHandler;
-import org.axonframework.messaging.MetaData;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.axonframework.queryhandling.QueryGateway;
+import org.axonframework.eventhandling.SequenceNumber;
+import org.axonframework.eventhandling.Timestamp;
+import org.axonframework.messaging.annotation.MetaDataValue;
 import org.axonframework.queryhandling.QueryHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +30,7 @@ public class CurrentBalanceProjection {
   private static final Logger LOGGER = LoggerFactory.getLogger(CurrentBalanceProjection.class);
 
   private final Map<String, Integer> accounts;
+  private final Map<String, List<BankAccountAuditEvent>> auditEvents = new ConcurrentHashMap<>();
 
   public CurrentBalanceProjection() {
     this(new ConcurrentHashMap<>());
@@ -35,73 +41,79 @@ public class CurrentBalanceProjection {
   }
 
   @EventHandler
-  public void on(BankAccountCreated evt, MetaData metaData) {
+  public void on(
+    BankAccountCreated evt,
+    @SequenceNumber long sequenceNumber,
+    @Timestamp Instant timestamp,
+    @MetaDataValue("traceId") String traceId,
+    @MetaDataValue("correlationId") String correlationId
+  ) {
     accounts.put(evt.getAccountId(), evt.getInitialBalance());
 
-    LOGGER.info("received evt: {} with metaData: {}", evt, metaData);
+    addAuditEvent(sequenceNumber, timestamp, evt.getAccountId(), evt.getInitialBalance(), traceId, correlationId);
   }
 
   @EventHandler
-  public void on(MoneyWithdrawn evt, MetaData metaData) {
+  public void on(MoneyWithdrawn evt,
+    @SequenceNumber long sequenceNumber,
+    @Timestamp Instant timestamp,
+    @MetaDataValue("traceId") String traceId,
+    @MetaDataValue("correlationId") String correlationId
+  ) {
     newBalance(evt.getAccountId(), -evt.getAmount());
 
-    LOGGER.info("received evt: {} with metaData: {}", evt, metaData);
+    addAuditEvent(sequenceNumber, timestamp, evt.getAccountId(), evt.getAmount(), traceId, correlationId);
   }
 
   @EventHandler
-  public void on(MoneyDeposited evt, MetaData metaData) {
+  public void on(MoneyDeposited evt,
+    @SequenceNumber long sequenceNumber,
+    @Timestamp Instant timestamp,
+    @MetaDataValue("traceId") String traceId,
+    @MetaDataValue("correlationId") String correlationId
+  ) {
     newBalance(evt.getAccountId(), evt.getAmount());
 
-    LOGGER.info("received evt: {} with metaData: {}", evt, metaData);
+    addAuditEvent(sequenceNumber, timestamp, evt.getAccountId(), evt.getAmount(), traceId, correlationId);
   }
 
   @QueryHandler
-  public Optional<CurrentBalance> getCurrentBalance(CurrentBalanceQueries.CurrentBalanceQuery query) {
-    return Optional.ofNullable(accounts.get(query.accountId)).map(it -> new CurrentBalance(query.accountId, it));
+  public Optional<CurrentBalance> findCurrentBalanceById(CurrentBalanceQueries.CurrentBalanceQuery query) {
+    return Optional.ofNullable(accounts.get(query.getAccountId())).map(it -> new CurrentBalance(query.getAccountId(), it));
   }
 
   @QueryHandler
-  public List<CurrentBalance> getAll(CurrentBalanceQueries.FindAll query) {
+  public List<CurrentBalance> findAll(CurrentBalanceQueries.FindAll query) {
     return accounts.entrySet().stream().map(it -> new CurrentBalance(it.getKey(), it.getValue())).collect(toList());
   }
 
-  private void newBalance(String accountId, int amount) {
-    accounts.compute(accountId, (k, v) -> requireNonNull(v) + amount);
+  @QueryHandler
+  public BankAccountAuditEvents findAuditEventsByAccountId(FindBankAccountAuditEventByAccountId query) {
+    return new BankAccountAuditEvents(auditEvents.getOrDefault(query.getAccountId(), Collections.emptyList()));
   }
 
-  public static class CurrentBalanceQueries {
+  private void addAuditEvent(long sequenceNumber, Instant timestamp, String accountId, int amount, String traceId, String correlationId) {
+    BankAccountAuditEvent evt = new BankAccountAuditEvent(
+      sequenceNumber,
+      timestamp,
+      accountId,
+      amount,
+      traceId,
+      correlationId
+    );
 
-    private final QueryGateway queryGateway;
-
-    public CurrentBalanceQueries(QueryGateway queryGateway) {
-      this.queryGateway = queryGateway;
+    if (!auditEvents.containsKey(accountId)) {
+      auditEvents.put(accountId, new ArrayList<BankAccountAuditEvent>());
     }
 
-    public CompletableFuture<Optional<CurrentBalance>> findByAccountId(String accountId) {
-      return queryGateway.query(new CurrentBalanceQuery(accountId), ResponseTypes.optionalInstanceOf(CurrentBalance.class));
-    }
+    auditEvents.get(accountId).add(evt);
 
-    public CompletableFuture<List<CurrentBalance>> findAll() {
-      return queryGateway.query(FindAll.INSTANCE, ResponseTypes.multipleInstancesOf(CurrentBalance.class));
-    }
+    LOGGER.info("received: {}", evt);
+  }
 
-    public static class CurrentBalanceQuery {
 
-      private final String accountId;
-
-      public CurrentBalanceQuery(String accountId) {
-        this.accountId = accountId;
-      }
-
-      public String getAccountId() {
-        return accountId;
-      }
-    }
-
-    public static class FindAll {
-
-      public static final FindAll INSTANCE = new FindAll();
-    }
+  private void newBalance(String accountId, int amount) {
+    accounts.compute(accountId, (k, v) -> requireNonNull(v) + amount);
   }
 
   public static class CurrentBalance {
@@ -148,4 +160,81 @@ public class CurrentBalanceProjection {
       return Objects.hash(accountId, balance);
     }
   }
+
+  public static class BankAccountAuditEvent {
+
+    private final long sequenceNumber;
+    private final Instant timestamp;
+    private final String accountId;
+    private final int amount;
+    private final String traceId;
+    private final String correlationId;
+
+    public BankAccountAuditEvent(long sequenceNumber, Instant timestamp, String accountId,
+      int amount, String traceId, String correlationId) {
+      this.sequenceNumber = sequenceNumber;
+      this.timestamp = timestamp;
+      this.accountId = accountId;
+      this.amount = amount;
+      this.traceId = traceId;
+      this.correlationId = correlationId;
+    }
+
+    public long getSequenceNumber() {
+      return sequenceNumber;
+    }
+
+    public Instant getTimestamp() {
+      return timestamp;
+    }
+
+    public String getAccountId() {
+      return accountId;
+    }
+
+    public int getAmount() {
+      return amount;
+    }
+
+    public String getTraceId() {
+      return traceId;
+    }
+
+    public String getCorrelationId() {
+      return correlationId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) {
+        return true;
+      }
+      if (o == null || getClass() != o.getClass()) {
+        return false;
+      }
+      BankAccountAuditEvent that = (BankAccountAuditEvent) o;
+      return sequenceNumber == that.sequenceNumber && timestamp.equals(that.timestamp) && accountId
+        .equals(that.accountId) && amount == that.amount && traceId.equals(that.traceId)
+        && correlationId.equals(that.correlationId);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(sequenceNumber, timestamp, accountId, amount, traceId, correlationId);
+    }
+
+    @Override
+    public String toString() {
+      return "BankAccountAuditEvent{" +
+        "sequenceNumber=" + sequenceNumber +
+        ", timestamp=" + timestamp +
+        ", accountId='" + accountId + '\'' +
+        ", amount='" + amount + '\'' +
+        ", traceId='" + traceId + '\'' +
+        ", correlationId='" + correlationId + '\'' +
+        '}';
+    }
+  }
+
+
 }
