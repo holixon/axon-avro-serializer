@@ -9,7 +9,7 @@ import org.apache.avro.specific.SpecificRecordBase
 import org.axonframework.serialization.ContentTypeConverter
 
 /**
- * Can convert avros generated SpecificRecordBase instances to ByteArray using the built in default layout for singleObjects.
+ * Can convert Avro generated SpecificRecordBase instances to ByteArray using the built in default layout for Single Objects.
  * Can convert ByteArray to SpecificRecordBase by looking up the encoded schemaId at the schemaRegistry.
  */
 class SpecificRecordConverter(
@@ -17,6 +17,7 @@ class SpecificRecordConverter(
 ) {
 
   private val schemaResolver = schemaRegistry.schemaResolver()
+  // FIXME: add configuration to this.
   private val converter = DefaultSpecificRecordToSingleObjectConverter(schemaResolver)
 
   val specificRecordToByteArrayConverter: ContentTypeConverter<SpecificRecordBase, ByteArray> = contentTypeConverter { toByteArray(it) }
