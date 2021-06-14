@@ -16,7 +16,7 @@
     <java.version>11</java.version>
     <kotlin.version>1.5.10</kotlin.version>
 
-    <spring-boot.version>2.5.0</spring-boot.version>
+    <spring-boot.version>2.5.1</spring-boot.version>
     <axon-framework.version>4.5.1</axon-framework.version>
     <avro-registry-adapter.version>0.0.2</avro-registry-adapter.version>
 
