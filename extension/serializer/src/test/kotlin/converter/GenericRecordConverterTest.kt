@@ -1,19 +1,21 @@
 package io.holixon.axon.avro.serializer.converter
 
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import org.apache.avro.generic.GenericData
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import test.fixture.SampleEvent
 
-internal class SpecificRecordConverterTest {
+internal class GenericRecordConverterTest {
 
   private val registry = AvroAdapterDefault.inMemorySchemaRegistry()
 
-  private val converter = SpecificRecordAxonConverter(registry)
+  private val converter = GenericDataRecordAxonConverter(registry)
 
-  private val sample = SampleEvent("foo")
-
+  private val sample = GenericData.Record(SampleEvent.`SCHEMA$`).apply {
+    put("value", "foo")
+  }
 
   @BeforeEach
   internal fun setUp() {
@@ -24,9 +26,9 @@ internal class SpecificRecordConverterTest {
   internal fun `convert back and forth`() {
     registry.register(SampleEvent.getClassSchema())
 
-    val genericRecord = converter.toGenericDataRecord(sample)
+    val bytes = converter.toByteArray(sample)
 
-    val decoded = converter.fromGenericDataRecord(genericRecord)
+    val decoded = converter.fromByteArray(bytes)
 
     assertThat(decoded).isEqualTo(sample)
   }

@@ -2,6 +2,7 @@ package io.holixon.axon.avro.serializer
 
 import io.holixon.avro.adapter.common.AvroAdapterDefault
 import mu.KLogging
+import org.apache.avro.generic.GenericData
 import org.apache.avro.specific.SpecificRecordBase
 import org.assertj.core.api.Assertions.assertThat
 import org.axonframework.serialization.SerializedObject
@@ -24,14 +25,15 @@ internal class AvroSerializerTest {
 
 
   @Test
-  internal fun `canSerialize to ByteArray and SpecificRecordBase`() {
+  internal fun `canSerialize to ByteArray GenericDataRecord and SpecificRecordBase`() {
     assertThat(serializer.canSerializeTo(ByteArray::class.java)).isTrue
+    assertThat(serializer.canSerializeTo(SpecificRecordBase::class.java)).isTrue
     assertThat(serializer.canSerializeTo(SpecificRecordBase::class.java)).isTrue
   }
 
   @Test
-  internal fun `can serialize to byteArray`() {
-    val serialized: SerializedObject<ByteArray> = serializer.serialize(event, ByteArray::class.java)
+  internal fun `can serialize to GenericDataRecord`() {
+    val serialized: SerializedObject<GenericData.Record> = serializer.serialize(event, GenericData.Record::class.java)
 
     val deserialized: SampleEvent? = serializer.deserialize(serialized)
 
