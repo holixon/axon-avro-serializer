@@ -1,12 +1,16 @@
 package io.holixon.axon.avro.serializer
 
-import io.holixon.avro.adapter.api.AvroSchemaRegistry
+import io.holixon.avro.adapter.api.AvroAdapterApi.schemaResolver
+import io.holixon.avro.adapter.api.AvroSchemaReadOnlyRegistry
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
+import io.holixon.avro.adapter.api.converter.SpecificRecordToGenericDataRecordConverter
+import io.holixon.avro.adapter.api.converter.SpecificRecordToSingleObjectConverter
 import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToGenericDataRecordChangingSchemaConverter
+import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToSingleObjectSchemaChangingConverter
 import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerGenericDataRecordConverters
-import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerSpecificRecordConverters
-import io.holixon.axon.avro.serializer.ext.SchemaExt.findOrRegister
+import io.holixon.axon.avro.serializer.ext.SchemaExt.find
 import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.apache.avro.generic.GenericData
 import org.apache.avro.specific.SpecificRecordBase
@@ -19,21 +23,21 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
- * Serializer implementation that uses Avro to serialize objects into Single Object format.
+ * Serializer implementation that uses Avro Single Object format for serialization.
  */
 class AvroSerializer(
   private val revisionResolver: RevisionResolver,
   private val metaDataSerializer: Serializer,
-  private val schemaRegistry: AvroSchemaRegistry,
+  private val schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry,
   private val converter: Converter,
   private val logger: Logger,
-  private val myInternalConverter: Converter = ChainingConverter()
+  private val specificRecordToSingleObjectConverter: SpecificRecordToSingleObjectConverter,
+  private val specificRecordToGenericDataRecordConverter: SpecificRecordToGenericDataRecordConverter
 ) : Serializer {
 
   companion object {
     @JvmStatic
     fun builder() = Builder()
-
 
     /**
      * Instantiate a default [AvroSerializer].
@@ -50,18 +54,18 @@ class AvroSerializer(
   constructor(builder: Builder) : this(
     revisionResolver = builder.revisionResolver,
     metaDataSerializer = JacksonSerializer.defaultSerializer(),
-    schemaRegistry = builder.schemaRegistry,
+    schemaReadOnlyRegistry = builder.schemaReadOnlyRegistry,
     converter = if (builder.converter is ChainingConverter) {
-      (builder.converter as ChainingConverter)
-        .registerGenericDataRecordConverters(builder.schemaRegistry)
+      // use GenericData.Record as intermediate representation.
+      // register ByteArray to GenericData.Record converter
+      // register GenericData.Record to ByteArray converter
+      (builder.converter as ChainingConverter).registerGenericDataRecordConverters(builder.schemaReadOnlyRegistry)
     } else {
       builder.converter
     },
     logger = LoggerFactory.getLogger(AvroSerializer::class.java),
-    myInternalConverter = ChainingConverter().apply { // FIXME: don't want the specific converters to be visible to others
-      registerSpecificRecordConverters(builder.schemaRegistry)
-    }
-
+    specificRecordToSingleObjectConverter = builder.specificRecordToSingleObjectConverter,
+    specificRecordToGenericDataRecordConverter = builder.specificRecordToGenericDataRecordConverter
   )
 
   override fun classForType(type: SerializedType): Class<*> {
@@ -75,27 +79,22 @@ class AvroSerializer(
   override fun typeForClass(type: Class<*>?): SerializedType = if (type == null || Void.TYPE == type || Void::class.java == type) {
     SimpleSerializedType.emptyType()
   } else if (type is SpecificRecordBase) {
-    // FIXME: really?!
-    val schema = type.schema.findOrRegister(registry = schemaRegistry)
+    val schema = type.schema.find(schemaReadOnlyRegistry = schemaReadOnlyRegistry)
     SchemaSerializedType(schema)
-  } else SimpleSerializedType(type.name, revisionResolver.revisionOf(type))
-
+  } else {
+    SimpleSerializedType(type.name, revisionResolver.revisionOf(type))
+  }
 
   override fun getConverter(): Converter = converter
 
-  override fun <T : Any> canSerializeTo(expectedRepresentation: Class<T>): Boolean =
-    GenericData.Record::class.java == expectedRepresentation || // FIXME: Ask Steven & Allard
-    converter.canConvert(ByteArray::class.java, expectedRepresentation)
 
-
-//  return JsonNode.class.equals(expectedRepresentation) || String.class.equals(expectedRepresentation) ||
-//  converter.canConvert(byte[].class, expectedRepresentation);
-
-  /**
-   * @param data: the instance to serialize
-   * @param expectedRepresentation: type of target representation
-   * @param <T> type of target representation, e.g. ByteArray
+  /*
+   * Support GenericDataRecord as intermediate format (see registered converters for them)
    */
+  override fun <T : Any> canSerializeTo(expectedRepresentation: Class<T>): Boolean =
+    GenericData.Record::class.java == expectedRepresentation ||
+      converter.canConvert(ByteArray::class.java, expectedRepresentation)
+
   override fun <T : Any> serialize(data: Any, expectedRepresentation: Class<T>): SerializedObject<T> {
     if (data is MetaData) {
       return metaDataSerializer.serialize(data, expectedRepresentation)
@@ -103,22 +102,22 @@ class AvroSerializer(
 
     return try {
       require(data is SpecificRecordBase) { "Currently, data must be subtype of SpecificRecordBase, was: ${data.javaClass}" }
-//      @Suppress("UNCHECKED_CAST")
-//      if (GenericData.Record::class.java == expectedRepresentation) {
-//        // FIXME: ask Steven and Allard if this is required.
-//        // Why there is a string if branch in Jackson Converter?!
-//        val genericDataRecord: GenericData.Record = converter.convert(data, expectedRepresentation)
-//        SimpleSerializedObject(
-//          genericDataRecord,
-//          expectedRepresentation,
-//          typeForClass(ObjectUtils.nullSafeTypeOf(data))
-//        ) as SimpleSerializedObject<T>
-//      } else {
-      require(expectedRepresentation == AvroSingleObjectEncoded::class.java) { "Currently, ByteArray is the only allowed representation, was: $expectedRepresentation" }
-      val singleObject: T = converter.convert(data, expectedRepresentation)
-      logger.debug("Serialized: {} to {}", data, (singleObject as ByteArray).toHexString())
-      SimpleSerializedObject(singleObject, expectedRepresentation, typeForClass(ObjectUtils.nullSafeTypeOf(data)))
-//      }
+
+      val serializedBytes: AvroSingleObjectEncoded = specificRecordToSingleObjectConverter.encode(data)
+      logger.debug("Serialized: {} to {}", data, (serializedBytes as ByteArray).toHexString())
+
+      val serializedContent: Any = if (expectedRepresentation == AvroSingleObjectEncoded::class.java) {
+        // this is an optimization to convert directly into a bytearray (avro single object encoded format)
+        serializedBytes
+      } else {
+        converter.convert(serializedBytes, expectedRepresentation)
+      }
+      @Suppress("UNCHECKED_CAST")
+      SimpleSerializedObject(
+        serializedContent,
+        expectedRepresentation as Class<Any>,
+        typeForClass(ObjectUtils.nullSafeTypeOf(data))
+      ) as SerializedObject<T>
     } catch (e: Exception) {
       throw SerializationException("Unable to serialize object into $expectedRepresentation", e)
     }
@@ -141,15 +140,18 @@ class AvroSerializer(
           UnknownSerializedType(this, serializedObject) as T
         }
         serializedObject.contentType == GenericData.Record::class.java -> {
-          (converter.convert(serializedObject, SpecificRecordBase::class.java).data as T)
+          // we run into this branch if the byte array was converted and manipulated on the level of the intermediate representation
+          // in this case the format is GenericData.Record
+          specificRecordToGenericDataRecordConverter.decode(serializedObject.data as GenericData.Record)
             .apply {
               logger.debug("deserialized: ${(serializedObject.data as GenericData.Record)} to $this")
             }
         }
         else -> {
-          (converter.convert(serializedObject, GenericData.Record::class.java).data as T)
+          val bytesSerialized = converter.convert(serializedObject, AvroSingleObjectEncoded::class.java)
+          specificRecordToSingleObjectConverter.decode(bytesSerialized.data)
             .apply {
-              logger.debug("deserialized: ${(serializedObject.data as ByteArray).toHexString()} to $this")
+              logger.debug("deserialized: ${(bytesSerialized.data as ByteArray).toHexString()} to $this")
             }
         }
       }
@@ -162,7 +164,15 @@ class AvroSerializer(
   class Builder {
     var revisionResolver: RevisionResolver = SchemaBasedRevisionResolver()
     var converter: Converter = ChainingConverter()
-    var schemaRegistry: AvroSchemaRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
+    var schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
+    var specificRecordToSingleObjectConverter: SpecificRecordToSingleObjectConverter =
+      DefaultSpecificRecordToSingleObjectSchemaChangingConverter(
+        schemaResolver = schemaReadOnlyRegistry.schemaResolver()
+      )
+    var specificRecordToGenericDataRecordConverter: SpecificRecordToGenericDataRecordConverter =
+      DefaultSpecificRecordToGenericDataRecordChangingSchemaConverter(
+        schemaResolver = schemaReadOnlyRegistry.schemaResolver()
+      )
 
     fun revisionResolver(revisionResolver: RevisionResolver) = apply {
       this.revisionResolver = revisionResolver
@@ -172,9 +182,18 @@ class AvroSerializer(
       this.converter = converter
     }
 
-    fun schemaRegistry(schemaRegistry: AvroSchemaRegistry) = apply {
-      this.schemaRegistry = schemaRegistry
+    fun schemaRegistry(schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry) = apply {
+      this.schemaReadOnlyRegistry = schemaReadOnlyRegistry
     }
+
+    fun specificRecordToSingleObjectConverter(specificRecordToSingleObjectConverter: SpecificRecordToSingleObjectConverter) = apply {
+      this.specificRecordToSingleObjectConverter = specificRecordToSingleObjectConverter
+    }
+
+    fun specificRecordToGenericDataRecordConverter(specificRecordToGenericDataRecordConverter: SpecificRecordToGenericDataRecordConverter) =
+      apply {
+        this.specificRecordToGenericDataRecordConverter = specificRecordToGenericDataRecordConverter
+      }
 
     fun build() = AvroSerializer(this)
   }

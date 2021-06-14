@@ -4,6 +4,7 @@ import org.axonframework.serialization.ContentTypeConverter
 import kotlin.reflect.KClass
 
 /**
+ * Abstract content type converter for simpler implementation of Axon converters.
  * @param <S> type of source
  * @param <T> type of target
  */
