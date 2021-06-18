@@ -27,8 +27,7 @@ internal class AvroSerializerTest {
   @Test
   internal fun `canSerialize to ByteArray GenericDataRecord and SpecificRecordBase`() {
     assertThat(serializer.canSerializeTo(ByteArray::class.java)).isTrue
-    assertThat(serializer.canSerializeTo(SpecificRecordBase::class.java)).isTrue
-    assertThat(serializer.canSerializeTo(SpecificRecordBase::class.java)).isTrue
+    assertThat(serializer.canSerializeTo(GenericData.Record::class.java)).isTrue
   }
 
   @Test

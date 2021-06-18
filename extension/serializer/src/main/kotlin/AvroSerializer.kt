@@ -9,7 +9,8 @@ import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToGenericDataRecordChangingSchemaConverter
 import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToSingleObjectSchemaChangingConverter
-import io.holixon.axon.avro.serializer.converter.AxonAvroContentTypeConverters.registerGenericDataRecordConverters
+import io.holixon.axon.avro.serializer.converter.AvroSingleObjectEncodedToGenericDataRecordTypeConverter
+import io.holixon.axon.avro.serializer.converter.GenericDataRecordToAvroSingleObjectEncodedConverter
 import io.holixon.axon.avro.serializer.ext.SchemaExt.find
 import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.apache.avro.generic.GenericData
@@ -59,13 +60,20 @@ class AvroSerializer(
       // use GenericData.Record as intermediate representation.
       // register ByteArray to GenericData.Record converter
       // register GenericData.Record to ByteArray converter
-      (builder.converter as ChainingConverter).registerGenericDataRecordConverters(builder.schemaReadOnlyRegistry)
+      (builder.converter as ChainingConverter).apply {
+        this.registerConverter(AvroSingleObjectEncodedToGenericDataRecordTypeConverter(builder.schemaReadOnlyRegistry.schemaResolver()))
+        this.registerConverter(GenericDataRecordToAvroSingleObjectEncodedConverter(builder.schemaReadOnlyRegistry.schemaResolver()))
+      }
     } else {
       builder.converter
     },
     logger = LoggerFactory.getLogger(AvroSerializer::class.java),
-    specificRecordToSingleObjectConverter = builder.specificRecordToSingleObjectConverter,
-    specificRecordToGenericDataRecordConverter = builder.specificRecordToGenericDataRecordConverter
+    specificRecordToSingleObjectConverter = DefaultSpecificRecordToSingleObjectSchemaChangingConverter(
+      schemaResolver = builder.schemaReadOnlyRegistry.schemaResolver()
+    ),
+    specificRecordToGenericDataRecordConverter = DefaultSpecificRecordToGenericDataRecordChangingSchemaConverter(
+      schemaResolver = builder.schemaReadOnlyRegistry.schemaResolver()
+    )
   )
 
   override fun classForType(type: SerializedType): Class<*> {
@@ -142,14 +150,14 @@ class AvroSerializer(
         serializedObject.contentType == GenericData.Record::class.java -> {
           // we run into this branch if the byte array was converted and manipulated on the level of the intermediate representation
           // in this case the format is GenericData.Record
-          specificRecordToGenericDataRecordConverter.decode(serializedObject.data as GenericData.Record)
+          (specificRecordToGenericDataRecordConverter.decode(serializedObject.data as GenericData.Record) as T)
             .apply {
               logger.debug("deserialized: ${(serializedObject.data as GenericData.Record)} to $this")
             }
         }
         else -> {
           val bytesSerialized = converter.convert(serializedObject, AvroSingleObjectEncoded::class.java)
-          (specificRecordToSingleObjectConverter.decode(bytesSerialized.data) as SpecificRecordBase<T>)
+          (specificRecordToSingleObjectConverter.decode(bytesSerialized.data) as T)
             .apply {
               logger.debug("deserialized: ${(bytesSerialized.data as ByteArray).toHexString()} to $this")
             }
@@ -165,14 +173,6 @@ class AvroSerializer(
     var revisionResolver: RevisionResolver = SchemaBasedRevisionResolver()
     var converter: Converter = ChainingConverter()
     var schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
-    var specificRecordToSingleObjectConverter: SpecificRecordToSingleObjectConverter =
-      DefaultSpecificRecordToSingleObjectSchemaChangingConverter(
-        schemaResolver = schemaReadOnlyRegistry.schemaResolver()
-      )
-    var specificRecordToGenericDataRecordConverter: SpecificRecordToGenericDataRecordConverter =
-      DefaultSpecificRecordToGenericDataRecordChangingSchemaConverter(
-        schemaResolver = schemaReadOnlyRegistry.schemaResolver()
-      )
 
     fun revisionResolver(revisionResolver: RevisionResolver) = apply {
       this.revisionResolver = revisionResolver
@@ -185,15 +185,6 @@ class AvroSerializer(
     fun schemaRegistry(schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry) = apply {
       this.schemaReadOnlyRegistry = schemaReadOnlyRegistry
     }
-
-    fun specificRecordToSingleObjectConverter(specificRecordToSingleObjectConverter: SpecificRecordToSingleObjectConverter) = apply {
-      this.specificRecordToSingleObjectConverter = specificRecordToSingleObjectConverter
-    }
-
-    fun specificRecordToGenericDataRecordConverter(specificRecordToGenericDataRecordConverter: SpecificRecordToGenericDataRecordConverter) =
-      apply {
-        this.specificRecordToGenericDataRecordConverter = specificRecordToGenericDataRecordConverter
-      }
 
     fun build() = AvroSerializer(this)
   }
