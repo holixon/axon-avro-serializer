@@ -23,6 +23,7 @@ see on [component overview](file:/docs/README.md)
 
 ## Links
 
+* [Avro Registry Adapter](https://github.com/holixon/avro-registry-adapter) - used to abstract from concrete schema registry
 * <https://hub.docker.com/r/axoniq/axonserver>
 
 
