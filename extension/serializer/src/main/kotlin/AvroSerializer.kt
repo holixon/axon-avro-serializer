@@ -112,7 +112,7 @@ class AvroSerializer(
       require(data is SpecificRecordBase) { "Currently, data must be subtype of SpecificRecordBase, was: ${data.javaClass}" }
 
       val serializedBytes: AvroSingleObjectEncoded = specificRecordToSingleObjectConverter.encode(data)
-      logger.debug("Serialized: {} to {}", data, (serializedBytes as ByteArray).toHexString())
+      logger.debug("Serialized: {} to {}", data, serializedBytes.toHexString())
 
       val serializedContent: Any = if (expectedRepresentation == AvroSingleObjectEncoded::class.java) {
         // this is an optimization to convert directly into a bytearray (avro single object encoded format)
