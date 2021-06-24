@@ -64,7 +64,7 @@ class AvroSerializer(
       // register GenericData.Record to ByteArray converter
       (builder.converter as ChainingConverter).apply {
         this.registerConverter(AvroSingleObjectEncodedToGenericDataRecordTypeConverter(builder.schemaReadOnlyRegistry.schemaResolver()))
-        this.registerConverter(GenericDataRecordToAvroSingleObjectEncodedConverter(builder.schemaReadOnlyRegistry.schemaResolver()))
+        this.registerConverter(GenericDataRecordToAvroSingleObjectEncodedConverter())
       }
     } else {
       builder.converter

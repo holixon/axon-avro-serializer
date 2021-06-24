@@ -12,7 +12,7 @@ internal class GenericRecordConverterTest {
 
   private val registry = AvroAdapterDefault.inMemorySchemaRegistry()
 
-  private val toBytes = GenericDataRecordToAvroSingleObjectEncodedConverter(registry.schemaResolver())
+  private val toBytes = GenericDataRecordToAvroSingleObjectEncodedConverter()
   private val fromBytes = AvroSingleObjectEncodedToGenericDataRecordTypeConverter(registry.schemaResolver())
 
   private val sample = GenericData.Record(SampleEvent.`SCHEMA$`).apply {

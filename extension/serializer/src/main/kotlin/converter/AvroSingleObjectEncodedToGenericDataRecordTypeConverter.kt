@@ -2,7 +2,7 @@ package io.holixon.axon.avro.serializer.converter
 
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
 import io.holixon.avro.adapter.api.SchemaResolver
-import io.holixon.avro.adapter.common.converter.DefaultGenericDataRecordToSingleObjectConverter
+import io.holixon.avro.adapter.common.decoder.DefaultSingleObjectToGenericDataRecordDecoder
 import org.apache.avro.generic.GenericData
 import org.axonframework.serialization.ContentTypeConverter
 
@@ -13,10 +13,10 @@ class AvroSingleObjectEncodedToGenericDataRecordTypeConverter(
   schemaResolver: SchemaResolver
 ) : ContentTypeConverter<AvroSingleObjectEncoded, GenericData.Record> {
 
-  private val converter: DefaultGenericDataRecordToSingleObjectConverter = DefaultGenericDataRecordToSingleObjectConverter(schemaResolver)
+  private val decoder: DefaultSingleObjectToGenericDataRecordDecoder = DefaultSingleObjectToGenericDataRecordDecoder(schemaResolver)
 
   override fun convert(original: AvroSingleObjectEncoded): GenericData.Record {
-    return converter.decode(original)
+    return decoder.decode(original)
   }
 
   override fun expectedSourceType(): Class<AvroSingleObjectEncoded> = AvroSingleObjectEncoded::class.java

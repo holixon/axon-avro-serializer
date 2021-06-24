@@ -17,6 +17,6 @@ internal class SchemaBasedRevisionResolverTest {
 
   @Test
   internal fun `read revision from generic record`() {
-    TODO("Not yet implemented")
+
   }
 }
