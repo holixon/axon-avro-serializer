@@ -1,0 +1,22 @@
+{
+  "type": "record",
+  "namespace": "upcaster.itest",
+  "name": "DummyEvent",
+  "revision": "10",
+  "fields": [
+    {
+      "name": "value01",
+      "type": {
+        "type": "string",
+        "avro.java.string": "String"
+      }
+    },
+    {
+      "name": "value10",
+      "type": {
+        "type": "string",
+        "avro.java.string": "String"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 @file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
-package io.holixon.axon.avro.serializer.spring
+package io.holixon.axon.avro.serializer.spring.itest.bank
 
 import bankaccount.BankAccount
 import bankaccount.command.CreateBankAccount
@@ -11,6 +11,8 @@ import bankaccount.projection.CurrentBalanceProjection
 import bankaccount.query.BankAccountAuditQuery
 import bankaccount.query.CurrentBalanceQueries
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
+import io.holixon.axon.avro.serializer.spring.container.AxonServerContainer
 import mu.KLogging
 import org.assertj.core.api.Assertions.assertThat
 import org.awaitility.kotlin.await
@@ -26,9 +28,6 @@ import org.springframework.context.annotation.Import
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
-import org.testcontainers.containers.GenericContainer
-import org.testcontainers.containers.output.Slf4jLogConsumer
-import org.testcontainers.containers.wait.strategy.Wait.forLogMessage
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.*
@@ -43,13 +42,12 @@ internal class AxonAvroSerializerConfigurationITest {
 
     @JvmStatic
     @DynamicPropertySource
-    fun axonProperties(registry: DynamicPropertyRegistry) {
-      registry.add("axon.axonserver.servers") { axon.url }
-    }
+    fun axonProperties(registry: DynamicPropertyRegistry) = axon.addDynamicProperties(registry)
   }
 
   @Autowired
   lateinit var commandGateway: CommandGateway
+
 
   @Autowired
   lateinit var queries : CurrentBalanceQueries
@@ -82,20 +80,6 @@ internal class AxonAvroSerializerConfigurationITest {
     }
 
     logger.info { "auditEvents for accountId='$accountId': ${auditEventQuery.apply(accountId)}" }
-  }
-}
-
-class AxonServerContainer : GenericContainer<AxonServerContainer>("axoniq/axonserver:4.5.2") {
-  companion object : KLogging()
-
-  init {
-    withLogConsumer(Slf4jLogConsumer(logger))
-    withExposedPorts(8024, 8124)
-    waitingFor(forLogMessage(".*Started AxonServer.*\\n", 1))
-  }
-
-  val url by lazy {
-    "localhost:${getMappedPort(8124)}"
   }
 }
 

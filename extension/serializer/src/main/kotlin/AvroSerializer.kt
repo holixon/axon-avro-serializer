@@ -9,9 +9,11 @@ import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToGenericDataRecordChangingSchemaConverter
 import io.holixon.avro.adapter.common.converter.DefaultSpecificRecordToSingleObjectSchemaChangingConverter
+import io.holixon.avro.adapter.common.encoder.DefaultGenericDataRecordToSingleObjectEncoder
 import io.holixon.axon.avro.serializer.converter.AvroSingleObjectEncodedToGenericDataRecordTypeConverter
 import io.holixon.axon.avro.serializer.converter.GenericDataRecordToAvroSingleObjectEncodedConverter
 import io.holixon.axon.avro.serializer.ext.SchemaExt.find
+import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
 import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.apache.avro.generic.GenericData
 import org.apache.avro.specific.SpecificRecordBase
@@ -76,6 +78,9 @@ class AvroSerializer(
     )
   )
 
+  val genericRecordEncoder = DefaultGenericDataRecordToSingleObjectEncoder()
+
+
   override fun classForType(type: SerializedType): Class<*> {
     return if (SimpleSerializedType.emptyType() == type) {
       Void::class.java
@@ -84,13 +89,22 @@ class AvroSerializer(
     }
   }
 
-  override fun typeForClass(type: Class<*>?): SerializedType = if (type == null || Void.TYPE == type || Void::class.java == type) {
-    SimpleSerializedType.emptyType()
-  } else if (type is SpecificRecordBase) {
-    val schema = type.schema.find(schemaReadOnlyRegistry = schemaReadOnlyRegistry)
-    SchemaSerializedType(schema)
-  } else {
-    SimpleSerializedType(type.name, revisionResolver.revisionOf(type))
+  override fun typeForClass(type: Class<*>?): SerializedType {
+
+    if (type == null || Void.TYPE == type || Void::class.java == type) {
+      return SimpleSerializedType.emptyType()
+    }
+      // FIXME; checked with "is SpecificRecord" ... not against type
+//    else if (type ==  SpecificRecordBase::class.java) {
+//      val schema = type.schema.find(schemaReadOnlyRegistry = schemaReadOnlyRegistry)
+//      return SchemaSerializedType(schema)
+//    } else if (type is GenericData.Record) {
+//      val schema = type.schema.find(schemaReadOnlyRegistry = schemaReadOnlyRegistry)
+//      return SchemaSerializedType(schema)
+//    }
+    else {
+      return SimpleSerializedType(type.name, revisionResolver.revisionOf(type))
+    }
   }
 
   override fun getConverter(): Converter = converter
@@ -106,6 +120,29 @@ class AvroSerializer(
   override fun <T : Any> serialize(data: Any, expectedRepresentation: Class<T>): SerializedObject<T> {
     if (data is MetaData) {
       return metaDataSerializer.serialize(data, expectedRepresentation)
+    }
+    if (data is GenericData.Record) {
+      return try {
+        val schema = data.schema
+        val serializedBytes: AvroSingleObjectEncoded = genericRecordEncoder.encode(data)
+        logger.debug("Serialized: {} to {}", data, serializedBytes.toHexString())
+
+        val serializedContent: Any = if (expectedRepresentation == AvroSingleObjectEncoded::class.java) {
+          // this is an optimization to convert directly into a bytearray (avro single object encoded format)
+          serializedBytes
+        } else {
+          converter.convert(serializedBytes, expectedRepresentation)
+        }
+        @Suppress("UNCHECKED_CAST")
+        SimpleSerializedObject(
+          serializedContent,
+          expectedRepresentation as Class<Any>,
+          //typeForClass(ObjectUtils.nullSafeTypeOf(data))
+          SimpleSerializedType(schema.fullName, schema.revision)
+        ) as SerializedObject<T>
+      } catch (e: Exception) {
+        throw SerializationException("Unable to serialize object into $expectedRepresentation", e)
+      }
     }
 
     return try {

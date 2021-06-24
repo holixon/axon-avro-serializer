@@ -1,9 +1,11 @@
 package io.holixon.axon.avro.serializer
 
+import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
+import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
 import mu.KLogging
 import org.apache.avro.generic.GenericData
-import org.apache.avro.specific.SpecificRecordBase
 import org.assertj.core.api.Assertions.assertThat
 import org.axonframework.serialization.SerializedObject
 import org.junit.jupiter.api.Test
@@ -37,6 +39,19 @@ internal class AvroSerializerTest {
     val deserialized: SampleEvent? = serializer.deserialize(serialized)
 
     assertThat(deserialized).isEqualTo(event)
+  }
+
+  @Test
+  internal fun `can serialize genericRecord to single object`() {
+    val record = GenericData.Record(SampleEvent.getClassSchema()).apply {
+      put("value", "foo")
+    }
+    val serialized: SerializedObject<AvroSingleObjectEncoded /* = kotlin.ByteArray */> = serializer.serialize(record, AvroSingleObjectEncoded::class.java)
+
+    assertThat(serialized.type.name).isEqualTo(SampleEvent.getClassSchema().fullName)
+    assertThat(serialized.type.revision).isEqualTo(SampleEvent.getClassSchema().revision)
+    assertThat(serialized.contentType).isEqualTo(AvroSingleObjectEncoded::class.java)
+    assertThat(serialized.data.toHexString()).isEqualTo("[C3 01 CC 98 1F E7 56 D4 1C A5 06 66 6F 6F]")
   }
 
   //

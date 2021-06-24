@@ -1,5 +1,6 @@
 package io.holixon.axon.avro.serializer.spring
 
+import io.holixon.avro.adapter.api.AvroSchemaReadOnlyRegistry
 import io.holixon.avro.adapter.api.AvroSchemaRegistry
 import io.holixon.axon.avro.serializer.AvroSerializer
 import org.axonframework.serialization.Serializer
@@ -14,7 +15,7 @@ open class AxonAvroSerializerConfiguration {
 
   @Bean
   @ConditionalOnMissingBean(AvroSerializer.Builder::class)
-  fun defaultAxonSerializerBuilder(schemaRegistry: AvroSchemaRegistry): AvroSerializer.Builder = AvroSerializer.builder()
+  fun defaultAxonSerializerBuilder(schemaRegistry: AvroSchemaReadOnlyRegistry): AvroSerializer.Builder = AvroSerializer.builder()
     .schemaRegistry(schemaRegistry)
 
   @Bean

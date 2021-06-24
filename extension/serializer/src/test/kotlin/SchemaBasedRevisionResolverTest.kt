@@ -15,4 +15,8 @@ internal class SchemaBasedRevisionResolverTest {
       .isEqualTo("4711")
   }
 
+  @Test
+  internal fun `read revision from generic record`() {
+    TODO("Not yet implemented")
+  }
 }
