@@ -6,7 +6,7 @@
   <artifactId>axon-avro-serializer_</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>${project.artifactId}</name>
-  <description>Axon Avro Serializier</description>
+  <description>Axon Avro Serializer</description>
   <url>https://github.com/holixon/axon-avro-serializer/</url>
   <packaging>pom</packaging>
 
