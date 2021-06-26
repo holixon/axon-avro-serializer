@@ -67,11 +67,6 @@
         <artifactId>axon-avro-serializer-spring</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <dependency>
-        <groupId>io.holixon.axon.avro.kotlin</groupId>
-        <artifactId>axon-avro-kotlin-extension</artifactId>
-        <version>${project.version}</version>
-      </dependency>
 
       <dependency>
         <groupId>io.holixon.axon.avro.lib</groupId>

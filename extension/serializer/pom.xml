@@ -14,10 +14,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.holixon.axon.avro.kotlin</groupId>
-      <artifactId>axon-avro-kotlin-extension</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.holixon.avro</groupId>
       <artifactId>avro-registry-adapter-api</artifactId>
     </dependency>

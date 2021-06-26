@@ -2,8 +2,11 @@
 
 package io.holixon.axon.avro.serializer.spring.itest.upcaster
 
+import io.holixon.avro.adapter.common.ext.SchemaExt.createGenericRecord
 import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
+import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase
+import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase.PROFILE_ITEST
 import io.holixon.axon.avro.serializer.spring.container.AxonServerContainer
 import mu.KLogging
 import org.apache.avro.generic.GenericData
@@ -21,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Profile
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
@@ -47,7 +51,7 @@ class Projection {
 
 @SpringBootTest(classes = [AxonAvroUpcasterITest.Companion.TestApp::class], webEnvironment = RANDOM_PORT)
 @Testcontainers
-@ActiveProfiles("itest")
+@ActiveProfiles(PROFILE_ITEST)
 internal class AxonAvroUpcasterITest {
   companion object : KLogging() {
     @Container
@@ -59,6 +63,7 @@ internal class AxonAvroUpcasterITest {
 
     @SpringBootApplication
     @Import(AxonAvroSerializerConfiguration::class)
+    @Profile(PROFILE_ITEST)
     class TestApp {
 
       @Bean
@@ -78,10 +83,12 @@ internal class AxonAvroUpcasterITest {
             SimpleSerializedType(DummyEvents.SCHEMA_EVENT_10.fullName, DummyEvents.SCHEMA_EVENT_10.revision),
             GenericData.Record::class.java,
             // THIS throws "Not a valid schema field: value10" Function { it.apply { put("value10", "bar") } },
-            Function { GenericData.Record(DummyEvents.SCHEMA_EVENT_10).apply {
-              put("value01", it.get("value01"))
-              put("value10", "bar")
-            } },
+            Function {
+              GenericData.Record(DummyEvents.SCHEMA_EVENT_10).apply {
+                put("value01", it.get("value01"))
+                put("value10", "bar")
+              }
+            },
             Function.identity()
           )
         }
@@ -96,8 +103,8 @@ internal class AxonAvroUpcasterITest {
   lateinit var projection: Projection
 
   @Test
-  internal fun name() {
-    val event01 = GenericData.Record(DummyEvents.SCHEMA_EVENT_01).apply {
+  internal fun `upcast from 01 to 10 by adding value10`() {
+    val event01 = DummyEvents.SCHEMA_EVENT_01.createGenericRecord {
       put("value01", "foo")
     }
 
@@ -107,42 +114,4 @@ internal class AxonAvroUpcasterITest {
     await.untilAsserted { assertThat(projection.events).isNotEmpty }
   }
 
-
-  //
-//  @Autowired
-//  lateinit var commandGateway: CommandGateway
-//
-//  @Autowired
-//  lateinit var queries : CurrentBalanceQueries
-//
-//  @Autowired
-//  lateinit var auditEventQuery : BankAccountAuditQuery
-//
-//  @Test
-//  internal fun `create account and deposit money`() {
-//    val accountId = UUID.randomUUID().toString()
-//
-//    assertThat(queries.findByAccountId(accountId).join()).isEmpty
-//
-//    commandGateway.sendAndWait<Any>(CreateBankAccount(accountId, 100))
-//
-//    await.untilAsserted {
-//      assertThat(queries.findByAccountId(accountId).join()).isNotEmpty
-//    }
-//
-//    val auditEvents = auditEventQuery.apply(accountId)
-//    assertThat(auditEvents.events).isNotEmpty
-//    assertThat(auditEvents.events.first().correlationId).isNotNull
-//
-//    logger.info { "auditEvents for accountId='$accountId': ${auditEventQuery.apply(accountId)}" }
-//
-//    commandGateway.sendAndWait<Any>(DepositMoney(accountId, 50))
-//
-//    await.untilAsserted {
-//      assertThat(queries.findByAccountId(accountId).join().orElseThrow().balance).isEqualTo(150)
-//    }
-//
-//    logger.info { "auditEvents for accountId='$accountId': ${auditEventQuery.apply(accountId)}" }
-//  }
 }
-

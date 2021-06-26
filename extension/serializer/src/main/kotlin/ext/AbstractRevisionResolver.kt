@@ -1,4 +1,4 @@
-package io.holixon.extensions.kotlin.serialization
+package io.holixon.axon.avro.serializer.ext
 
 import org.axonframework.serialization.RevisionResolver
 import kotlin.reflect.KClass

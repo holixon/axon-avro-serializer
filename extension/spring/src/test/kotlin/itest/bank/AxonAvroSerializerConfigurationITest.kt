@@ -12,6 +12,8 @@ import bankaccount.query.BankAccountAuditQuery
 import bankaccount.query.CurrentBalanceQueries
 import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
+import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase
+import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase.PROFILE_ITEST
 import io.holixon.axon.avro.serializer.spring.container.AxonServerContainer
 import mu.KLogging
 import org.assertj.core.api.Assertions.assertThat
@@ -22,9 +24,11 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Import
+import org.springframework.context.annotation.Profile
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
@@ -32,9 +36,9 @@ import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import java.util.*
 
-@SpringBootTest(classes = [AxonAvroSerializerConfigurationITestApplication::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = [AxonAvroSerializerConfigurationITestApplication::class], webEnvironment = RANDOM_PORT)
 @Testcontainers
-@ActiveProfiles("itest")
+@ActiveProfiles(PROFILE_ITEST)
 internal class AxonAvroSerializerConfigurationITest {
   companion object : KLogging() {
     @Container
@@ -86,6 +90,7 @@ internal class AxonAvroSerializerConfigurationITest {
 @SpringBootApplication
 @Import(AxonAvroSerializerConfiguration::class)
 @ComponentScan(basePackageClasses = [BankAccount::class])
+@Profile(PROFILE_ITEST)
 class AxonAvroSerializerConfigurationITestApplication {
 
   @Bean
