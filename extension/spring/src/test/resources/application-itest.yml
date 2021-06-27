@@ -9,3 +9,4 @@ logging:
     org.axonframework.eventhandling: error
     org.springframework.boot.test.context: warn
     org.springframework.test.context: warn
+    org.testcontainers: warn
