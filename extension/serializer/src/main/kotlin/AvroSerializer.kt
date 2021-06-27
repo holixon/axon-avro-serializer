@@ -34,7 +34,7 @@ class AvroSerializer private constructor(
   /**
    * Gets the revision from class. Only works for SpecificRecordBase, GenericData.Record does not have schema on class.
    */
-  private val revisionResolver: SchemaBasedRevisionResolver,
+  private val revisionResolver: RevisionResolver,
 
   /**
    * Serializer for GenericData.Record.
@@ -217,13 +217,43 @@ class AvroSerializer private constructor(
   }
 
   class Builder {
-    var revisionResolver: SchemaBasedRevisionResolver = SchemaBasedRevisionResolver()
-    var converter: Converter = ChainingConverter()
-    var schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
-    var decoderSpecificRecordClassResolver: AvroAdapterDefault.DecoderSpecificRecordClassResolver = AvroAdapterDefault.reflectionBasedDecoderSpecificRecordClassResolver
-    var schemaIncompatibilityResolver: AvroSchemaIncompatibilityResolver = AvroAdapterDefault.defaultSchemaCompatibilityResolver
+    /**
+     * The Revision resolver to determine (schema) revision of message.
+     * @default [SchemaBasedRevisionResolver]
+     */
+    var revisionResolver: RevisionResolver = SchemaBasedRevisionResolver()
+      private set
 
-    fun revisionResolver(revisionResolver: SchemaBasedRevisionResolver) = apply {
+    /**
+     * The axon converter.
+     * @default [ChainingConverter] using classloader SPI.
+     */
+    var converter: Converter = ChainingConverter()
+      private set
+
+    /**
+     * Access to schemas.
+     * @default [io.holixon.avro.adapter.common.registry.InMemoryAvroSchemaReadOnlyRegistry].
+     */
+    var schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry = AvroAdapterDefault.inMemorySchemaRegistry()
+      private set
+
+    /**
+     * Resolves class for schema.
+     * @default [AvroAdapterDefault.reflectionBasedDecoderSpecificRecordClassResolver] - using [ClassUtils.forName].
+     */
+    var decoderSpecificRecordClassResolver: AvroAdapterDefault.DecoderSpecificRecordClassResolver =
+      AvroAdapterDefault.reflectionBasedDecoderSpecificRecordClassResolver
+      private set
+
+    /**
+     * How to determine if the writer schema encoded in the stored bytes is compatible to the reader schema found on the class path.
+     * @default [AvroAdapterDefault.defaultSchemaCompatibilityResolver]
+     */
+    var schemaIncompatibilityResolver: AvroSchemaIncompatibilityResolver = AvroAdapterDefault.defaultSchemaCompatibilityResolver
+      private set
+
+    fun revisionResolver(revisionResolver: RevisionResolver) = apply {
       this.revisionResolver = revisionResolver
     }
 
@@ -233,6 +263,15 @@ class AvroSerializer private constructor(
 
     fun schemaRegistry(schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry) = apply {
       this.schemaReadOnlyRegistry = schemaReadOnlyRegistry
+    }
+
+    fun decoderSpecificRecordClassResolver(decoderSpecificRecordClassResolver: AvroAdapterDefault.DecoderSpecificRecordClassResolver) =
+      apply {
+        this.decoderSpecificRecordClassResolver = decoderSpecificRecordClassResolver
+      }
+
+    fun schemaIncompatibilityResolver(schemaIncompatibilityResolver: AvroSchemaIncompatibilityResolver) = apply {
+      this.schemaIncompatibilityResolver = schemaIncompatibilityResolver
     }
 
     fun build() = AvroSerializer(this)
