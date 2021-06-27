@@ -42,7 +42,6 @@ class SchemaTypeSerializer<S : Any>(
       schemaAccessor = SpecificRecordBase::getSchema,
       converter = converter
     )
-
   }
 
   fun serializeToSingleObject(data: S): AvroSchemaSerializedObject<AvroSingleObjectEncoded> = AvroSchemaSingleObjectSerializedObject(
