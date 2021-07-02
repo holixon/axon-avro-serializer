@@ -16,16 +16,16 @@
     <java.version>11</java.version>
     <kotlin.version>1.5.20</kotlin.version>
 
-    <spring-boot.version>2.5.2</spring-boot.version>
-    <axon-framework.version>4.5.1</axon-framework.version>
-    <avro-registry-adapter.version>0.0.2</avro-registry-adapter.version>
-
     <avro.version>1.10.2</avro.version>
+    <axon-bom.version>4.5.2</axon-bom.version>
+    <axon-kotlin.version>0.1.0</axon-kotlin.version>
+    <axon-testing.version>0.0.2</axon-testing.version>
+    <avro-registry-adapter.version>0.0.2</avro-registry-adapter.version>
+    <spring-boot.version>2.5.2</spring-boot.version>
+
     <kotlin-logging.version>2.0.8</kotlin-logging.version>
     <jgiven.version>1.0.0</jgiven.version>
     <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
-    <axon-kotlin.version>0.1.0</axon-kotlin.version>
-    <axon-testing.version>0.0.2</axon-testing.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
@@ -41,9 +41,9 @@
     <dependencies>
       <!-- AXON -->
       <dependency>
-        <groupId>io.holixon.axon</groupId>
-        <artifactId>axon-framework-bom</artifactId>
-        <version>${axon-framework.version}</version>
+        <groupId>org.axonframework</groupId>
+        <artifactId>axon-bom</artifactId>
+        <version>${axon-bom.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
