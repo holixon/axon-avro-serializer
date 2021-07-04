@@ -3,10 +3,8 @@ package io.holixon.axon.avro.serializer
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
 import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
-import io.holixon.avro.adapter.common.ext.SchemaExt.createGenericRecord
+import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.createGenericRecord
 import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
-import io.holixon.axon.avro.serializer.fn.SchemaTypeSerializer
-import io.holixon.axon.avro.serializer.type.AvroSchemaSerializedObject
 import mu.KLogging
 import org.apache.avro.Schema
 import org.apache.avro.generic.GenericData

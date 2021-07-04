@@ -2,7 +2,7 @@ package io.holixon.axon.avro.serializer.fn
 
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
 import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
-import io.holixon.avro.adapter.common.ext.SchemaExt.createGenericRecord
+import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.createGenericRecord
 import io.holixon.axon.avro.serializer.type.AvroSchemaSingleObjectSerializedObject
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy

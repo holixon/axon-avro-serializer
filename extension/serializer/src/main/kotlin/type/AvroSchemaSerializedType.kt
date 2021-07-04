@@ -1,12 +1,9 @@
 package io.holixon.axon.avro.serializer.type
 
 import io.holixon.avro.adapter.api.AvroSchemaWithId
-import io.holixon.avro.adapter.common.AvroAdapterDefault.toAvroSchemaWithId
+import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.avroSchemaWithId
 import org.apache.avro.Schema
-import org.axonframework.serialization.SerializedObject
-import org.axonframework.serialization.SerializedType
 import org.axonframework.serialization.SimpleSerializedType
-import java.util.*
 
 /**
  * Data class representing an entry in a schema registry.
@@ -18,7 +15,7 @@ class AvroSchemaSerializedType(
   schemaWithId.revision
 ) {
 
-  constructor(schema: Schema) : this(schema.toAvroSchemaWithId())
+  constructor(schema: Schema) : this(schema.avroSchemaWithId)
 
   val simpleSerializedType by lazy { SimpleSerializedType(name, revision) }
 
@@ -31,9 +28,4 @@ class AvroSchemaSerializedType(
 
     return false
   }
-
-
-
-  override fun hashCode(): Int = super.hashCode()
-
 }

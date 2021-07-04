@@ -2,10 +2,9 @@
 
 package io.holixon.axon.avro.serializer.spring.itest.upcaster
 
-import io.holixon.avro.adapter.common.ext.SchemaExt.createGenericRecord
-import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
+import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.avroSchemaRevision
+import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.createGenericRecord
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
-import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase.PROFILE_ITEST
 import io.holixon.axon.avro.serializer.spring.container.AxonServerContainer
 import mu.KLogging
@@ -75,12 +74,12 @@ internal class AxonAvroUpcasterITest {
       @Bean
       fun dummyEventUpcaster() = object : SingleEventUpcaster() {
         override fun canUpcast(intermediateRepresentation: IntermediateEventRepresentation): Boolean {
-          return intermediateRepresentation.type.name == DummyEvents.SCHEMA_EVENT_01.fullName && intermediateRepresentation.type.revision == DummyEvents.SCHEMA_EVENT_01.revision
+          return intermediateRepresentation.type.name == DummyEvents.SCHEMA_EVENT_01.fullName && intermediateRepresentation.type.revision == DummyEvents.SCHEMA_EVENT_01.avroSchemaRevision
         }
 
         override fun doUpcast(intermediateRepresentation: IntermediateEventRepresentation): IntermediateEventRepresentation {
           return intermediateRepresentation.upcast(
-            SimpleSerializedType(DummyEvents.SCHEMA_EVENT_10.fullName, DummyEvents.SCHEMA_EVENT_10.revision),
+            SimpleSerializedType(DummyEvents.SCHEMA_EVENT_10.fullName, DummyEvents.SCHEMA_EVENT_10.avroSchemaRevision),
             GenericData.Record::class.java,
             // THIS throws "Not a valid schema field: value10" Function { it.apply { put("value10", "bar") } },
             Function {

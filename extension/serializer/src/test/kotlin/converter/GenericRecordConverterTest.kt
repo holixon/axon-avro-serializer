@@ -2,8 +2,7 @@ package io.holixon.axon.avro.serializer.converter
 
 import io.holixon.avro.adapter.api.AvroAdapterApi.schemaResolver
 import io.holixon.avro.adapter.common.AvroAdapterDefault
-import io.holixon.avro.adapter.common.ext.SchemaExt.createGenericRecord
-import org.apache.avro.generic.GenericData
+import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.createGenericRecord
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
