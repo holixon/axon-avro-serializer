@@ -17,8 +17,8 @@
     <kotlin.version>1.5.20</kotlin.version>
 
     <spring-boot.version>2.5.1</spring-boot.version>
-    <axon-framework.version>4.5.1</axon-framework.version>
-    <avro-registry-adapter.version>0.0.3-SNAPSHOT</avro-registry-adapter.version>
+    <axon-framework.version>4.5.2</axon-framework.version>
+    <avro-registry-adapter.version>0.0.3</avro-registry-adapter.version>
 
     <avro.version>1.10.2</avro.version>
     <kotlin-logging.version>2.0.8</kotlin-logging.version>
