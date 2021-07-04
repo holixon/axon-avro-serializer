@@ -13,7 +13,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>kotlin</module>
     <module>serializer</module>
     <module>spring</module>
   </modules>

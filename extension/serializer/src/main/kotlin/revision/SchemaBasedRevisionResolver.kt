@@ -2,14 +2,16 @@ package io.holixon.axon.avro.serializer.revision
 
 import io.holixon.axon.avro.serializer.AxonAvroExtension.schemaForClass
 import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
-import io.holixon.extensions.kotlin.serialization.AbstractRevisionResolver
+import org.axonframework.serialization.RevisionResolver
+import kotlin.reflect.KClass
 
 /**
  * Reads the AxonAvroCoreExtension#PROP_REVISION property from schema derived from
  * payloadType.
  */
-class SchemaBasedRevisionResolver : AbstractRevisionResolver() {
+open class SchemaBasedRevisionResolver : RevisionResolver {
+
+  fun revisionOf(payloadType: KClass<*>): String? = revisionOf(payloadType.java)
 
   override fun revisionOf(payloadType: Class<*>): String?  = schemaForClass(payloadType).revision
-
 }
