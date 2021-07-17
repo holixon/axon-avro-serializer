@@ -15,7 +15,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>11</java.version>
+
     <kotlin.version>1.5.21</kotlin.version>
+    <kotlin-logging.version>2.0.10</kotlin-logging.version>
 
     <spring-boot.version>2.5.2</spring-boot.version>
 
@@ -27,7 +29,6 @@
 
     <avro.version>1.10.2</avro.version>
 
-    <kotlin-logging.version>2.0.10</kotlin-logging.version>
     <jgiven.version>1.0.0</jgiven.version>
     <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
 
@@ -109,7 +110,11 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
-
+      <dependency>
+        <groupId>io.github.microutils</groupId>
+        <artifactId>kotlin-logging-jvm</artifactId>
+        <version>${kotlin-logging.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
