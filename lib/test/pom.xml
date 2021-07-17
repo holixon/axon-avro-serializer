@@ -103,7 +103,6 @@
     <dependency>
       <groupId>io.github.microutils</groupId>
       <artifactId>kotlin-logging-jvm</artifactId>
-      <version>${kotlin-logging.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
