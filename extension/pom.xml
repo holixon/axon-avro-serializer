@@ -15,6 +15,7 @@
   <modules>
     <module>serializer</module>
     <module>spring</module>
+    <module>plugin</module>
   </modules>
 
   <dependencies>

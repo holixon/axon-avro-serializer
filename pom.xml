@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.holixon.axon.avro._</groupId>
@@ -20,6 +20,7 @@
     <spring-boot.version>2.5.2</spring-boot.version>
 
     <axon-bom.version>4.5.2</axon-bom.version>
+    <axon-server-plugin-api.version>4.5</axon-server-plugin-api.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
     <axon-testing.version>0.0.2</axon-testing.version>
 
@@ -50,6 +51,12 @@
         <version>${axon-bom.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>io.axoniq</groupId>
+        <artifactId>axonserver-plugin-api</artifactId>
+        <version>${axon-server-plugin-api.version}</version>
       </dependency>
 
       <!-- AVRO -->
@@ -109,12 +116,26 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
+      <dependency>
+        <groupId>io.github.microutils</groupId>
+        <artifactId>kotlin-logging-jvm</artifactId>
+        <version>${kotlin-logging.version}</version>
+      </dependency>
 
     </dependencies>
   </dependencyManagement>
 
   <build>
     <defaultGoal>clean jacoco:prepare-agent package</defaultGoal>
+    <resources>
+      <!-- ignore .gitkeep marker files -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>.gitkeep</exclude>
+        </excludes>
+      </resource>
+    </resources>
 
     <pluginManagement>
       <plugins>
