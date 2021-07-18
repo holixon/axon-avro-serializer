@@ -8,6 +8,7 @@ import io.holixon.avro.adapter.common.converter.DefaultSingleObjectToJsonConvert
 import io.holixon.avro.adapter.registry.apicurio.ApicurioAvroSchemaRegistry
 import io.holixon.avro.adapter.registry.apicurio.AvroAdapterApicurioRest
 import io.holixon.axon.avro.serializer.plugin.ContextName
+import io.holixon.axon.avro.serializer.plugin.cache.CachingSchemaResolver
 
 fun interface AxonAvroSerializerPluginPropertiesProvider {
   fun get(context: ContextName): AxonAvroSerializerPluginProperties
@@ -46,7 +47,9 @@ data class AxonAvroSerializerPluginProperties(
   }
 
   val jsonConverter by lazy {
-    DefaultSingleObjectToJsonConverter(apicurioSchemaRegistry.schemaResolver())
+    val cachingSchemaResolver = CachingSchemaResolver(apicurioSchemaRegistry.schemaResolver())
+
+    DefaultSingleObjectToJsonConverter(cachingSchemaResolver)
   }
 
   val apicurioSchemaRegistry by lazy {

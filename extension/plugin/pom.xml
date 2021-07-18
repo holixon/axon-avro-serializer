@@ -84,10 +84,12 @@
               javax.xml.parsers.*;
               javax.naming.*;
             </Import-Package>
+
             <!-- internal packages for the bundle -->
             <Private-Package>
               io.holixon.axon.avro.serializer.plugin.*;
             </Private-Package>
+
             <!-- references the BundleActivator class -->
             <Bundle-Activator>io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin</Bundle-Activator>
           </instructions>
