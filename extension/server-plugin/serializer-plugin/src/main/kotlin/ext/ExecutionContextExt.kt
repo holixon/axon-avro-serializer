@@ -1,12 +1,14 @@
 package io.holixon.axon.avro.serializer.plugin.ext
 
 import io.axoniq.axonserver.plugin.ExecutionContext
+import io.holixon.axon.avro.registry.plugin.ContextName
 import io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin
-import io.holixon.axon.avro.serializer.plugin.ContextName
 
 object ExecutionContextExt {
 
-  fun ExecutionContext.isDashboardRequest() = AxonAvroSerializerPlugin.PRINCIPAL_EVENT_HANDLER != this.principal()
+  private const val PRINCIPAL_EVENT_HANDLER = "<anonymous>"
+
+  fun ExecutionContext.isDashboardRequest() = PRINCIPAL_EVENT_HANDLER != this.principal()
 
   private fun <T> Any.getPrivateFieldValue(name: String): T {
     val field = this::class.java.getDeclaredField(name)

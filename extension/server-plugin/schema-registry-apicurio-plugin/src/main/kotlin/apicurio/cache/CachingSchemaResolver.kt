@@ -1,4 +1,4 @@
-package io.holixon.axon.avro.serializer.plugin.cache
+package io.holixon.axon.avro.registry.plugin.apicurio.cache
 
 import io.holixon.avro.adapter.api.AvroSchemaId
 import io.holixon.avro.adapter.api.AvroSchemaWithId
@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap
 class CachingSchemaResolver(private val schemaResolver: SchemaResolver) : SchemaResolver {
   companion object : KLogging()
 
-  val cache = ConcurrentHashMap<AvroSchemaId, AvroSchemaWithId?>()
+  private val cache = ConcurrentHashMap<AvroSchemaId, AvroSchemaWithId?>()
 
   override fun apply(schemaId: AvroSchemaId): Optional<AvroSchemaWithId> {
     return Optional.ofNullable(cache.computeIfAbsent(schemaId) {

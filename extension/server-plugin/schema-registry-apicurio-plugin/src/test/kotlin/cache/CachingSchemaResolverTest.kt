@@ -1,12 +1,10 @@
-package io.holixon.axon.avro.serializer.plugin.cache
+package io.holixon.axon.avro.registry.plugin.apicurio.cache
 
 import bankaccount.event.BankAccountCreated
 import io.holixon.avro.adapter.api.AvroSchemaId
 import io.holixon.avro.adapter.api.AvroSchemaWithId
 import io.holixon.avro.adapter.api.SchemaResolver
-import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.avroSchemaId
 import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.avroSchemaWithId
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.util.*

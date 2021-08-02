@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>io.holixon.axon.avro._</groupId>
     <artifactId>extension</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
   </parent>
 
   <groupId>io.holixon.axon.avro</groupId>
-  <artifactId>axon-avro-server-plugin</artifactId>
+  <artifactId>axon-avro-server-serializer-plugin</artifactId>
   <packaging>bundle</packaging>
 
   <dependencies>
@@ -26,6 +27,12 @@
     </dependency>
 
     <dependency>
+      <groupId>io.holixon.axon.avro</groupId>
+      <artifactId>axon-avro-server-serializer-plugin-api</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
       <version>6.0.0</version>
@@ -37,11 +44,6 @@
       <artifactId>protobuf-java</artifactId>
       <version>3.17.3</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.holixon.avro</groupId>
-      <artifactId>avro-registry-adapter-apicurio</artifactId>
     </dependency>
 
     <dependency>
@@ -83,13 +85,12 @@
               org.xml.sax.*;
               javax.xml.parsers.*;
               javax.naming.*;
+              io.holixon.axon.avro.registry.plugin;
             </Import-Package>
-
-            <!-- internal packages for the bundle -->
+            <!-- internal packages for the bundle, skipped otherwise -->
             <Private-Package>
               io.holixon.axon.avro.serializer.plugin.*;
             </Private-Package>
-
             <!-- references the BundleActivator class -->
             <Bundle-Activator>io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin</Bundle-Activator>
           </instructions>
