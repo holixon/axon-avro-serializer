@@ -325,11 +325,7 @@
             </execution>
           </executions>
           <configuration>
-            <jdkVersion>8</jdkVersion>
-            <includes>
-              <include>packages.md</include>
-              <include>extra.md</include>
-            </includes>
+            <jdkVersion>11</jdkVersion>
           </configuration>
         </plugin>
         <plugin>
@@ -368,6 +364,24 @@
 
         <!-- attach sources -->
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.0.0</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>add-source</goal>
+              </goals>
+              <configuration>
+                <sources>
+                  <source>src/main/kotlin</source>
+                </sources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.2.1</version>
@@ -379,6 +393,7 @@
                 <goal>jar</goal>
               </goals>
               <configuration>
+
                 <attach>true</attach>
                 <forceCreation>true</forceCreation>
               </configuration>
@@ -555,6 +570,10 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
             <groupId>org.jetbrains.dokka</groupId>
             <artifactId>dokka-maven-plugin</artifactId>
           </plugin>
@@ -613,6 +632,14 @@
       <id>README</id>
       <url>https://github.com/toolisticon/axon-avro-serializer</url>
     </site>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
   <developers>
