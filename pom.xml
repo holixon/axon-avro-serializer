@@ -4,7 +4,7 @@
 
   <groupId>io.holixon.axon.avro._</groupId>
   <artifactId>axon-avro-serializer_</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <name>${project.artifactId}</name>
   <description>Axon Avro Serializer</description>
   <url>https://github.com/holixon/axon-avro-serializer/</url>
@@ -342,11 +342,7 @@
             </execution>
           </executions>
           <configuration>
-            <jdkVersion>8</jdkVersion>
-            <includes>
-              <include>packages.md</include>
-              <include>extra.md</include>
-            </includes>
+            <jdkVersion>11</jdkVersion>
           </configuration>
         </plugin>
         <plugin>
@@ -396,6 +392,7 @@
                 <goal>jar</goal>
               </goals>
               <configuration>
+
                 <attach>true</attach>
                 <forceCreation>true</forceCreation>
               </configuration>
@@ -572,6 +569,10 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
             <groupId>org.jetbrains.dokka</groupId>
             <artifactId>dokka-maven-plugin</artifactId>
           </plugin>
@@ -630,6 +631,14 @@
       <id>README</id>
       <url>https://github.com/toolisticon/axon-avro-serializer</url>
     </site>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
   <developers>

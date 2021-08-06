@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.holixon.axon.avro._</groupId>
     <artifactId>axon-avro-serializer_</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.5-SNAPSHOT</version>
   </parent>
 
   <artifactId>lib</artifactId>
@@ -17,7 +17,7 @@
     <maven.javadoc.skip>false</maven.javadoc.skip>
     <maven.sources.skip>false</maven.sources.skip>
     <maven.install.skip>false</maven.install.skip>
-    <gpg.skip>true</gpg.skip>
+    <gpg.skip>false</gpg.skip>
   </properties>
 
   <modules>
