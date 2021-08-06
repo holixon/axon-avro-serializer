@@ -11,6 +11,7 @@ import io.holixon.avro.adapter.api.AvroSchemaRegistry
 import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.avro.adapter.registry.apicurio.ApicurioAvroSchemaRegistry
 import io.holixon.avro.adapter.registry.apicurio.AvroAdapterApicurioRest
+import io.holixon.avro.adapter.registry.apicurio.client.GroupAwareRegistryClient
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
@@ -43,7 +44,7 @@ class BankAccountExampleKotlinApplication : CommandLineRunner {
 
   @Bean
   fun avroSchemaRegistry(apicurioRegistryClient: RegistryClient) = ApicurioAvroSchemaRegistry(
-    client = apicurioRegistryClient,
+    client = GroupAwareRegistryClient(apicurioRegistryClient, AvroAdapterDefault.schemaIdSupplier, AvroAdapterDefault.schemaRevisionResolver),
     schemaIdSupplier = AvroAdapterDefault.schemaIdSupplier,
     schemaRevisionResolver = AvroAdapterDefault.schemaRevisionResolver
   )

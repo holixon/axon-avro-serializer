@@ -1,7 +1,7 @@
 package io.holixon.axon.avro.serializer.converter
 
+import io.holixon.avro.adapter.api.AvroSchemaResolver
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
-import io.holixon.avro.adapter.api.SchemaResolver
 import io.holixon.avro.adapter.common.decoder.DefaultSingleObjectToGenericDataRecordDecoder
 import org.apache.avro.generic.GenericData
 import org.axonframework.serialization.ContentTypeConverter
@@ -10,7 +10,7 @@ import org.axonframework.serialization.ContentTypeConverter
  * Type converter to convert AVRO Single Object Encoded bytes into AVRO Generic Data Record, preserving the writer schema.
  */
 class AvroSingleObjectEncodedToGenericDataRecordTypeConverter(
-  schemaResolver: SchemaResolver
+  schemaResolver: AvroSchemaResolver
 ) : ContentTypeConverter<AvroSingleObjectEncoded, GenericData.Record> {
 
   private val decoder: DefaultSingleObjectToGenericDataRecordDecoder = DefaultSingleObjectToGenericDataRecordDecoder(schemaResolver)
