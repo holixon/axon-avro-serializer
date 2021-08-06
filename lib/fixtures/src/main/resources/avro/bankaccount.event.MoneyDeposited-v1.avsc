@@ -1,0 +1,20 @@
+{
+  "type": "record",
+  "namespace": "bankaccount.event",
+  "name": "MoneyDeposited",
+  "doc": "Money was withdrawn from BankAccount.",
+  "revision": "1",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": {
+        "type": "string",
+        "avro.java.string": "String"
+      }
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    }
+  ]
+}

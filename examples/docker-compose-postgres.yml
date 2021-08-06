@@ -1,0 +1,11 @@
+version: '3'
+# https://hub.docker.com/r/axoniq/axonserver
+services:
+  database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=example
+      - POSTGRES_PASSWORD=example
+      - POSTGRES_DB=example
+    ports:
+      - "5432:5432"

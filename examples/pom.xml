@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.holixon.axon.avro._</groupId>
+    <artifactId>axon-avro-serializer_</artifactId>
+    <version>0.0.1</version>
+  </parent>
+
+  <artifactId>examples</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <jacoco.skip>false</jacoco.skip>
+    <maven.javadoc.skip>true</maven.javadoc.skip>
+    <maven.sources.skip>true</maven.sources.skip>
+    <maven.install.skip>true</maven.install.skip>
+    <gpg.skip>true</gpg.skip>
+
+    <springdoc.version>1.5.10</springdoc.version>
+  </properties>
+
+  <modules>
+    <module>bankaccount-springboot-kotlin</module>
+    <!--
+    <module>bankaccount-springboot-java</module>
+    -->
+    <module>coverage-aggregate</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-ui</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springdoc</groupId>
+        <artifactId>springdoc-openapi-kotlin</artifactId>
+        <version>${springdoc.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- No dependencies here, define explicitly in examples -->
+  </dependencies>
+</project>

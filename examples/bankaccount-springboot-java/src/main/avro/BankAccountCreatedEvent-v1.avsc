@@ -1,0 +1,17 @@
+{
+  "type": "record",
+  "namespace": "example.bankaccount.event",
+  "name": "BankAccountCreatedEvent",
+  "fields": [
+    {
+      "name": "bankAccountId",
+      "type": "string"
+
+    },
+    {
+      "name": "initialBalance",
+      "type": "int"
+    }
+  ],
+  "revision": "1"
+}

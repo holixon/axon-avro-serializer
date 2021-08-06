@@ -1,0 +1,12 @@
+spring:
+  main:
+    banner-mode: off
+
+logging:
+  level:
+    root: info
+    io.axoniq.axonserver.connector: error
+    org.axonframework.eventhandling: error
+    org.springframework.boot.test.context: warn
+    org.springframework.test.context: warn
+    org.testcontainers: warn

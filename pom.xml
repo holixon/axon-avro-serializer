@@ -1,0 +1,641 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>io.holixon.axon.avro._</groupId>
+  <artifactId>axon-avro-serializer_</artifactId>
+  <version>0.0.1</version>
+  <name>${project.artifactId}</name>
+  <description>Axon Avro Serializer</description>
+  <url>https://github.com/holixon/axon-avro-serializer/</url>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <java.version>11</java.version>
+
+    <kotlin.version>1.5.21</kotlin.version>
+    <kotlin-logging.version>2.0.10</kotlin-logging.version>
+
+    <spring-boot.version>2.5.3</spring-boot.version>
+
+    <axon-bom.version>4.5.3</axon-bom.version>
+    <axon-kotlin.version>0.1.0</axon-kotlin.version>
+    <axon-testing.version>0.0.2</axon-testing.version>
+
+    <avro-registry-adapter.version>0.0.5</avro-registry-adapter.version>
+
+    <avro.version>1.10.2</avro.version>
+
+    <jgiven.version>1.0.0</jgiven.version>
+    <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
+
+    <pattern.class.itest>**/*ITest.*</pattern.class.itest>
+    <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
+    <jacoco.skip>true</jacoco.skip>
+  </properties>
+
+  <modules>
+    <module>extension</module>
+    <module>lib</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- AXON -->
+      <dependency>
+        <groupId>org.axonframework</groupId>
+        <artifactId>axon-bom</artifactId>
+        <version>${axon-bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- AVRO -->
+      <dependency>
+        <groupId>io.holixon.avro</groupId>
+        <artifactId>avro-registry-adapter-bom</artifactId>
+        <version>${avro-registry-adapter.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+
+      <dependency>
+        <groupId>io.holixon.axon.avro</groupId>
+        <artifactId>axon-avro-serializer</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.holixon.axon.avro</groupId>
+        <artifactId>axon-avro-serializer-spring</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.holixon.axon.avro.lib</groupId>
+        <artifactId>axon-avro-serializer-lib-test</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.holixon.axon.avro.lib</groupId>
+        <artifactId>axon-avro-serializer-lib-fixtures</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- AVRO -->
+      <dependency>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro</artifactId>
+        <version>${avro.version}</version>
+      </dependency>
+
+      <!-- SPRING -->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <!-- KOTLIN (note: this has to be defined AFTER spring boot or the version is overwritten)-->
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-bom</artifactId>
+        <version>${kotlin.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>io.github.microutils</groupId>
+        <artifactId>kotlin-logging-jvm</artifactId>
+        <version>${kotlin-logging.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <defaultGoal>clean jacoco:prepare-agent package</defaultGoal>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- cleaning -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.avro</groupId>
+          <artifactId>avro-maven-plugin</artifactId>
+          <version>${avro.version}</version>
+        </plugin>
+
+        <!-- Coverage metering -->
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.7</version>
+          <executions>
+            <execution>
+              <id>pre-unit-test</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>pre-integration-test</id>
+              <goals>
+                <goal>prepare-agent-integration</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <!-- java compiler -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <encoding>${project.build.sourceEncoding}</encoding>
+            <release>11</release>
+          </configuration>
+          <executions>
+            <!-- Replacing default-compile as it is treated specially by maven -->
+            <execution>
+              <id>default-compile</id>
+              <phase>none</phase>
+            </execution>
+            <!-- Replacing default-testCompile as it is treated specially by maven -->
+            <execution>
+              <id>default-testCompile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>java-compile</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>java-test-compile</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <plugin>
+          <!-- kotlin compiler -->
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <version>${kotlin.version}</version>
+          <configuration>
+            <jvmTarget>${java.version}</jvmTarget>
+            <compilerPlugins>
+              <plugin>spring</plugin>
+              <!--plugin>jpa</plugin-->
+              <plugin>no-arg</plugin>
+              <plugin>all-open</plugin>
+            </compilerPlugins>
+            <pluginOptions>
+              <!-- Each annotation is placed on its own line -->
+              <option>all-open:annotation=com.tngtech.jgiven.integration.spring.JGivenStage</option>
+            </pluginOptions>
+          </configuration>
+
+          <executions>
+            <execution>
+              <id>compile</id>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                </sourceDirs>
+              </configuration>
+            </execution>
+            <execution>
+              <id>test-compile</id>
+              <goals>
+                <goal>test-compile</goal>
+              </goals>
+              <configuration>
+                <sourceDirs>
+                  <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                </sourceDirs>
+              </configuration>
+            </execution>
+          </executions>
+
+          <dependencies>
+            <dependency>
+              <groupId>org.jetbrains.kotlin</groupId>
+              <artifactId>kotlin-maven-allopen</artifactId>
+              <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.jetbrains.kotlin</groupId>
+              <artifactId>kotlin-maven-noarg</artifactId>
+              <version>${kotlin.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <!-- resources -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.2.0</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+
+        <!-- Unit Tests -->
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <configuration>
+            <useSystemClassLoader>false</useSystemClassLoader>
+            <shutdown>kill</shutdown>
+            <runOrder>random</runOrder>
+            <excludes>
+              <exclude>${pattern.class.itest}</exclude>
+              <exclude>${pattern.package.itest}</exclude>
+            </excludes>
+            <!-- Sets the VM argument line used when unit tests are run. -->
+            <!-- prevent the annoying ForkedBooter process from stealing window focus on Mac OS -->
+            <!--suppress UnresolvedMavenProperty -->
+            <argLine>--illegal-access=permit -Djava.awt.headless=true ${argLine} -XX:+StartAttachListener -Xmx1024m</argLine>
+            <systemPropertyVariables>
+              <jgiven.report.dir>${project.build.directory}/jgiven-reports</jgiven.report.dir>
+            </systemPropertyVariables>
+          </configuration>
+        </plugin>
+
+        <!-- ITests -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>integration-test</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <includes>
+              <include>${pattern.class.itest}</include>
+              <include>${pattern.package.itest}</include>
+            </includes>
+            <!-- Sets the VM argument line used when unit tests are run. -->
+            <!-- prevent the annoying ForkedBooter process from stealing window focus on Mac OS -->
+            <!--suppress UnresolvedMavenProperty -->
+            <argLine>-Djava.awt.headless=true ${argLine} -XX:+StartAttachListener --illegal-access=permit</argLine>
+            <runOrder>random</runOrder>
+          </configuration>
+        </plugin>
+
+
+        <!-- javadoc for kotlin -->
+        <plugin>
+          <groupId>org.jetbrains.dokka</groupId>
+          <artifactId>dokka-maven-plugin</artifactId>
+          <version>1.5.0</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>javadocJar</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <jdkVersion>8</jdkVersion>
+            <includes>
+              <include>packages.md</include>
+              <include>extra.md</include>
+            </includes>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.3.0</version>
+          <executions>
+            <execution>
+              <id>attach-javadocs</id>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- source from kotlin -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.2.0</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>add-source</goal>
+              </goals>
+              <configuration>
+                <sources>
+                  <source>${project.basedir}/src/main/kotlin</source>
+                </sources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- attach sources -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.2.1</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <phase>package</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <attach>true</attach>
+                <forceCreation>true</forceCreation>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- gitflow -->
+        <plugin>
+          <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>1.16.0</version>
+          <configuration>
+            <gitFlowConfig>
+              <productionBranch>master</productionBranch>
+              <developmentBranch>develop</developmentBranch>
+              <featureBranchPrefix>feature/</featureBranchPrefix>
+              <releaseBranchPrefix>release/</releaseBranchPrefix>
+              <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+              <supportBranchPrefix>support/</supportBranchPrefix>
+              <origin>origin</origin>
+            </gitFlowConfig>
+            <useSnapshotInHotfix>true</useSnapshotInHotfix>
+            <useSnapshotInRelease>true</useSnapshotInRelease>
+            <keepBranch>false</keepBranch>
+            <pushRemote>true</pushRemote>
+          </configuration>
+        </plugin>
+
+        <!-- To sign the artifacts -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.0.1</version>
+          <configuration>
+            <gpgArguments>
+              <arg>--batch</arg>
+              <arg>--yes</arg>
+              <arg>--pinentry-mode</arg>
+              <arg>loopback</arg>
+            </gpgArguments>
+          </configuration>
+          <executions>
+            <execution>
+              <id>sign-artifacts</id>
+              <phase>verify</phase>
+              <goals>
+                <goal>sign</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Deploy -->
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.0.0-M1</version>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.plugins</groupId>
+          <artifactId>nexus-staging-maven-plugin</artifactId>
+          <version>1.6.8</version>
+          <configuration>
+            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            <serverId>ossrh</serverId>
+            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          </configuration>
+          <executions>
+            <execution>
+              <id>default-deploy</id>
+              <phase>deploy</phase>
+              <goals>
+                <goal>deploy</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- Install -->
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+
+        <!-- Enforce -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0</version>
+          <executions>
+            <execution>
+              <id>enforce-maven</id>
+              <goals>
+                <goal>enforce</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <requireMavenVersion>
+                    <version>3.6.0</version>
+                  </requireMavenVersion>
+                  <requireJavaVersion>
+                    <version>11</version>
+                  </requireJavaVersion>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+
+  </build>
+
+  <profiles>
+    <profile>
+      <id>itest</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <skipFrontend>true</skipFrontend>
+      </properties>
+      <build>
+        <defaultGoal>integration-test failsafe:verify</defaultGoal>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <!-- Skip Unit test execution on ITest profile run -->
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <!--
+      Profile creating all artifacts: JARs, POMs, Sources, JavaDoc and all signatures.
+    -->
+    <profile>
+      <id>release</id>
+      <activation>
+        <property>
+          <name>release</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.jetbrains.dokka</groupId>
+            <artifactId>dokka-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <!--
+        Profile for building examples
+      -->
+      <id>examples</id>
+      <activation>
+        <property>
+          <name>!skipExamples</name>
+        </property>
+      </activation>
+      <modules>
+        <module>examples</module>
+      </modules>
+    </profile>
+  </profiles>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>scm:git:git@github.com:toolisticon/axon-avro-serializer.git</connection>
+    <url>scm:git:git@github.com:toolisticon/axon-avro-serializer.git</url>
+    <developerConnection>scm:git:git@github.com:toolisticon/axon-avro-serializer.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
+
+  <distributionManagement>
+    <site>
+      <id>README</id>
+      <url>https://github.com/toolisticon/axon-avro-serializer</url>
+    </site>
+  </distributionManagement>
+
+  <developers>
+    <developer>
+      <id>jangalinski</id>
+      <name>Jan Galinski</name>
+      <roles>
+        <role>Product Owner</role>
+        <role>Developer</role>
+      </roles>
+      <organization>Holisticon AG</organization>
+      <organizationUrl>https://holisticon.de</organizationUrl>
+    </developer>
+    <developer>
+      <id>zambrovski</id>
+      <name>Simon Zambrovski</name>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <organization>Holisticon AG</organization>
+      <organizationUrl>https://holisticon.de</organizationUrl>
+    </developer>
+
+  </developers>
+
+</project>

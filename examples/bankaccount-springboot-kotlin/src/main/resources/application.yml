@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: bankaccount
+  config:
+    import:
+      - classpath:database/h2.yml
+
+axon:
+  axonserver:
+    enabled: true
+  serializer:
+    general: xstream
+
+apicurio:
+  registry:
+    host: localhost
+    port: 7777
+
+#axon:
+#  serializer:
+#    general: xstream
+#    messages: xstream
+#    events: jackson
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"

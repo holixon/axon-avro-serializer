@@ -1,0 +1,20 @@
+{
+  "type": "record",
+  "namespace": "bankaccount.event",
+  "name": "BankAccountCreated",
+  "doc": "A new BankAccount has been created with initial balance.",
+  "revision": "1",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": {
+        "type": "string",
+        "avro.java.string": "String"
+      }
+    },
+    {
+      "name": "initialBalance",
+      "type": "int"
+    }
+  ]
+}
