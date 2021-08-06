@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/holixon/axon-avro-serializer/branch/develop/graph/badge.svg?token=ZKDNW1QJ1Y)](https://codecov.io/gh/holixon/axon-avro-serializer)
 
 
-* DISCLAYMER: early draft, heavy development, *everything* might still change
+* DISCLAIMER: early draft, heavy development, *everything* might still change
 
 This extension to the [axon framework](https://docs.axoniq.io/reference-guide/) aims to provide support for serialization of axon messages (commands, events, queries) with the [apache avro](https://avro.apache.org/docs/current/) data format.
 
