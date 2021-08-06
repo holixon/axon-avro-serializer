@@ -4,6 +4,9 @@ import io.holixon.avro.adapter.common.AvroAdapterDefault
 import io.holixon.avro.adapter.registry.apicurio.ApicurioAvroSchemaRegistry
 import io.holixon.avro.adapter.registry.apicurio.AvroAdapterApicurioRest
 
+/**
+ * Configuration properties for the Apicurio Axon Server plugin.
+ */
 data class AxonAvroSchemaRegistryApicurioPluginProperties(
   val host: String,
   val port: Int,

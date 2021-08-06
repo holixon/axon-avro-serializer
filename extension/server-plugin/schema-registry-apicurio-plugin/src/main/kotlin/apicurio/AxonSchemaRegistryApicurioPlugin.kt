@@ -12,7 +12,7 @@ import org.osgi.framework.ServiceRegistration
 
 
 /**
- * Plugin providing Apicurio schema registry
+ * Plugin providing Apicurio schema registry.
  */
 class AxonSchemaRegistryApicurioPlugin : BundleActivator {
 

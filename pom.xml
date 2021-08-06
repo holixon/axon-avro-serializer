@@ -19,14 +19,14 @@
     <kotlin.version>1.5.21</kotlin.version>
     <kotlin-logging.version>2.0.10</kotlin-logging.version>
 
-    <spring-boot.version>2.5.2</spring-boot.version>
+    <spring-boot.version>2.5.3</spring-boot.version>
 
     <axon-bom.version>4.5.3</axon-bom.version>
     <axon-server-plugin-api.version>4.5</axon-server-plugin-api.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
     <axon-testing.version>0.0.2</axon-testing.version>
 
-    <avro-registry-adapter.version>0.0.3</avro-registry-adapter.version>
+    <avro-registry-adapter.version>0.0.5</avro-registry-adapter.version>
 
     <avro.version>1.10.2</avro.version>
 
@@ -487,7 +487,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>3.0.0</version>
           <executions>
             <execution>
               <id>enforce-maven</id>

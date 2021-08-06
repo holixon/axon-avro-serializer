@@ -1,13 +1,16 @@
 package io.holixon.axon.avro.registry.plugin.apicurio.cache
 
 import io.holixon.avro.adapter.api.AvroSchemaId
+import io.holixon.avro.adapter.api.AvroSchemaResolver
 import io.holixon.avro.adapter.api.AvroSchemaWithId
-import io.holixon.avro.adapter.api.SchemaResolver
 import mu.KLogging
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
-class CachingSchemaResolver(private val schemaResolver: SchemaResolver) : SchemaResolver {
+/**
+ * Resolvers using a local in-memory cache for the resolution.
+ */
+class CachingSchemaResolver(private val schemaResolver: AvroSchemaResolver) : AvroSchemaResolver {
   companion object : KLogging()
 
   private val cache = ConcurrentHashMap<AvroSchemaId, AvroSchemaWithId?>()

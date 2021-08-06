@@ -6,6 +6,9 @@ import io.holixon.avro.adapter.common.converter.DefaultSingleObjectToJsonConvert
 import io.holixon.axon.avro.registry.plugin.apicurio.cache.CachingSchemaResolver
 import io.holixon.axon.avro.registry.plugin.apicurio.properties.AxonAvroSchemaRegistryApicurioPluginPropertiesProvider
 
+/**
+ * Provider for the JSON converter using Apicurio registry.
+ */
 class ApicurioSingleObjectToJsonConverterProvider(
   private val propertiesProvider: AxonAvroSchemaRegistryApicurioPluginPropertiesProvider
 ) : SingleObjectToJsonConverterProvider {
