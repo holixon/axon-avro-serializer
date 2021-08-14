@@ -75,6 +75,8 @@
               org.xml.sax.*;
               javax.xml.parsers.*;
               javax.naming.*;
+              io.apicurio.*;
+              io.holixon.avro.*;
             </Import-Package>
             <Export-Package>
               io.holixon.axon.avro.registry.plugin;

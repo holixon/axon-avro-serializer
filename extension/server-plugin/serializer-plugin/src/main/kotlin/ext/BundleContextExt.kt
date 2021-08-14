@@ -1,16 +1,19 @@
 package io.holixon.axon.avro.serializer.plugin.ext
 
+import io.holixon.avro.adapter.api.converter.SingleObjectToJsonConverter
+import io.holixon.axon.avro.registry.plugin.ContextName
 import io.holixon.axon.avro.registry.plugin.SingleObjectToJsonConverterProvider
 import io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin
 import org.osgi.framework.BundleContext
+import org.osgi.framework.ServiceReference
 
 /**
  * Find existing implementations of the SPI to access the schema-based JSON converters and return one.
  */
-fun BundleContext.findSchemaRegistryProvider(): SingleObjectToJsonConverterProvider {
+fun BundleContext.findSchemaRegistryProvider(): ServiceReference<SingleObjectToJsonConverterProvider> {
   return try {
     val serviceCandidates = getServiceReferences(SingleObjectToJsonConverterProvider::class.java, null)
-    val serviceCandidate = when (serviceCandidates.size) {
+    when (serviceCandidates.size) {
       0 -> throw IllegalArgumentException("Could not find any Avro Registry Provider, please install and configure at least one.")
       1 -> serviceCandidates.first()
       else -> {
@@ -24,10 +27,46 @@ fun BundleContext.findSchemaRegistryProvider(): SingleObjectToJsonConverterProvi
         serviceCandidates.first()
       }
     }
-    val provider: SingleObjectToJsonConverterProvider = getService(serviceCandidate)
-    AxonAvroSerializerPlugin.logger.info { "Using $provider" }
-    provider
   } catch (e: Exception) {
     throw IllegalArgumentException("Error initializing Avro Schema Registry", e)
+  }
+}
+
+/**
+ * Creates a service from candidate.
+ */
+fun BundleContext.getSchemaRegistryProvider(serviceReference: ServiceReference<SingleObjectToJsonConverterProvider>): SingleObjectToJsonConverterProvider {
+  return getService(serviceReference).also {
+    AxonAvroSerializerPlugin.logger.info { "Using $serviceReference" }
+  }
+}
+
+/**
+ * Release a service.
+ */
+fun BundleContext.releaseSchemaRegistryProvider(serviceReference: ServiceReference<SingleObjectToJsonConverterProvider>) {
+  ungetService(serviceReference)
+}
+
+/**
+ * Operation run using single object JSON converter.
+ */
+typealias SingleObjectConverterOperation<T> = (SingleObjectToJsonConverter) -> T
+
+/**
+ * Scoped execution of the operation using the SingleObjectJsonConverter provided by the service in given Axon Context.
+ */
+inline fun <reified T : Any> BundleContext.usingSingleObjectJsonConverterInContext(
+  contextName: ContextName,
+  serviceReference: ServiceReference<SingleObjectToJsonConverterProvider>,
+  serviceWorker: SingleObjectConverterOperation<T>
+): T {
+  try {
+    val provider = getSchemaRegistryProvider(serviceReference)
+    return serviceWorker.invoke(provider.get(contextName).also {
+      AxonAvroSerializerPlugin.logger.info{ "Converter received: $it"}
+    })
+  } finally {
+    releaseSchemaRegistryProvider(serviceReference)
   }
 }

@@ -16,7 +16,9 @@ class CachingSchemaResolver(private val schemaResolver: AvroSchemaResolver) : Av
   private val cache = ConcurrentHashMap<AvroSchemaId, AvroSchemaWithId?>()
 
   override fun apply(schemaId: AvroSchemaId): Optional<AvroSchemaWithId> {
+    logger.info { "Requested $schemaId from cache" }
     return Optional.ofNullable(cache.computeIfAbsent(schemaId) {
+      logger.info { "Cache miss, trying to get it from the registry..." }
       schemaResolver.apply(schemaId).orElse(null).also {
         logger.info { "resolving - schemaId=$schemaId, schema=$it" }
       }
