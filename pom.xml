@@ -29,7 +29,7 @@
 
     <avro.version>1.10.2</avro.version>
 
-    <jgiven.version>1.0.0</jgiven.version>
+    <jgiven.version>1.1.0</jgiven.version>
     <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
