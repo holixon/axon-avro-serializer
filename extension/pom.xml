@@ -16,8 +16,8 @@
     <module>serializer</module>
     <module>spring</module>
     <module>server-plugin/serializer-plugin-api</module>
-    <module>server-plugin/schema-registry-apicurio-plugin</module>
     <module>server-plugin/serializer-plugin</module>
+    <module>server-plugin/schema-registry-apicurio-plugin</module>
   </modules>
 
   <dependencies>

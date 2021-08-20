@@ -1,8 +1,7 @@
 package io.holixon.axon.avro.serializer.plugin.ext
 
 import io.axoniq.axonserver.plugin.ExecutionContext
-import io.holixon.axon.avro.registry.plugin.ContextName
-import io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin
+import io.holixon.axon.avro.serializer.plugin.api.ContextName
 
 object ExecutionContextExt {
 

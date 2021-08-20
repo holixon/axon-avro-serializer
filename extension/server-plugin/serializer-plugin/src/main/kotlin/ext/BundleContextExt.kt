@@ -1,9 +1,9 @@
 package io.holixon.axon.avro.serializer.plugin.ext
 
 import io.holixon.avro.adapter.api.converter.SingleObjectToJsonConverter
-import io.holixon.axon.avro.registry.plugin.ContextName
-import io.holixon.axon.avro.registry.plugin.SingleObjectToJsonConverterProvider
 import io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin
+import io.holixon.axon.avro.serializer.plugin.api.ContextName
+import io.holixon.axon.avro.serializer.plugin.api.SingleObjectToJsonConverterProvider
 import org.osgi.framework.BundleContext
 import org.osgi.framework.ServiceReference
 
@@ -37,7 +37,7 @@ fun BundleContext.findSchemaRegistryProvider(): ServiceReference<SingleObjectToJ
  */
 fun BundleContext.getSchemaRegistryProvider(serviceReference: ServiceReference<SingleObjectToJsonConverterProvider>): SingleObjectToJsonConverterProvider {
   return getService(serviceReference).also {
-    AxonAvroSerializerPlugin.logger.info { "Using $serviceReference" }
+    AxonAvroSerializerPlugin.logger.info { "Using $it" }
   }
 }
 

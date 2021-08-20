@@ -18,12 +18,14 @@
     <dependency>
       <groupId>io.holixon.avro</groupId>
       <artifactId>avro-registry-adapter-apicurio</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>io.holixon.axon.avro</groupId>
-      <artifactId>axon-avro-server-serializer-plugin-api</artifactId>
-      <version>${project.parent.version}</version>
+      <!--
+      <exclusions>
+        <exclusion>
+            <groupId>io.holixon.avro</groupId>
+            <artifactId>avro-registry-adapter-api</artifactId>
+        </exclusion>
+      </exclusions>
+      -->
     </dependency>
 
     <dependency>
@@ -38,6 +40,21 @@
     </dependency>
 
     <!-- Plugin Runtime -->
+    <dependency>
+      <groupId>io.holixon.axon.avro</groupId>
+      <artifactId>axon-avro-server-serializer-plugin-api</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <!-- Exclude the adapter API from packaging, put it as provided to compile the code -->
+      <!-- At runtime it will be provided by the serializer bundle -->
+      <groupId>io.holixon.avro</groupId>
+      <artifactId>avro-registry-adapter-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>io.axoniq</groupId>
       <artifactId>axonserver-plugin-api</artifactId>
@@ -75,11 +92,11 @@
               org.xml.sax.*;
               javax.xml.parsers.*;
               javax.naming.*;
-              io.apicurio.*;
+              org.apache.avro.*;
               io.holixon.avro.*;
+              io.holixon.axon.avro.serializer.plugin.api;
             </Import-Package>
             <Export-Package>
-              io.holixon.axon.avro.registry.plugin;
             </Export-Package>
             <!-- internal packages for the bundle, otherwise ignored -->
             <Private-Package>

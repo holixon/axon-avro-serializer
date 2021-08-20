@@ -4,8 +4,8 @@ import io.axoniq.axonserver.plugin.AttributeType
 import io.axoniq.axonserver.plugin.Configuration
 import io.axoniq.axonserver.plugin.ConfigurationListener
 import io.axoniq.axonserver.plugin.PluginPropertyDefinition
-import io.holixon.axon.avro.registry.plugin.ContextName
 import io.holixon.axon.avro.registry.plugin.apicurio.properties.AxonAvroSchemaRegistryApicurioPluginPropertiesProvider.Companion.DEFAULT_CONEXT
+import io.holixon.axon.avro.serializer.plugin.api.ContextName
 import mu.KLogging
 
 /**

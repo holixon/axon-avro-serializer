@@ -15,6 +15,13 @@
   <packaging>bundle</packaging>
 
   <dependencies>
+
+    <dependency>
+      <groupId>io.holixon.axon.avro</groupId>
+      <artifactId>axon-avro-server-serializer-plugin-api</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>io.holixon.axon.avro</groupId>
       <artifactId>axon-avro-serializer</artifactId>
@@ -24,12 +31,6 @@
       <groupId>io.axoniq</groupId>
       <artifactId>axonserver-plugin-api</artifactId>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>io.holixon.axon.avro</groupId>
-      <artifactId>axon-avro-server-serializer-plugin-api</artifactId>
-      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
@@ -85,12 +86,18 @@
               org.xml.sax.*;
               javax.xml.parsers.*;
               javax.naming.*;
-              io.holixon.axon.avro.registry.plugin;
             </Import-Package>
             <!-- internal packages for the bundle, skipped otherwise -->
             <Private-Package>
-              io.holixon.axon.avro.serializer.plugin.*;
+              io.holixon.axon.avro.serializer.plugin;
+              io.holixon.axon.avro.serializer.plugin.ext;
             </Private-Package>
+            <Export-Package>
+              io.holixon.axon.avro.serializer.plugin.api;
+              io.holixon.avro.*;
+              org.apache.avro.*;
+              com.fasterxml.jackson.*;
+            </Export-Package>
             <!-- references the BundleActivator class -->
             <Bundle-Activator>io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin</Bundle-Activator>
           </instructions>

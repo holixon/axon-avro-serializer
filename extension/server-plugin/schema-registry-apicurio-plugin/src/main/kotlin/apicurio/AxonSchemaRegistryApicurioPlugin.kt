@@ -1,10 +1,10 @@
 package io.holixon.axon.avro.registry.plugin.apicurio
 
 import io.axoniq.axonserver.plugin.ConfigurationListener
-import io.holixon.axon.avro.registry.plugin.ApicurioSingleObjectToJsonConverterProvider
-import io.holixon.axon.avro.registry.plugin.SingleObjectToJsonConverterProvider
+
 import io.holixon.axon.avro.registry.plugin.apicurio.properties.AxonAvroSchemaRegistryApicurioPluginConfigurationListener
 import io.holixon.axon.avro.registry.plugin.apicurio.properties.AxonAvroSchemaRegistryApicurioPluginPropertiesProvider
+import io.holixon.axon.avro.serializer.plugin.api.SingleObjectToJsonConverterProvider
 import mu.KLogging
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
