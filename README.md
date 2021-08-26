@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/holixon/axon-avro-serializer/branch/develop/graph/badge.svg?token=ZKDNW1QJ1Y)](https://codecov.io/gh/holixon/axon-avro-serializer)
 
 
-* DISCLAIMER: early draft, heavy development, *everything* might still change
+- DISCLAIMER: early draft, heavy development, *everything* might still change
 
 This extension to the [Axon Framework](https://docs.axoniq.io/reference-guide/) aims to provide support for serialization of Axon messages (commands, events, queries) with the [Apache Avro](https://avro.apache.org/docs/current/) data format.
 
@@ -18,15 +18,12 @@ Messages can be validated against a schema version and avro supports schema evol
 
 see on [component overview](file:/docs/README.md)
 
-
 ## Links
 
 * [Avro Registry Adapter](https://github.com/holixon/avro-registry-adapter) - used to abstract from concrete schema registry
 * <https://hub.docker.com/r/axoniq/axonserver>
 
-
 AVRO Serialization for Axon axon.serializer.[command|event|general]
-
 
 ## Notes
 
