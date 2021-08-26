@@ -216,6 +216,9 @@ class AvroSerializer private constructor(
     }
   }
 
+  /**
+   * Builder for the resolver.
+   */
   class Builder {
     /**
      * The Revision resolver to determine (schema) revision of message.
@@ -257,23 +260,38 @@ class AvroSerializer private constructor(
       this.revisionResolver = revisionResolver
     }
 
+    /**
+     * Sets the converter.
+     */
     fun converter(converter: Converter) = apply {
       this.converter = converter
     }
 
+    /**
+     * Sets the (read-only) schema registry.
+     */
     fun schemaRegistry(schemaReadOnlyRegistry: AvroSchemaReadOnlyRegistry) = apply {
       this.schemaReadOnlyRegistry = schemaReadOnlyRegistry
     }
 
+    /**
+     * Sets class resolver for specific record.
+     */
     fun decoderSpecificRecordClassResolver(decoderSpecificRecordClassResolver: AvroAdapterDefault.DecoderSpecificRecordClassResolver) =
       apply {
         this.decoderSpecificRecordClassResolver = decoderSpecificRecordClassResolver
       }
 
+    /**
+     * Sets resolver for schema incompatibilities.
+     */
     fun schemaIncompatibilityResolver(schemaIncompatibilityResolver: AvroSchemaIncompatibilityResolver) = apply {
       this.schemaIncompatibilityResolver = schemaIncompatibilityResolver
     }
 
+    /**
+     * Build the serializer.
+     */
     fun build() = AvroSerializer(this)
   }
 
