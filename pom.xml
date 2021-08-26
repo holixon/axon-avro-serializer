@@ -4,7 +4,7 @@
 
   <groupId>io.holixon.axon.avro._</groupId>
   <artifactId>axon-avro-serializer_</artifactId>
-  <version>0.0.4</version>
+  <version>0.0.5</version>
   <name>${project.artifactId}</name>
   <description>Axon Avro Serializer</description>
   <url>https://github.com/holixon/axon-avro-serializer/</url>
@@ -15,13 +15,13 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>11</java.version>
+    <kotlin.version>1.5.30</kotlin.version>
+    <kotlin-logging.version>2.0.11</kotlin-logging.version>
+    <spring-boot.version>2.5.4</spring-boot.version>
 
-    <kotlin.version>1.5.21</kotlin.version>
-    <kotlin-logging.version>2.0.10</kotlin-logging.version>
+    <axon-bom.version>4.5.4</axon-bom.version>
+    <axon-server-plugin-api.version>4.5</axon-server-plugin-api.version>
 
-    <spring-boot.version>2.5.3</spring-boot.version>
-
-    <axon-bom.version>4.5.3</axon-bom.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
     <axon-testing.version>0.0.2</axon-testing.version>
 
@@ -29,7 +29,7 @@
 
     <avro.version>1.10.2</avro.version>
 
-    <jgiven.version>1.0.0</jgiven.version>
+    <jgiven.version>1.1.0</jgiven.version>
     <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
@@ -51,6 +51,12 @@
         <version>${axon-bom.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>io.axoniq</groupId>
+        <artifactId>axonserver-plugin-api</artifactId>
+        <version>${axon-server-plugin-api.version}</version>
       </dependency>
 
       <!-- AVRO -->
@@ -115,11 +121,21 @@
         <artifactId>kotlin-logging-jvm</artifactId>
         <version>${kotlin-logging.version}</version>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
 
   <build>
     <defaultGoal>clean jacoco:prepare-agent package</defaultGoal>
+    <resources>
+      <!-- ignore .gitkeep marker files -->
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>.gitkeep</exclude>
+        </excludes>
+      </resource>
+    </resources>
 
     <pluginManagement>
       <plugins>

@@ -19,7 +19,6 @@ public class BankAccountExampleAggregate  {
 
   @AggregateIdentifier
   private String bankAccountId;
-
   private int currentBalance;
 
   @CommandHandler
@@ -31,13 +30,6 @@ public class BankAccountExampleAggregate  {
     return new BankAccountExampleAggregate();
   }
 
-  @EventSourcingHandler
-  void on(BankAccountCreatedEvent evt) {
-    this.bankAccountId = evt.getBankAccountId();
-    this.currentBalance = evt.getInitialBalance();
-  }
-
-
   @CommandHandler
   void handle(DepositMoneyCommand cmd) {
     checkArgument(cmd.getAmount() > 0, "amount must be > 0");
@@ -46,11 +38,6 @@ public class BankAccountExampleAggregate  {
       .setBankAccountId(cmd.getBankAccountId())
       .setAmount(cmd.getAmount())
       .build());
-  }
-
-  @EventSourcingHandler
-  void on(MoneyDepositedEvent evt) {
-    this.currentBalance += evt.getAmount();
   }
 
   @CommandHandler
@@ -62,6 +49,17 @@ public class BankAccountExampleAggregate  {
       .setBankAccountId(cmd.getBankAccountId())
       .setAmount(cmd.getAmount())
       .build());
+  }
+
+  @EventSourcingHandler
+  void on(MoneyDepositedEvent evt) {
+    this.currentBalance += evt.getAmount();
+  }
+
+  @EventSourcingHandler
+  void on(BankAccountCreatedEvent evt) {
+    this.bankAccountId = evt.getBankAccountId();
+    this.currentBalance = evt.getInitialBalance();
   }
 
   @EventSourcingHandler

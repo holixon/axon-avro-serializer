@@ -2,8 +2,6 @@
 
 AVRO Serialization for Axon axon.serializer.[command|event|general]
 
-
-
 ## Notes
 
 * <https://github.com/sksamuel/avro4k>

@@ -11,7 +11,13 @@ import kotlin.reflect.KClass
  */
 open class SchemaBasedRevisionResolver : RevisionResolver {
 
+  /**
+   * Revision of the schema of the payload.
+   */
   fun revisionOf(payloadType: KClass<*>): String? = revisionOf(payloadType.java)
 
+  /**
+   * Revision of the schema of the payload.
+   */
   override fun revisionOf(payloadType: Class<*>): String?  = schemaForClass(payloadType).revision
 }
