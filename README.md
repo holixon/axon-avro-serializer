@@ -10,19 +10,17 @@ __DISCLAIMER__: early draft, heavy development, *everything* might still change
 
 This extension to the [Axon Framework](https://docs.axoniq.io/reference-guide/) aims to provide support for serialization of Axon messages (commands, events, queries) with the [Apache Avro](https://avro.apache.org/docs/current/) data format.
 
-Avro is a schema based data format that can be serialized to JSON or byte sequence, which is useful to minimize
+Avro is a schema-based data format that can be serialized to JSON or byte sequence, which is useful to minimize
 the disk space needed for your Axon event store and bandwidth used for transport.
 Messages can be validated against a schema version and avro supports schema evolution by automatically determining
-[`compatibility modes`](https://docs.confluent.io/platform/current/schema-registry/avro.html) between different revisions.
+[compatibility modes](https://docs.confluent.io/platform/current/schema-registry/avro.html) between different revisions.
 
-see on [component overview](file:/docs/README.md)
+see on [component overview](file:/notes/README.md)
 
 ## Links
 
   *  [Avro Registry Adapter](https://github.com/holixon/avro-registry-adapter) - used to abstract from concrete schema registry
   *  <https://hub.docker.com/r/axoniq/axonserver>
-
-AVRO Serialization for Axon axon.serializer.[command|event|general]
 
 ## Notes
 
