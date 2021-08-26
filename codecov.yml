@@ -1,0 +1,7 @@
+fixes:
+  - "io/holixon/axon/avro/axon-avro-serializer/::src/main/kotlin/"
+  - "io/holixon/axon/avro/axon-avro-serializer-spring/::src/main/kotlin/"
+  - "io/holixon/axon/avro/axon-avro-server-schema-registry-apicurio-plugin/::src/main/kotlin/"
+  - "io/holixon/axon/avro/axon-avro-server-serializer-plugin/::src/main/kotlin/"
+  - "io/holixon/axon/avro/axon-avro-server-serializer-plugin-api/::src/main/kotlin/"
+
