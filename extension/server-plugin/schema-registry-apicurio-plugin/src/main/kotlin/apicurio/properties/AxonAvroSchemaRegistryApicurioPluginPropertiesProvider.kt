@@ -11,8 +11,13 @@ fun interface AxonAvroSchemaRegistryApicurioPluginPropertiesProvider {
     /**
      * Default context.
      */
-    const val DEFAULT_CONEXT = "default"
+    const val DEFAULT_CONTEXT = "default"
   }
 
+  /**
+   * Provides properties for given Axon Server context.
+   * @param context context name.
+   * @return configured properties.
+   */
   fun get(context: ContextName): AxonAvroSchemaRegistryApicurioPluginProperties
 }

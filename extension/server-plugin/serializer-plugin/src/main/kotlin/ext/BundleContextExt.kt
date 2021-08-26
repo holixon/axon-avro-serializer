@@ -5,30 +5,33 @@ import io.holixon.axon.avro.serializer.plugin.AxonAvroSerializerPlugin
 import io.holixon.axon.avro.serializer.plugin.api.ContextName
 import io.holixon.axon.avro.serializer.plugin.api.SingleObjectToJsonConverterProvider
 import org.osgi.framework.BundleContext
+import org.osgi.framework.InvalidSyntaxException
 import org.osgi.framework.ServiceReference
 
 /**
  * Find existing implementations of the SPI to access the schema-based JSON converters and return one.
  */
 fun BundleContext.findSchemaRegistryProvider(): ServiceReference<SingleObjectToJsonConverterProvider> {
-  return try {
-    val serviceCandidates = getServiceReferences(SingleObjectToJsonConverterProvider::class.java, null)
-    when (serviceCandidates.size) {
-      0 -> throw IllegalArgumentException("Could not find any Avro Registry Provider, please install and configure at least one.")
-      1 -> serviceCandidates.first()
-      else -> {
-        // TODO: provide configuration to select one
-        AxonAvroSerializerPlugin.logger.warn { "More than one Avro Registry Provider found, taking the first one." }
-        serviceCandidates.forEach {
-          AxonAvroSerializerPlugin.logger.warn {
-            "Provider bundle: ${it.bundle}, provider class: ${it.javaClass.name}"
-          }
-        }
-        serviceCandidates.first()
-      }
-    }
-  } catch (e: Exception) {
+  val serviceCandidates = try {
+    getServiceReferences(SingleObjectToJsonConverterProvider::class.java, null)
+  } catch (e: InvalidSyntaxException) {
     throw IllegalArgumentException("Error initializing Avro Schema Registry", e)
+  } catch (e: IllegalStateException) {
+    throw IllegalArgumentException("Error initializing Avro Schema Registry", e)
+  }
+  return when (serviceCandidates.size) {
+    0 -> throw IllegalArgumentException("Could not find any Avro Registry Provider, please install and configure at least one.")
+    1 -> serviceCandidates.first()
+    else -> {
+      // TODO: provide configuration to select one
+      AxonAvroSerializerPlugin.logger.warn { "More than one Avro Registry Provider found, taking the first one." }
+      serviceCandidates.forEach {
+        AxonAvroSerializerPlugin.logger.warn {
+          "Provider bundle: ${it.bundle}, provider class: ${it.javaClass.name}"
+        }
+      }
+      serviceCandidates.first()
+    }
   }
 }
 
@@ -64,7 +67,7 @@ inline fun <reified T : Any> BundleContext.usingSingleObjectJsonConverterInConte
   try {
     val provider = getSchemaRegistryProvider(serviceReference)
     return serviceWorker.invoke(provider.get(contextName).also {
-      AxonAvroSerializerPlugin.logger.info{ "Converter received: $it"}
+      AxonAvroSerializerPlugin.logger.info { "Converter received: $it" }
     })
   } finally {
     releaseSchemaRegistryProvider(serviceReference)

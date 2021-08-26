@@ -4,7 +4,7 @@ import io.axoniq.axonserver.plugin.AttributeType
 import io.axoniq.axonserver.plugin.Configuration
 import io.axoniq.axonserver.plugin.ConfigurationListener
 import io.axoniq.axonserver.plugin.PluginPropertyDefinition
-import io.holixon.axon.avro.registry.plugin.apicurio.properties.AxonAvroSchemaRegistryApicurioPluginPropertiesProvider.Companion.DEFAULT_CONEXT
+import io.holixon.axon.avro.registry.plugin.apicurio.properties.AxonAvroSchemaRegistryApicurioPluginPropertiesProvider.Companion.DEFAULT_CONTEXT
 import io.holixon.axon.avro.serializer.plugin.api.ContextName
 import mu.KLogging
 
@@ -39,21 +39,29 @@ class AxonAvroSchemaRegistryApicurioPluginConfigurationListener
   )
 
   override fun get(context: ContextName): AxonAvroSchemaRegistryApicurioPluginProperties =
-    propertiesPerContext[context] ?: if (context == DEFAULT_CONEXT) {
+    propertiesPerContext[context] ?: if (context == DEFAULT_CONTEXT) {
       AxonAvroSchemaRegistryApicurioPluginProperties(mapOf())
     } else throw IllegalArgumentException("context[$context] not configured")
 
   override fun updated(context: String, configuration: Map<String, *>?) {
     val new = AxonAvroSchemaRegistryApicurioPluginProperties(configuration)
     val updated = propertiesPerContext.put(context, new)
-    logger.info { "Updated: context=$context, old configuration=$updated, new configuration $new" }
+    logger.debug { "Updated properties for context=$context, old configuration=$updated, new configuration=$new" }
+    if (logger.isDebugEnabled) {
+      dumpSchemas(new)
+    }
   }
 
   override fun removed(context: String) {
     val removed = propertiesPerContext.remove(context)
-    logger.info { "Removed: context=$context, configuration=$removed" }
+    logger.debug { "Removed configuration for context=$context, configuration=$removed" }
   }
 
   override fun toString(): String = "Context Configurations: $propertiesPerContext"
+
+  private fun dumpSchemas(properties: AxonAvroSchemaRegistryApicurioPluginProperties) {
+    logger.debug { "All schema: ${properties.schemaRegistry.findAll()}" }
+  }
+
 }
 

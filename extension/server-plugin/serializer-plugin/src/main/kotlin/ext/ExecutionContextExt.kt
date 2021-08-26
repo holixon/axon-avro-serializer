@@ -3,9 +3,12 @@ package io.holixon.axon.avro.serializer.plugin.ext
 import io.axoniq.axonserver.plugin.ExecutionContext
 import io.holixon.axon.avro.serializer.plugin.api.ContextName
 
+/**
+ * Helper to work with execution context.
+ */
 object ExecutionContextExt {
 
-  /**
+  /*
    * Anonymous principal handler.
    */
   private const val PRINCIPAL_EVENT_HANDLER = "<anonymous>"

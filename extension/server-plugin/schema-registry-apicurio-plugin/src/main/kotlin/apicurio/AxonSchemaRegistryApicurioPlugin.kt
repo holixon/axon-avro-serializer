@@ -27,19 +27,13 @@ class AxonSchemaRegistryApicurioPlugin : BundleActivator {
     logger.info { propertiesProvider }
 
     context.registerSingleObjectToJsonConverterProvider(propertiesProvider)
-
-    try {
-      logger.info { "All schema: ${propertiesProvider.get("default").schemaRegistry.findAll()}" }
-    } catch (e: Exception) {
-      logger.error { "Could not connect to registry." }
-    }
   }
 
   override fun stop(bundleContext: BundleContext) {
     registrations.forEach { it.unregister() }
   }
 
-  /**
+  /*
    * Register a listener reacting on configuration changes.
    */
   private fun BundleContext.registerConfigurationListener(): AxonAvroSchemaRegistryApicurioPluginPropertiesProvider {
@@ -50,7 +44,7 @@ class AxonSchemaRegistryApicurioPlugin : BundleActivator {
     return configurationListener
   }
 
-  /**
+  /*
    * Register the OSGi service implemening the Axon Avro Serializer Server Plugin API for Apicurio Adapter.
    */
   private fun BundleContext.registerSingleObjectToJsonConverterProvider(propertiesProvider: AxonAvroSchemaRegistryApicurioPluginPropertiesProvider) {
