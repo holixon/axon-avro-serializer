@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>io.holixon.axon.avro._</groupId>
+    <artifactId>extension</artifactId>
+    <version>0.0.5-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <groupId>io.holixon.axon.avro</groupId>
+  <artifactId>axon-avro-server-schema-registry-apicurio-plugin</artifactId>
+  <packaging>bundle</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.holixon.avro</groupId>
+      <artifactId>avro-registry-adapter-apicurio</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>io.github.microutils</groupId>
+      <artifactId>kotlin-logging-jvm</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.2.3</version>
+    </dependency>
+
+    <!-- Plugin Runtime -->
+    <dependency>
+      <groupId>io.holixon.axon.avro</groupId>
+      <artifactId>axon-avro-server-serializer-plugin-api</artifactId>
+      <version>${project.parent.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <!-- Exclude the adapter API from packaging, put it as provided to compile the code -->
+      <!-- At runtime it will be provided by the serializer bundle -->
+      <groupId>io.holixon.avro</groupId>
+      <artifactId>avro-registry-adapter-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>io.axoniq</groupId>
+      <artifactId>axonserver-plugin-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+      <version>6.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.axonframework</groupId>
+      <artifactId>axon-configuration</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>5.1.2</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Embed-Transitive>true</Embed-Transitive>
+            <Embed-Dependency>*;scope=runtime|compile;optional=false</Embed-Dependency>
+            <!-- import the packages exposed by the plugin api and the Axon Server message types -->
+            <Import-Package>
+              io.axoniq.axonserver.plugin.*;
+              org.osgi.framework;
+              org.xml.sax.*;
+              javax.xml.parsers.*;
+              javax.naming.*;
+              org.apache.avro.*;
+              io.holixon.avro.*;
+              io.holixon.axon.avro.serializer.plugin.api;
+            </Import-Package>
+            <Export-Package>
+            </Export-Package>
+            <!-- internal packages for the bundle, otherwise ignored -->
+            <Private-Package>
+              io.holixon.axon.avro.registry.plugin.apicurio.*;
+            </Private-Package>
+            <!-- references the BundleActivator class -->
+            <Bundle-Activator>io.holixon.axon.avro.registry.plugin.apicurio.AxonSchemaRegistryApicurioPlugin</Bundle-Activator>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
