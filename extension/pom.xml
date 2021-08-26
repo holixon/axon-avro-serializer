@@ -12,6 +12,10 @@
   <artifactId>extension</artifactId>
   <packaging>pom</packaging>
 
+  <properties>
+    <jacoco.skip>false</jacoco.skip>
+  </properties>
+
   <modules>
     <module>serializer</module>
     <module>spring</module>
