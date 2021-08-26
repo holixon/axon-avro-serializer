@@ -8,8 +8,7 @@
 
 ## 1 - Implementation/Language
 
-* the extension itself will be implemented in kotlin only (latest version, today: 1.4.21). Reason: we need to work with JVM and axon
-  framework and kotlin is more fun.
+* the extension itself will be implemented in kotlin only (latest version, today: 1.4.21). Reason: we need to work with JVM and axon framework and kotlin is more fun.
 * The extension should be usable from kotlin and java, although the API might have advantages when using kotlin
 * JDK is 11.0 for now 
 
