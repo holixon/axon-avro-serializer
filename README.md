@@ -6,8 +6,7 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.holixon.axon.avro/axon-avro-serializer/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.holixon.axon.avro/axon-avro-serializer)
 [![codecov](https://codecov.io/gh/holixon/axon-avro-serializer/branch/develop/graph/badge.svg?token=ZKDNW1QJ1Y)](https://codecov.io/gh/holixon/axon-avro-serializer)
 
-
-- DISCLAIMER: early draft, heavy development, *everything* might still change
+__DISCLAIMER__: early draft, heavy development, *everything* might still change
 
 This extension to the [Axon Framework](https://docs.axoniq.io/reference-guide/) aims to provide support for serialization of Axon messages (commands, events, queries) with the [Apache Avro](https://avro.apache.org/docs/current/) data format.
 
@@ -20,20 +19,20 @@ see on [component overview](file:/docs/README.md)
 
 ## Links
 
-  * [Avro Registry Adapter](https://github.com/holixon/avro-registry-adapter) - used to abstract from concrete schema registry
-  * <https://hub.docker.com/r/axoniq/axonserver>
+  *  [Avro Registry Adapter](https://github.com/holixon/avro-registry-adapter) - used to abstract from concrete schema registry
+  *  <https://hub.docker.com/r/axoniq/axonserver>
 
 AVRO Serialization for Axon axon.serializer.[command|event|general]
 
 ## Notes
 
-  * <https://github.com/sksamuel/avro4k>
-  * <https://www.baeldung.com/java-apache-avro>
-  * <https://avro.apache.org/docs/current/gettingstartedjava.html>
-  * <http://bigdatums.net/2016/01/20/simple-apache-avro-example-using-java/>
-  * <http://www.soutier.de/blog/2017/03/07/daten-modellieren-avro/>
+  *  <https://github.com/sksamuel/avro4k>
+  *  <https://www.baeldung.com/java-apache-avro>
+  *  <https://avro.apache.org/docs/current/gettingstartedjava.html>
+  *  <http://bigdatums.net/2016/01/20/simple-apache-avro-example-using-java/>
+  *  <http://www.soutier.de/blog/2017/03/07/daten-modellieren-avro/>
 
 ### great
 
-  * <https://blog.cloudera.com/robust-message-serialization-in-apache-kafka-using-apache-avro-part-1/>
-  * <https://github.com/cloudera/kafka-examples>
+  *  <https://blog.cloudera.com/robust-message-serialization-in-apache-kafka-using-apache-avro-part-1/>
+  *  <https://github.com/cloudera/kafka-examples>
