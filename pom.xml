@@ -19,7 +19,7 @@
     <kotlin.version>1.5.30</kotlin.version>
     <kotlin-logging.version>2.0.11</kotlin-logging.version>
 
-    <spring-boot.version>2.5.3</spring-boot.version>
+    <spring-boot.version>2.5.4</spring-boot.version>
 
     <axon-bom.version>4.5.4</axon-bom.version>
     <axon-kotlin.version>0.1.0</axon-kotlin.version>
