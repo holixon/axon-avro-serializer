@@ -35,8 +35,8 @@ class AvroSingleObjectEncodedToJsonReadEventInterceptor : ReadEventInterceptor {
       return event
     }
 
-    logger.info { "Event: $event" }
-    logger.info { "ExecutionContextData: ${executionContext.data()}" }
+    logger.trace { "Event: $event" }
+    logger.trace { "ExecutionContextData: ${executionContext.data()}" }
 
     return try {
 
@@ -48,7 +48,7 @@ class AvroSingleObjectEncodedToJsonReadEventInterceptor : ReadEventInterceptor {
       ) { jsonConverter ->
 
         val json = jsonConverter.convert(payloadBytes)
-        logger.info { "JSON from registry: $json" }
+        logger.debug { "JSON from registry: $json" }
         val result = Event.newBuilder(event)
           .setPayload(
             SerializedObject.newBuilder(event.payload)
@@ -56,7 +56,7 @@ class AvroSingleObjectEncodedToJsonReadEventInterceptor : ReadEventInterceptor {
               .build()
           )
           .build()
-        logger.info { "Resulting event is $result" }
+        logger.debug { "Resulting event is $result" }
         return result
 
       }

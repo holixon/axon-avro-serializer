@@ -50,6 +50,9 @@ class AxonSchemaRegistryApicurioPlugin : BundleActivator {
     return configurationListener
   }
 
+  /**
+   * Register the OSGi service implemening the Axon Avro Serializer Server Plugin API for Apicurio Adapter.
+   */
   private fun BundleContext.registerSingleObjectToJsonConverterProvider(propertiesProvider: AxonAvroSchemaRegistryApicurioPluginPropertiesProvider) {
     val provider = ApicurioSingleObjectToJsonConverterProvider(propertiesProvider)
     registrations.add(

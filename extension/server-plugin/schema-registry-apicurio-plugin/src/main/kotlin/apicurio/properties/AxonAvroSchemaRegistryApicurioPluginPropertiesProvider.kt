@@ -8,6 +8,9 @@ import io.holixon.axon.avro.serializer.plugin.api.ContextName
 fun interface AxonAvroSchemaRegistryApicurioPluginPropertiesProvider {
 
   companion object {
+    /**
+     * Default context.
+     */
     const val DEFAULT_CONEXT = "default"
   }
 
