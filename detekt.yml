@@ -3,7 +3,7 @@
 #
 comments:
   active: true
-  excludes: "examples/**,**/test/**,lib/**,**/*Test.kt,*/src/test/kotlin/**/*.kt,**/*Stages.kt,**/*ITest.kt"
+  excludes: "examples/**,lib/**,**/test/**,**/*Test.kt,*/src/test/kotlin/**/*.kt,**/*Stages.kt,**/*ITest.kt"
   CommentOverPrivateFunction:
     active: false
   CommentOverPrivateProperty:

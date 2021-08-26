@@ -5,4 +5,5 @@ engines:
       - "**/src/test/kotlin/**"
 exclude_paths:
   - ".github/ISSUE_TEMPLATE/**"
-  - ".mvn/**"
+  - ".mvn/wrapper/**"
+  - "docs/**"

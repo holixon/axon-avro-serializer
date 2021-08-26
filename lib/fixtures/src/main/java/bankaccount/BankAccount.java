@@ -19,11 +19,7 @@ public class BankAccount {
   protected String accountId;
 
   protected int balance;
-
-  public BankAccount() {
-    // empty default constructor for eventSourcing
-  }
-
+  
   @CommandHandler
   public static BankAccount handle(CreateBankAccount cmd) {
     AggregateLifecycle.apply(BankAccountCreated.newBuilder()
