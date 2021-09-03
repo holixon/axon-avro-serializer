@@ -51,7 +51,7 @@ The serializer receives the event instance of the generated class. It then:
   * load the schema from the registry (and probably cache it)
 * Creates a `serializedType` and `serializedObject` passed over to the eventbus / eventstore
 
-## Deserializing
+## Deserialization
 
 Since Axon Framework dispatches events to `EventHandlers` based on reflection and FQN, a system consuming events must also keep a java/kt
 class based on (= generated from) the schema. Since Avro takes care of checking compatibility between publisher and receiver schema, this
