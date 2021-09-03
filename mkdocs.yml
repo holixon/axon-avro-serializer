@@ -92,3 +92,16 @@ plugins:
 
 nav:
   - Home: index.md
+  - Getting started: getting-started.md
+  - Concepts:
+    - Overview: concepts/index.md
+    - Schema design: concepts/schema-design.md
+    - Schema publication: concepts/schema-publication.md
+    - Schema registry: concepts/schema-registry.md
+    - Event generation: concepts/event-generation.md
+    - Upcasting: concepts/upcasting.md
+  - Reference:
+    - Implementation details: reference/index.md
+    - Registry adapters: reference/registry-adapters.md
+    - Axon Server plugins: reference/axon-server-plugins.md
+  - Developer Guide: developer-guide.md

@@ -13,6 +13,7 @@ import io.holixon.avro.adapter.registry.apicurio.ApicurioAvroSchemaRegistry
 import io.holixon.avro.adapter.registry.apicurio.AvroAdapterApicurioRest
 import io.holixon.avro.adapter.registry.apicurio.client.GroupAwareRegistryClient
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
+import io.holixon.axon.avro.serializer.spring.EnableAxonAvroSerializer
 import org.axonframework.queryhandling.QueryGateway
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -27,7 +28,7 @@ fun main(args: Array<String>) = runApplication<BankAccountExampleKotlinApplicati
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = [BankAccountExampleKotlinApplication::class, BankAccount::class])
-@Import(AxonAvroSerializerConfiguration::class)
+@EnableAxonAvroSerializer
 class BankAccountExampleKotlinApplication : CommandLineRunner {
 
   @Bean
