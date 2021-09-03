@@ -19,8 +19,8 @@ Please check our [official documentation](https://www.holixon.io/axon-avro-seria
 
 ## Developers
 
-* Jan Galinski (https://github.com/jangalinski)
-* Simon Zambrovski (https://github.com/zambrovski)
+* [Jan Galinski](https://github.com/jangalinski)
+* [Simon Zambrovski](https://github.com/zambrovski)
 
 ## License
 
