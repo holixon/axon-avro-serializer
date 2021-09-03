@@ -549,8 +549,11 @@
 available. This class is generated from the schema using Avro generator. In order to do so, the build environment must have access to the
 schema (registry) and use a build system plugin (Maven or Gradle) to generate java/kt source files Please see example in
 the <a href="../reference/index.html#event-generation">reference guide</a> for more details.</p>
-<p>!!! note The class FQN will suffice to identity the published schema, but for the Axon default upcasters to work, a <code>@Revision</code> annotation
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The class FQN will suffice to identity the published schema, but for the Axon default upcasters to work, a <code>@Revision</code> annotation
 on the class file is needed. For this purpose, a special SchemaBasedRevisionResolver is implemented and configured in the Avro serializer.</p>
+</div>
                 
                   
                     

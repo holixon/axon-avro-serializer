@@ -521,8 +521,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#deserializing" class="md-nav__link">
-    Deserializing
+  <a href="#deserialization" class="md-nav__link">
+    Deserialization
   </a>
   
 </li>
@@ -641,7 +641,7 @@ between <code>jackson</code> and <code>xstream</code> and is not used.</p>
 <li>load the schema from the registry (and probably cache it)</li>
 <li>Creates a <code>serializedType</code> and <code>serializedObject</code> passed over to the eventbus / eventstore</li>
 </ul>
-<h2 id="deserializing">Deserializing<a class="headerlink" href="#deserializing" title="Permanent link">#</a></h2>
+<h2 id="deserialization">Deserialization<a class="headerlink" href="#deserialization" title="Permanent link">#</a></h2>
 <p>Since Axon Framework dispatches events to <code>EventHandlers</code> based on reflection and FQN, a system consuming events must also keep a java/kt
 class based on (= generated from) the schema. Since Avro takes care of checking compatibility between publisher and receiver schema, this
 does not have to be the same schema used to serialize the event. See <a href="../concepts/upcasting.html">Upcasting Section</a> for more details.</p>

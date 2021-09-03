@@ -72,6 +72,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#apicurio-registry-adapter" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -485,9 +490,37 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Registry adapters
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="registry-adapters.html" class="md-nav__link md-nav__link--active">
         Registry adapters
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#apicurio-registry-adapter" class="md-nav__link">
+    Apicurio Registry Adapter
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -545,7 +578,23 @@
                 
                   <h1>Registry adapters</h1>
                 
-                
+                <p>The <a href="https://github.com/holixon/avro-registry-adapter">Avro Registry Adapter</a> project provides several registry adapter, which need
+to be configured for use with the Avro Serializer.</p>
+<h2 id="apicurio-registry-adapter">Apicurio Registry Adapter<a class="headerlink" href="#apicurio-registry-adapter" title="Permanent link">#</a></h2>
+<p>The Apicurio registry adapter requires a connection configuration including the host and the port of the registry.</p>
+<div class="highlight"><pre><span></span><code>  <span class="nd">@Bean</span>
+  <span class="kd">fun</span> <span class="nf">apicurioRegistryClient</span><span class="p">(</span>
+    <span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;\</span><span class="si">${</span><span class="n">apicurio</span><span class="p">.</span><span class="na">registry</span><span class="p">.</span><span class="na">host</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span> <span class="n">host</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;\</span><span class="si">${</span><span class="n">apicurio</span><span class="p">.</span><span class="na">registry</span><span class="p">.</span><span class="na">port</span><span class="si">}</span><span class="s">&quot;</span><span class="p">)</span> <span class="n">port</span><span class="p">:</span> <span class="kt">Int</span>
+  <span class="p">):</span> <span class="n">RegistryClient</span> <span class="o">=</span> <span class="n">AvroAdapterApicurioRest</span><span class="p">.</span><span class="na">registryRestClient</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+
+  <span class="nd">@Bean</span>
+  <span class="kd">fun</span> <span class="nf">avroSchemaRegistry</span><span class="p">(</span><span class="n">apicurioRegistryClient</span><span class="p">:</span> <span class="n">RegistryClient</span><span class="p">)</span> <span class="o">=</span> <span class="n">ApicurioAvroSchemaRegistry</span><span class="p">(</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">GroupAwareRegistryClient</span><span class="p">(</span><span class="n">apicurioRegistryClient</span><span class="p">,</span> <span class="n">AvroAdapterDefault</span><span class="p">.</span><span class="na">schemaIdSupplier</span><span class="p">,</span> <span class="n">AvroAdapterDefault</span><span class="p">.</span><span class="na">schemaRevisionResolver</span><span class="p">),</span>
+    <span class="n">schemaIdSupplier</span> <span class="o">=</span> <span class="n">AvroAdapterDefault</span><span class="p">.</span><span class="na">schemaIdSupplier</span><span class="p">,</span>
+    <span class="n">schemaRevisionResolver</span> <span class="o">=</span> <span class="n">AvroAdapterDefault</span><span class="p">.</span><span class="na">schemaRevisionResolver</span>
+  <span class="p">)</span>
+</code></pre></div>
                 
                   
                     
