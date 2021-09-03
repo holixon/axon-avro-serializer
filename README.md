@@ -25,6 +25,7 @@ Please check our [official documentation](https://www.holixon.io/axon-avro-seria
 ## License
 
 This library is developed under
+
 [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.holunda.io/camunda-bpm-taskpool/license)
 
 ## Sponsors and Customers
