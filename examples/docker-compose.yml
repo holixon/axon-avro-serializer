@@ -1,10 +1,12 @@
-version: '3.1'
+version: '3.3'
 # https://hub.docker.com/r/axoniq/axonserver
 services:
   axon-server:
-    image: axoniq/axonserver:4.5.2
+    image: axoniq/axonserver:4.5.5
     environment:
       - AXONIQ_AXONSERVER_DEVMODE_ENABLED=true
+      - SPRING_SERVLET_MULTIPART_MAX-FILE-SIZE=128MB
+      - SPRING_SERVLET_MULTIPART_MAX-REQUEST-SIZE=128MB
     ports:
       - "8024:8024"
       - "8124:8124"
@@ -16,7 +18,10 @@ services:
       POSTGRES_USER: apicurio-registry
       POSTGRES_PASSWORD: password
   registry:
-    image: apicurio/apicurio-registry-sql:2.0.0.Final
+    hostname: apicurio
+    image: apicurio/apicurio-registry-sql:2.0.1.Final
+    expose:
+      - "8080"
     ports:
       - "7777:8080"
     environment:

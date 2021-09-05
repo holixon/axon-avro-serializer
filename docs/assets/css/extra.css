@@ -1,0 +1,39 @@
+/*
+ * General customizations
+ */
+ /* Customize logo size */
+.md-header__button.md-logo img, .md-header__button.md-logo svg {
+  height: 600%;
+  width: 60%;
+}
+
+[data-md-color-scheme="default"] {
+  /*
+   Polyflow colors
+   */
+   --monochrome-80: #3e3e3e;
+   --background-white: #ffffff;
+   --monochrome-70: #4c4c4c;
+   --secondary-100: #ebf9fa;
+   --background-blue: #0a0b31;
+   --monochrome-20: #cccccc;
+   --monochrome-50: #7f7f7f;
+   --monochrome-5: #f2f2f2;
+   --accent-success-100: #00cc75;
+   --accent-error-100: #b3003e;
+   --accent-error-10: #f2e0e6;
+   --accent-1-100: #6bdce0;
+   --accent-3-100: #830289;
+   --accent-4-100: #016db3;
+   --pumpkin-orange: #fb7b00;
+   --royal: #0d0f7e;
+
+
+  /*
+   Default colors adjustments
+   */
+   --md-primary-fg-color: var(--accent-4-100);
+   --md-accent-fg-color: var(--pumpkin-orange);
+   --md-footer-bg-color: var(--accent-4-100);
+}
+

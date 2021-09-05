@@ -15,9 +15,15 @@ import org.apache.avro.specific.SpecificRecordBase
  */
 object SchemaExt {
 
+  /**
+   * Retrieves schema revision.
+   */
   val Schema.revision: AvroSchemaRevision?
     get() = AvroAdapterDefault.schemaRevisionResolver.apply(this).orElse(null)
 
+  /**
+   * Retrieves schema info.
+   */
   val Schema.info: AvroSchemaInfo
     get() = extractSchemaInfo(AvroAdapterDefault.schemaRevisionResolver)
 

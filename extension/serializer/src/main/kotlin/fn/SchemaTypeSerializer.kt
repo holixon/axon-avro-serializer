@@ -13,6 +13,9 @@ import org.axonframework.serialization.Converter
 import org.axonframework.serialization.SerializationException
 import kotlin.reflect.KClass
 
+/**
+ * Schema type serializer.
+ */
 class SchemaTypeSerializer<S : Any>(
   /**
    * The type specific encoder function.
@@ -27,16 +30,23 @@ class SchemaTypeSerializer<S : Any>(
    */
   private val converter: Converter
 ) {
+
   companion object {
     private val genericRecordEncoder = DefaultGenericDataRecordToSingleObjectEncoder()
     private val specificRecordEncoder = DefaultSpecificRecordToSingleObjectEncoder()
 
+    /**
+     * Serializer for generic record, using the specified converter.
+     */
     fun genericRecordDataSerializer(converter: Converter) = SchemaTypeSerializer(
       encoder = { genericRecordEncoder.encode(it) },
       schemaAccessor = GenericData.Record::getSchema,
       converter = converter
     )
 
+    /**
+     * Serializer for specific record, using the specified converter.
+     */
     fun specificRecordDataSerializer(converter: Converter) = SchemaTypeSerializer(
       encoder = { specificRecordEncoder.encode(it) },
       schemaAccessor = SpecificRecordBase::getSchema,
@@ -44,14 +54,23 @@ class SchemaTypeSerializer<S : Any>(
     )
   }
 
+  /**
+   * Serializes data into single object encoded format.
+   */
   fun serializeToSingleObject(data: S): AvroSchemaSerializedObject<AvroSingleObjectEncoded> = AvroSchemaSingleObjectSerializedObject(
     bytes = encoder(data),
     schema = schemaAccessor(data)
   )
 
+  /**
+   * Serializes data into expected representation.
+   */
   fun <T : Any> serialize(data: S, expectedRepresentation: KClass<T>): AvroSchemaSerializedObject<T> =
     serialize(data, expectedRepresentation.java)
 
+  /**
+   * Serializes data into expected representation.
+   */
   @Suppress("UNCHECKED_CAST")
   fun <T : Any> serialize(data: S, expectedRepresentation: Class<T>): AvroSchemaSerializedObject<T> = try {
     // this is a shortcut to avoid convert path lookup when the output is ByteArray anyway

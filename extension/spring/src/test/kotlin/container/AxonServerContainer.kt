@@ -6,7 +6,10 @@ import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.output.Slf4jLogConsumer
 import org.testcontainers.containers.wait.strategy.Wait
 
-class AxonServerContainer : GenericContainer<AxonServerContainer>("axoniq/axonserver:4.5.2") {
+/**
+ * Axon test container.
+ */
+class AxonServerContainer : GenericContainer<AxonServerContainer>("axoniq/axonserver:4.5.5") {
   companion object : KLogging()
 
   init {

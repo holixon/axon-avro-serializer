@@ -1,0 +1,107 @@
+# ###############################
+# Main config file for MkDocs.
+# ###############################
+#
+# To run:
+# mkdocs serve
+# More help: https://www.holunda.io/camunda-bpm-taskpool/developer-guide/project-setup.html#build-documentation
+# ###############################
+
+site_name: Axon Avro Serializer
+site_url: https://www.holixon.io/axon-avro-serializer/
+site_author: Holisticon Event Sourcerers
+site_description: >-
+  Axon Avro Serializer is an extension to Axon Framework allowing
+  to use schema-first approach for creation of events based on Apache Avro
+  format, which is used for serialization.
+
+copyright: Copyright &copy; 2021, Holisticon AG
+
+use_directory_urls: false
+
+# Repository
+repo_name: holixon/axon-avro-serializer
+repo_url: https://github.com/holixon/axon-avro-serializer/
+edit_uri: edit/develop/docs/
+
+markdown_extensions:
+    - attr_list
+    - toc:
+        permalink: "#"
+    - pymdownx.highlight
+    - pymdownx.superfences
+    - pymdownx.details
+    - admonition
+
+theme:
+  name: material
+  features:
+    - navigation.instant # When instant loading is enabled, clicks on all internal links will be intercepted and dispatched via XHR without fully reloading the page
+    - navigation.tabs # add top level nav items into a horizoneal menu
+    - navigation.tabs.sticky # make horizontal menu sticky (insider feature)
+    - navigation.sections
+    - navigation.top # add "navigate to top" page icon on bottom left
+    - toc.integrate # integrate site TOC into the menu on the left
+  logo: assets/img/holixon-logo.png
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Roboto
+    code: Roboto Mono
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+extra_css: [assets/css/extra.css]
+
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      name: Holisticon on Twitter
+      link: https://twitter.com/holisticon
+    - icon: fontawesome/brands/medium
+      name: Holisticon Event Sourcerers on Medium
+      link: https://medium.com/holisticon-consultants/tagged/mpb
+  version:
+    provider: mike
+
+plugins:
+  - search
+#  - git-committers:
+#      repository: holunda-io/camunda-bpm-taskpool
+#      branch: master
+#      token: !!python/object/apply:os.getenv ["MKDOCS_GIT_COMMITTERS_APIKEY"]
+  - mike:
+      # these fields are all optional; the defaults are as below...
+      version_selector: true   # set to false to leave out the version selector
+      css_dir: css                    # the directory to put the version selector's CSS
+      javascript_dir: js            # the directory to put the version selector's JS
+      canonical_version: null  # the version for <link rel="canonical">; `null`
+                                            # uses the version specified via `mike deploy`
+  - git-revision-date-localized:
+      type: date
+      fallback_to_build_date: true
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - Concepts:
+    - Overview: concepts/index.md
+    - Schema design: concepts/schema-design.md
+    - Schema publication: concepts/schema-publication.md
+    - Schema registry: concepts/schema-registry.md
+    - Event generation: concepts/event-generation.md
+    - Upcasting: concepts/upcasting.md
+  - Reference:
+    - Implementation details: reference/index.md
+    - Registry adapters: reference/registry-adapters.md
+    - Axon Server plugins: reference/axon-server-plugins.md
+  - Developer Guide: developer-guide.md
