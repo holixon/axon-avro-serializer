@@ -17,6 +17,13 @@ open class SchemaBasedRevisionResolver : RevisionResolver {
 
   override fun revisionOf(payloadType: Class<*>): String?  = schemaForClass(payloadType).revision
 
+  /**
+   * Extract revision of generic record.
+   */
   fun revisionOf(record: GenericData.Record): String? = record.schema.revision
+
+  /**
+   * Extract revision of specific record.
+   */
   fun revisionOf(record: SpecificRecordBase): String? = record.schema.revision
 }
