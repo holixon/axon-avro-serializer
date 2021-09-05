@@ -7,7 +7,7 @@ open class AvroSchemaSerializedObject<T: Any>(data : T, dataType : Class<T>, ser
 
   constructor(data:T, dataType: Class<T>, schema:Schema) : this(data,dataType, AvroSchemaSerializedType(schema))
 
-  val simpleSerializedObject by lazy { SimpleSerializedObject<T>(data, dataType, serializedType) }
+  val simpleSerializedObject by lazy { SimpleSerializedObject(data, dataType, serializedType) }
 
   override fun toString(): String = "AvroSchemaSerializedObject[${simpleSerializedObject.type}]"
 

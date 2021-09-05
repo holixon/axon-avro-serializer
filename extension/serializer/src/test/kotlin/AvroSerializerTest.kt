@@ -3,16 +3,17 @@ package io.holixon.axon.avro.serializer
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
 import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.common.AvroAdapterDefault.toByteArray
 import io.holixon.avro.adapter.common.ext.DefaultSchemaExt.createGenericRecord
 import io.holixon.axon.avro.serializer.ext.SchemaExt.revision
+import io.holixon.axon.avro.serializer.metadata.AvroMetaDataExt
+import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import mu.KLogging
 import org.apache.avro.Schema
 import org.apache.avro.generic.GenericData
 import org.assertj.core.api.Assertions.assertThat
-import org.axonframework.serialization.SerializedObject
-import org.axonframework.serialization.SimpleSerializedObject
-import org.axonframework.serialization.SimpleSerializedType
-import org.axonframework.serialization.UnknownSerializedType
+import org.axonframework.messaging.MetaData
+import org.axonframework.serialization.*
 import org.junit.jupiter.api.Test
 import test.fixture.SampleEvent
 
@@ -21,15 +22,15 @@ internal class AvroSerializerTest {
   companion object : KLogging()
 
   private val registry = AvroAdapterDefault.inMemorySchemaRegistry()
+    .apply {
+      register(SampleEvent.getClassSchema())
+    }
 
   private val serializer = AvroSerializer.builder()
     .schemaRegistry(registry)
     .build()
 
   private val event = SampleEvent("foo")
-
-  private val writerSchema = registry.register(SampleEvent.getClassSchema())
-
 
   @Test
   internal fun `canSerialize to ByteArray GenericDataRecord and SpecificRecordBase`() {
@@ -39,6 +40,7 @@ internal class AvroSerializerTest {
 
   @Test
   internal fun `can serialize to GenericDataRecord`() {
+    assertThat(serializer.canSerializeTo(GenericData.Record::class.java)).isTrue
     val serialized: SerializedObject<GenericData.Record> = serializer.serialize(event, GenericData.Record::class.java)
 
     val deserialized: SampleEvent? = serializer.deserialize(serialized)
@@ -115,25 +117,41 @@ internal class AvroSerializerTest {
     assertThat(record["value"]).isEqualTo("hello")
   }
 
-  //
-//  @Test
-//  void testSerializeAndDeserializeObject_ByteArrayFormat() {
-//    SimpleSerializableType toSerialize = new SimpleSerializableType("first", time,
-//      new SimpleSerializableType("nested"));
-//
-//    SerializedObject<byte[]> serialized = testSubject.serialize(toSerialize, byte[].class);
-//
-//    SimpleSerializableType actual = testSubject.deserialize(serialized);
-//
-//    assertEquals(toSerialize.getValue(), actual.getValue());
-//    assertEquals(toSerialize.getNested().getValue(), actual.getNested().getValue());
-//  }
   @Test
-  internal fun name() {
-    logger.info { "event: $event" }
-    logger.info { "schema: ${event.schema}" }
+  internal fun `serializes metaData to singleObjectEncoded`() {
+    val axonMetaData = MetaData.with("foo", "bar")
+    val expectedBytes: AvroSingleObjectEncoded = AvroMetaDataExt.convertToAvro(axonMetaData).toByteArray()
+
+    val serialized = serializer.serialize(axonMetaData, AvroSingleObjectEncoded::class.java)
+    assertThat(SerializedMetaData.isSerializedMetaData(serialized)).isTrue
+
+    assertThat(serialized.data.toHexString()).isEqualTo(expectedBytes.toHexString())
   }
 
+  @Test
+  internal fun `deserializes singleObjectEncoded to metaData`() {
+    val origMetaData = MetaData.with("foo", "bar")
+    val serialized: SerializedObject<AvroSingleObjectEncoded /* = kotlin.ByteArray */> =
+      serializer.serialize(origMetaData, AvroSingleObjectEncoded::class.java)
 
+    assertThat(serialized.type.name).isEqualTo(MetaData::class.java.canonicalName)
+
+    val deserialized: MetaData = serializer.deserialize(serialized) ?: throw IllegalStateException("can not deserialize")
+
+    assertThat(deserialized).isEqualTo(origMetaData)
+  }
+
+  @Test
+  internal fun `builder functions`() {
+    val allDefaults = AvroSerializer.builder()
+      .converter(ChainingConverter())
+      .revisionResolver(SchemaBasedRevisionResolver())
+      .schemaRegistry(AvroAdapterDefault.inMemorySchemaRegistry())
+      .decoderSpecificRecordClassResolver(AvroAdapterDefault.reflectionBasedDecoderSpecificRecordClassResolver)
+      .schemaIncompatibilityResolver(AvroAdapterDefault.defaultSchemaCompatibilityResolver)
+      .build()
+
+    assertThat(allDefaults.canSerializeTo(AvroSingleObjectEncoded::class.java)).isTrue
+  }
 }
 

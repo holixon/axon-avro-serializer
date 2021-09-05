@@ -14,15 +14,19 @@ import io.holixon.avro.adapter.common.converter.SchemaResolutionSupport
 import io.holixon.avro.adapter.common.decoder.DefaultSingleObjectToSpecificRecordDecoder
 import io.holixon.axon.avro.serializer.converter.AvroSingleObjectEncodedToGenericDataRecordTypeConverter
 import io.holixon.axon.avro.serializer.converter.GenericDataRecordToAvroSingleObjectEncodedConverter
+import io.holixon.axon.avro.serializer.ext.TypeExt.isAvroSingleObjectEncoded
 import io.holixon.axon.avro.serializer.ext.TypeExt.isUnknown
 import io.holixon.axon.avro.serializer.fn.SchemaTypeSerializer
+import io.holixon.axon.avro.serializer.metadata.AvroMetaData
+import io.holixon.axon.avro.serializer.metadata.AvroMetaDataExt
+import io.holixon.axon.avro.serializer.metadata.AvroMetaDataExt.convertFromAvro
+import io.holixon.axon.avro.serializer.metadata.AvroMetaDataExt.toAvroMetaDataObject
 import io.holixon.axon.avro.serializer.revision.SchemaBasedRevisionResolver
 import org.apache.avro.generic.GenericData
 import org.apache.avro.specific.SpecificRecordBase
 import org.apache.avro.util.ClassUtils
 import org.axonframework.messaging.MetaData
 import org.axonframework.serialization.*
-import org.axonframework.serialization.json.JacksonSerializer
 import org.axonframework.serialization.upcasting.event.IntermediateEventRepresentation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -45,12 +49,6 @@ class AvroSerializer private constructor(
    * Serializer for SpecificRecordBase.
    */
   private val specificRecordSerializer: SchemaTypeSerializer<SpecificRecordBase>,
-
-  /**
-   * Serializer for [MetaData].
-   */
-  @Deprecated(message = "metaData should also be based on schema, this is just a temp. hack")
-  private val metaDataSerializer: Serializer,
 
   /**
    * Axon converters, typically this is a [ChainingConverter] that contains SPI converters for base types and specific [GenericData.Record] converters for [IntermediateEventRepresentation] during upcasting.
@@ -96,7 +94,7 @@ class AvroSerializer private constructor(
      * Secondary constructor.
      */
     operator fun invoke(builder: Builder): AvroSerializer {
-      val schemaResolver = builder.schemaReadOnlyRegistry.schemaResolver()
+      val schemaResolver = AvroMetaDataExt.compositeSchemaRegistry(builder.schemaReadOnlyRegistry).schemaResolver()
       val schemaResolutionSupport = SchemaResolutionSupport(
         schemaResolver,
         builder.decoderSpecificRecordClassResolver,
@@ -119,7 +117,6 @@ class AvroSerializer private constructor(
         revisionResolver = builder.revisionResolver,
         genericDataRecordSerializer = SchemaTypeSerializer.genericRecordDataSerializer(converter),
         specificRecordSerializer = SchemaTypeSerializer.specificRecordDataSerializer(converter),
-        metaDataSerializer = JacksonSerializer.defaultSerializer(),
         converter = converter,
         logger = LoggerFactory.getLogger(AvroSerializer::class.java),
         genericDataRecordToSpecificRecordConverter = DefaultGenericDataRecordToSpecificRecordChangingSchemaConverter(schemaResolutionSupport),
@@ -172,22 +169,29 @@ class AvroSerializer private constructor(
       converter.canConvert(AvroSingleObjectEncoded::class.java, expectedRepresentation)
 
   override fun <T : Any> serialize(data: Any, expectedRepresentation: Class<T>): SerializedObject<T> = when (data) {
-    is MetaData -> metaDataSerializer.serialize(data, expectedRepresentation)
+    is MetaData -> SerializedMetaData(
+      // transform to avroMetaData and recurse
+      serialize(AvroMetaDataExt.convertToAvro(data), expectedRepresentation).data,
+      expectedRepresentation
+    )
     is GenericData.Record -> genericDataRecordSerializer.serialize(data, expectedRepresentation)
     is SpecificRecordBase -> specificRecordSerializer.serialize(data, expectedRepresentation)
     else -> throw IllegalArgumentException("cannot serialize $data to $expectedRepresentation")
   }
 
-
   override fun <S : Any, T : Any> deserialize(serializedObject: SerializedObject<S>): T? {
     if (SerializedType.emptyType() == serializedObject.type) {
       return null
     }
+    if (SerializedMetaData.isSerializedMetaData(serializedObject) && serializedObject.contentType.isAvroSingleObjectEncoded()) {
+      // use recursion, then convert
+      val avroMetaData: AvroMetaData = deserialize(toAvroMetaDataObject(serializedObject))!!
+      @Suppress("UNCHECKED_CAST")
+      return convertFromAvro(avroMetaData) as T
+    }
 
     val type: Class<*> = classForType(serializedObject.type)
-    if (type == MetaData::class.java) {
-      return metaDataSerializer.deserialize(serializedObject)
-    } else if (type.isUnknown()) {
+    if (type.isUnknown()) {
       @Suppress("UNCHECKED_CAST")
       return UnknownSerializedType(this, serializedObject) as T
     }
@@ -205,6 +209,7 @@ class AvroSerializer private constructor(
         }
         else -> {
           val bytesSerialized = converter.convert(serializedObject, AvroSingleObjectEncoded::class.java)
+          val specificRecord: SpecificRecordBase = specificRecordDecoder.decode(bytesSerialized.data)
           (specificRecordDecoder.decode(bytesSerialized.data) as T)
             .apply {
               logger.debug("deserialized: ${(bytesSerialized.data as ByteArray).toHexString()} to $this")
