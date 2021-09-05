@@ -1,4 +1,5 @@
 @file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
+
 package io.holixon.axon.avro.serializer.spring.itest.bank
 
 import bankaccount.BankAccount
@@ -11,6 +12,7 @@ import bankaccount.projection.CurrentBalanceProjection
 import bankaccount.query.BankAccountAuditQuery
 import bankaccount.query.CurrentBalanceQueries
 import io.holixon.avro.adapter.common.AvroAdapterDefault
+import io.holixon.avro.adapter.common.registry.InMemoryAvroSchemaReadOnlyRegistry
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerConfiguration
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase
 import io.holixon.axon.avro.serializer.spring.AxonAvroSerializerSpringBase.PROFILE_ITEST
@@ -52,12 +54,11 @@ internal class AxonAvroSerializerConfigurationITest {
   @Autowired
   lateinit var commandGateway: CommandGateway
 
+  @Autowired
+  lateinit var queries: CurrentBalanceQueries
 
   @Autowired
-  lateinit var queries : CurrentBalanceQueries
-
-  @Autowired
-  lateinit var auditEventQuery : BankAccountAuditQuery
+  lateinit var auditEventQuery: BankAccountAuditQuery
 
   @Test
   internal fun `create account and deposit money`() {
@@ -97,15 +98,15 @@ class AxonAvroSerializerConfigurationITestApplication {
   fun projection() = CurrentBalanceProjection()
 
   @Bean
-  fun schemaRegistry() = AvroAdapterDefault.inMemorySchemaRegistry().apply {
-    register(BankAccountCreated.getClassSchema())
-    register(MoneyDeposited.getClassSchema())
-    register(MoneyWithdrawn.getClassSchema())
-  }
+  fun schemaRegistry() = InMemoryAvroSchemaReadOnlyRegistry.createWithSchemas(
+    BankAccountCreated.getClassSchema(),
+    MoneyDeposited.getClassSchema(),
+    MoneyWithdrawn.getClassSchema()
+  )
 
   @Bean
-  fun currentBalanceQueries(queryGateway: QueryGateway) : CurrentBalanceQueries = CurrentBalanceQueries(queryGateway)
+  fun currentBalanceQueries(queryGateway: QueryGateway): CurrentBalanceQueries = CurrentBalanceQueries(queryGateway)
 
   @Bean
-  fun bankAccountAuditEventQuery(queryGateway: QueryGateway) : BankAccountAuditQuery = BankAccountAuditQuery.create(queryGateway)
+  fun bankAccountAuditEventQuery(queryGateway: QueryGateway): BankAccountAuditQuery = BankAccountAuditQuery.create(queryGateway)
 }
