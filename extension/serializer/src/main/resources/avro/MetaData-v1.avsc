@@ -10,9 +10,14 @@
       "type": {
         "type": "map",
         "values": [
+          "null",
+          "boolean",
           "string",
           "int",
-          "null"
+          "long",
+          "float",
+          "double",
+          "bytes"
         ],
         "default": {},
         "avro.java.string": "String"
