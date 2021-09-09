@@ -1,6 +1,5 @@
 package io.holixon.axon.avro.serializer.metadata
 
-import io.holixon.avro.adapter.api.AvroSchemaId
 import io.holixon.avro.adapter.api.AvroSchemaReadOnlyRegistry
 import io.holixon.avro.adapter.api.AvroSchemaWithId
 import io.holixon.avro.adapter.api.AvroSingleObjectEncoded
@@ -18,7 +17,14 @@ import org.axonframework.serialization.SerializedObject
  * Here we implement helper functions dealing with those two classes.
  */
 object AvroMetaDataExt {
+  /**
+   * The [Schema] of the generated [AvroMetaData].
+   */
   val METADATA_SCHEMA: Schema = AvroMetaData.getClassSchema()
+
+  /**
+   * [AvroSchemaWithId] of the generated [AvroMetaData].
+   */
   val SCHEMA_WITH_ID: AvroSchemaWithId = METADATA_SCHEMA.avroSchemaWithId
   private val SERIALIZED_TYPE: AvroSchemaSerializedType = AvroSchemaSerializedType(SCHEMA_WITH_ID)
 
