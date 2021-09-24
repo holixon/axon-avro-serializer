@@ -209,7 +209,6 @@ class AvroSerializer private constructor(
         }
         else -> {
           val bytesSerialized = converter.convert(serializedObject, AvroSingleObjectEncoded::class.java)
-          val specificRecord: SpecificRecordBase = specificRecordDecoder.decode(bytesSerialized.data)
           (specificRecordDecoder.decode(bytesSerialized.data) as T)
             .apply {
               logger.debug("deserialized: ${(bytesSerialized.data as ByteArray).toHexString()} to $this")
