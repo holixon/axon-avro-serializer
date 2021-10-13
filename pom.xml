@@ -22,7 +22,7 @@
     <axon-bom.version>4.5.4</axon-bom.version>
     <axon-server-plugin-api.version>4.5</axon-server-plugin-api.version>
 
-    <axon-kotlin.version>0.1.0</axon-kotlin.version>
+    <axon-kotlin.version>0.2.0</axon-kotlin.version>
     <axon-testing.version>0.0.2</axon-testing.version>
 
     <avro-registry-adapter.version>0.0.5</avro-registry-adapter.version>
