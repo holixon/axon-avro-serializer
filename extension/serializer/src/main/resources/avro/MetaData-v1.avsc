@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "namespace": "io.holixon.axon.avro.serializer.metadata",
+  "name": "AvroMetaData",
+  "doc": "axon message MetaData, see org.axonframework.messaging.MetaData",
+  "revision": "1",
+  "fields": [
+    {
+      "name": "values",
+      "type": {
+        "type": "map",
+        "values": [
+          "null",
+          "boolean",
+          "string",
+          "int",
+          "long",
+          "float",
+          "double",
+          "bytes"
+        ],
+        "default": {},
+        "avro.java.string": "String"
+      }
+    }
+  ]
+}

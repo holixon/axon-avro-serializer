@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.holixon.axon.avro._</groupId>
@@ -173,8 +173,8 @@
           </executions>
         </plugin>
 
+        <!-- java compiler -->
         <plugin>
-          <!-- java compiler -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
@@ -210,8 +210,8 @@
           </executions>
         </plugin>
 
+        <!-- kotlin compiler -->
         <plugin>
-          <!-- kotlin compiler -->
           <artifactId>kotlin-maven-plugin</artifactId>
           <groupId>org.jetbrains.kotlin</groupId>
           <version>${kotlin.version}</version>
@@ -268,8 +268,8 @@
           </dependencies>
         </plugin>
 
+        <!-- resources -->
         <plugin>
-          <!-- resources -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.2.0</version>
@@ -325,7 +325,6 @@
           </configuration>
         </plugin>
 
-
         <!-- javadoc for kotlin -->
         <plugin>
           <groupId>org.jetbrains.dokka</groupId>
@@ -344,6 +343,8 @@
             <jdkVersion>11</jdkVersion>
           </configuration>
         </plugin>
+
+        <!-- javadoc -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
@@ -453,6 +454,8 @@
             <skip>true</skip>
           </configuration>
         </plugin>
+
+        <!-- nexus staging -->
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -499,6 +502,26 @@
                     <version>11</version>
                   </requireJavaVersion>
                 </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- avro generator -->
+        <plugin>
+          <groupId>org.apache.avro</groupId>
+          <artifactId>avro-maven-plugin</artifactId>
+          <version>${avro.version}</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>schema</goal>
+              </goals>
+              <configuration>
+                <sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
+                <outputDirectory>${project.build.directory}/generated-sources/avro/</outputDirectory>
+                <stringType>String</stringType>
               </configuration>
             </execution>
           </executions>
