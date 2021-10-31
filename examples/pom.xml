@@ -20,7 +20,7 @@
     <maven.deploy.skip>true</maven.deploy.skip>
     <gpg.skip>true</gpg.skip>
 
-    <springdoc.version>1.5.11</springdoc.version>
+    <springdoc.version>1.5.12</springdoc.version>
   </properties>
 
   <modules>
