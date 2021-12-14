@@ -15,7 +15,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>11</java.version>
-    <kotlin.version>1.6.0</kotlin.version>
+    <kotlin.version>1.6.10</kotlin.version>
     <kotlin-logging.version>2.1.16</kotlin-logging.version>
     <spring-boot.version>2.6.1</spring-boot.version>
 
