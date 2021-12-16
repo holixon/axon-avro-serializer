@@ -16,7 +16,7 @@
 
     <java.version>11</java.version>
     <kotlin.version>1.6.10</kotlin.version>
-    <kotlin-logging.version>2.1.16</kotlin-logging.version>
+    <kotlin-logging.version>2.1.20</kotlin-logging.version>
     <spring-boot.version>2.6.1</spring-boot.version>
 
     <axon-bom.version>4.5.7</axon-bom.version>
