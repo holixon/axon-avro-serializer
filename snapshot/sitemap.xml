@@ -2,62 +2,62 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/index.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/developer-guide.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/getting-started.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/concepts/index.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/concepts/event-generation.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/concepts/schema-design.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/concepts/schema-publication.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/concepts/schema-registry.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/concepts/upcasting.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/reference/index.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/reference/axon-server-plugins.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.holixon.io/axon-avro-serializer/snapshot/reference/registry-adapters.html</loc>
-         <lastmod>2022-02-09</lastmod>
+         <lastmod>2022-02-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
