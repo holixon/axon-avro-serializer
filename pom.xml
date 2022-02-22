@@ -177,7 +177,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.9.0</version>
+          <version>3.10.0</version>
           <configuration>
             <encoding>${project.build.sourceEncoding}</encoding>
             <release>11</release>
@@ -404,7 +404,7 @@
         <plugin>
           <groupId>com.amashchenko.maven.plugin</groupId>
           <artifactId>gitflow-maven-plugin</artifactId>
-          <version>1.17.0</version>
+          <version>1.18.0</version>
           <configuration>
             <gitFlowConfig>
               <productionBranch>master</productionBranch>
@@ -459,7 +459,7 @@
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.8</version>
+          <version>1.6.11</version>
           <configuration>
             <autoReleaseAfterClose>true</autoReleaseAfterClose>
             <serverId>ossrh</serverId>
