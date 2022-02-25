@@ -9,7 +9,7 @@ import org.testcontainers.containers.wait.strategy.Wait
 /**
  * Axon test container.
  */
-class AxonServerContainer : GenericContainer<AxonServerContainer>("axoniq/axonserver:4.5.7") {
+class AxonServerContainer() : GenericContainer<AxonServerContainer>("axoniq/axonserver:4.5.8") {
   companion object : KLogging()
 
   init {
