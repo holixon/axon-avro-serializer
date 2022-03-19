@@ -69,8 +69,7 @@ data class AxonAvroSchemaRegistryApicurioPluginProperties(
     ApicurioAvroSchemaRegistry(
       client = AvroAdapterApicurioRest.registryRestClient(host, port, https),
       schemaIdSupplier = AvroAdapterDefault.schemaIdSupplier,
-      schemaRevisionResolver = AvroAdapterDefault.schemaRevisionResolver,
-      group = AvroAdapterApicurioRest.DEFAULT_GROUP
+      schemaRevisionResolver = AvroAdapterDefault.schemaRevisionResolver
     )
   }
 }
