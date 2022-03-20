@@ -25,7 +25,7 @@
     <axon-kotlin.version>0.2.0</axon-kotlin.version>
     <axon-testing.version>0.1.0</axon-testing.version>
 
-    <avro-registry-adapter.version>0.0.5</avro-registry-adapter.version>
+    <avro-registry-adapter.version>0.1.0</avro-registry-adapter.version>
 
     <avro.version>1.11.0</avro.version>
 
