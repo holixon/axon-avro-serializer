@@ -1,5 +1,6 @@
 # axon-avro-serializer
 
+![incubating](https://img.shields.io/badge/lifecycle-INCUBATING-orange.svg)](https://github.com/holisticon#open-source-lifecycle)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e5518754d4fd4eea80ef02a95be59486)](https://app.codacy.com/gh/holixon/axon-avro-serializer?utm_source=github.com&utm_medium=referral&utm_content=holixon/axon-avro-serializer&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://github.com/holixon/axon-avro-serializer/workflows/Development%20branches/badge.svg)](https://github.com/holixon/axon-avro-serializer/actions)
 [![sponsored](https://img.shields.io/badge/sponsoredBy-Holisticon-RED.svg)](https://holisticon.de/)
