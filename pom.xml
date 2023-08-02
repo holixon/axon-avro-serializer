@@ -27,7 +27,7 @@
 
     <avro-registry-adapter.version>0.1.0</avro-registry-adapter.version>
 
-    <avro.version>1.11.1</avro.version>
+    <avro.version>1.11.2</avro.version>
 
     <jgiven.version>1.2.3</jgiven.version>
     <jgiven-kotlin.version>1.2.2.1</jgiven-kotlin.version>
