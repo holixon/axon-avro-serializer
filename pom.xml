@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.holixon.axon.avro._</groupId>
   <artifactId>axon-avro-serializer_</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <name>${project.artifactId}</name>
   <description>Axon Avro Serializer</description>
   <url>https://github.com/holixon/axon-avro-serializer/</url>
@@ -15,22 +15,22 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.version>11</java.version>
-    <kotlin.version>1.5.30</kotlin.version>
-    <kotlin-logging.version>2.0.11</kotlin-logging.version>
-    <spring-boot.version>2.5.4</spring-boot.version>
+    <kotlin.version>1.9.20</kotlin.version>
+    <kotlin-logging.version>3.0.5</kotlin-logging.version>
+    <spring-boot.version>2.7.4</spring-boot.version>
 
-    <axon-bom.version>4.5.4</axon-bom.version>
-    <axon-server-plugin-api.version>4.5</axon-server-plugin-api.version>
+    <axon-bom.version>4.5.16</axon-bom.version>
+    <axon-server-plugin-api.version>4.6.0</axon-server-plugin-api.version>
 
-    <axon-kotlin.version>0.1.0</axon-kotlin.version>
-    <axon-testing.version>0.0.2</axon-testing.version>
+    <axon-kotlin.version>4.6.0</axon-kotlin.version>
+    <axon-testing.version>0.2.1</axon-testing.version>
 
-    <avro-registry-adapter.version>0.0.5</avro-registry-adapter.version>
+    <avro-registry-adapter.version>0.1.1</avro-registry-adapter.version>
 
-    <avro.version>1.10.2</avro.version>
+    <avro.version>1.11.2</avro.version>
 
-    <jgiven.version>1.1.0</jgiven.version>
-    <jgiven-kotlin.version>1.0.1</jgiven-kotlin.version>
+    <jgiven.version>1.3.0</jgiven.version>
+    <jgiven-kotlin.version>1.2.5.0</jgiven-kotlin.version>
 
     <pattern.class.itest>**/*ITest.*</pattern.class.itest>
     <pattern.package.itest>**/itest/**/*.*</pattern.package.itest>
@@ -143,20 +143,14 @@
           <!-- cleaning -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.avro</groupId>
-          <artifactId>avro-maven-plugin</artifactId>
-          <version>${avro.version}</version>
+          <version>3.3.1</version>
         </plugin>
 
         <!-- Coverage metering -->
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.8.7</version>
+          <version>0.8.11</version>
           <executions>
             <execution>
               <id>pre-unit-test</id>
@@ -173,11 +167,11 @@
           </executions>
         </plugin>
 
+        <!-- java compiler -->
         <plugin>
-          <!-- java compiler -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.1</version>
+          <version>3.11.0</version>
           <configuration>
             <encoding>${project.build.sourceEncoding}</encoding>
             <release>11</release>
@@ -210,8 +204,8 @@
           </executions>
         </plugin>
 
+        <!-- kotlin compiler -->
         <plugin>
-          <!-- kotlin compiler -->
           <artifactId>kotlin-maven-plugin</artifactId>
           <groupId>org.jetbrains.kotlin</groupId>
           <version>${kotlin.version}</version>
@@ -268,11 +262,11 @@
           </dependencies>
         </plugin>
 
+        <!-- resources -->
         <plugin>
-          <!-- resources -->
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.3.1</version>
           <configuration>
             <encoding>UTF-8</encoding>
           </configuration>
@@ -281,7 +275,7 @@
         <!-- Unit Tests -->
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M5</version>
+          <version>3.2.1</version>
           <configuration>
             <useSystemClassLoader>false</useSystemClassLoader>
             <shutdown>kill</shutdown>
@@ -304,7 +298,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
-          <version>3.0.0-M5</version>
+          <version>3.2.1</version>
           <executions>
             <execution>
               <goals>
@@ -325,12 +319,11 @@
           </configuration>
         </plugin>
 
-
         <!-- javadoc for kotlin -->
         <plugin>
           <groupId>org.jetbrains.dokka</groupId>
           <artifactId>dokka-maven-plugin</artifactId>
-          <version>1.5.0</version>
+          <version>1.9.10</version>
           <executions>
             <execution>
               <phase>package</phase>
@@ -344,10 +337,12 @@
             <jdkVersion>11</jdkVersion>
           </configuration>
         </plugin>
+
+        <!-- javadoc -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.3.0</version>
+          <version>3.6.0</version>
           <executions>
             <execution>
               <id>attach-javadocs</id>
@@ -362,7 +357,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>3.4.0</version>
           <executions>
             <execution>
               <phase>generate-sources</phase>
@@ -382,7 +377,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -403,7 +398,7 @@
         <plugin>
           <groupId>com.amashchenko.maven.plugin</groupId>
           <artifactId>gitflow-maven-plugin</artifactId>
-          <version>1.16.0</version>
+          <version>1.20.0</version>
           <configuration>
             <gitFlowConfig>
               <productionBranch>master</productionBranch>
@@ -448,15 +443,17 @@
         <!-- Deploy -->
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0-M1</version>
+          <version>3.1.1</version>
           <configuration>
             <skip>true</skip>
           </configuration>
         </plugin>
+
+        <!-- nexus staging -->
         <plugin>
           <groupId>org.sonatype.plugins</groupId>
           <artifactId>nexus-staging-maven-plugin</artifactId>
-          <version>1.6.8</version>
+          <version>1.6.13</version>
           <configuration>
             <autoReleaseAfterClose>true</autoReleaseAfterClose>
             <serverId>ossrh</serverId>
@@ -476,14 +473,14 @@
         <!-- Install -->
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>2.5.2</version>
+          <version>3.0.1</version>
         </plugin>
 
         <!-- Enforce -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.3.0</version>
           <executions>
             <execution>
               <id>enforce-maven</id>
@@ -499,6 +496,26 @@
                     <version>11</version>
                   </requireJavaVersion>
                 </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- avro generator -->
+        <plugin>
+          <groupId>org.apache.avro</groupId>
+          <artifactId>avro-maven-plugin</artifactId>
+          <version>${avro.version}</version>
+          <executions>
+            <execution>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>schema</goal>
+              </goals>
+              <configuration>
+                <sourceDirectory>${project.basedir}/src/main/resources/avro/</sourceDirectory>
+                <outputDirectory>${project.build.directory}/generated-sources/avro/</outputDirectory>
+                <stringType>String</stringType>
               </configuration>
             </execution>
           </executions>

@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.holixon.axon.avro._</groupId>
     <artifactId>extension</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -43,7 +43,7 @@
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
-      <version>3.17.3</version>
+      <version>3.23.4</version>
       <scope>provided</scope>
     </dependency>
 
@@ -55,7 +55,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.2.3</version>
+      <version>1.4.11</version>
     </dependency>
 
     <dependency>
@@ -70,7 +70,7 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.2</version>
+        <version>5.1.9</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>

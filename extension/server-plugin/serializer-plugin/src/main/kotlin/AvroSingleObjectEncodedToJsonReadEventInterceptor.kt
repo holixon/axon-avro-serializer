@@ -5,6 +5,7 @@ import io.axoniq.axonserver.grpc.SerializedObject
 import io.axoniq.axonserver.grpc.event.Event
 import io.axoniq.axonserver.plugin.ExecutionContext
 import io.axoniq.axonserver.plugin.interceptor.ReadEventInterceptor
+import io.holixon.avro.adapter.api.JsonStringAndSchemaId
 import io.holixon.avro.adapter.api.ext.ByteArrayExt.toHexString
 import io.holixon.avro.adapter.common.AvroAdapterDefault.isAvroSingleObjectEncoded
 import io.holixon.axon.avro.serializer.plugin.ext.ExecutionContextExt.data
@@ -47,12 +48,12 @@ class AvroSingleObjectEncodedToJsonReadEventInterceptor : ReadEventInterceptor {
         serviceReference = bundleContext.findSchemaRegistryProvider()
       ) { jsonConverter ->
 
-        val json = jsonConverter.convert(payloadBytes)
-        logger.debug { "JSON from registry: $json" }
+        val jsonConverted: JsonStringAndSchemaId = jsonConverter.convert(payloadBytes)
+        logger.debug { "JSON from registry: $jsonConverted" }
         val result = Event.newBuilder(event)
           .setPayload(
             SerializedObject.newBuilder(event.payload)
-              .setData(ByteString.copyFrom(json, Charsets.UTF_8))
+              .setData(ByteString.copyFrom(jsonConverted.json, Charsets.UTF_8))
               .build()
           )
           .build()

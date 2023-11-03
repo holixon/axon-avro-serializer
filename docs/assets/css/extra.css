@@ -3,26 +3,13 @@
  */
  /* Customize logo size */
 .md-header__button.md-logo img, .md-header__button.md-logo svg {
-  height: 100%;
-  width: 100%;
-}
-
-/* Disable title text*/
-.md-header__title .md-ellipsis {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important; /* Fix for https://github.com/twbs/bootstrap/issues/25686 */
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
+  height: 600%;
+  width: 60%;
 }
 
 [data-md-color-scheme="default"] {
   /*
-   Polyflow color scheme
+   Polyflow colors
    */
    --monochrome-80: #3e3e3e;
    --background-white: #ffffff;
@@ -42,6 +29,9 @@
    --royal: #0d0f7e;
 
 
+  /*
+   Default colors adjustments
+   */
    --md-primary-fg-color: var(--accent-4-100);
    --md-accent-fg-color: var(--pumpkin-orange);
    --md-footer-bg-color: var(--accent-4-100);

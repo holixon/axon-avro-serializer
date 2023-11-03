@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.holixon.axon.avro._</groupId>
     <artifactId>axon-avro-serializer_</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6</version>
   </parent>
 
   <artifactId>examples</artifactId>
@@ -20,7 +20,7 @@
     <maven.deploy.skip>true</maven.deploy.skip>
     <gpg.skip>true</gpg.skip>
 
-    <springdoc.version>1.5.10</springdoc.version>
+    <springdoc.version>1.7.0</springdoc.version>
   </properties>
 
   <modules>

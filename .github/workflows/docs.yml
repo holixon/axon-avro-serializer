@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ steps.pip-cache.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('./docs/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
@@ -61,13 +61,13 @@ jobs:
       # This is for a tagged version
       - name: Create a new version of documentation and push to GH pages.
         if: startsWith(github.ref, 'refs/tags/')
-        run: mike deploy ${{ steps.get_tag_name.outputs.TAG_NAME }} stable --push --rebase
+        run: mike deploy ${{ steps.get_tag_name.outputs.TAG_NAME }} stable --push -u
 
       - name: Make stable to default.
         if: startsWith(github.ref, 'refs/tags/')
-        run: mike set-default stable --push --rebase
+        run: mike set-default stable --push
 
       # This is for develop
       - name: Deploy latest develop snapshot docs to GH pages.
         if: github.ref == 'refs/heads/develop'
-        run: mike deploy snapshot --push --rebase
+        run: mike deploy snapshot --push -u

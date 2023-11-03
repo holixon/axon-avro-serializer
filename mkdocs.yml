@@ -37,7 +37,7 @@ theme:
   name: material
   features:
     - navigation.instant # When instant loading is enabled, clicks on all internal links will be intercepted and dispatched via XHR without fully reloading the page
-    - navigation.tabs # add top level nav items into a horizoneal menu
+    - navigation.tabs # add top level nav items into a horizontal menu
     - navigation.tabs.sticky # make horizontal menu sticky (insider feature)
     - navigation.sections
     - navigation.top # add "navigate to top" page icon on bottom left
@@ -92,3 +92,16 @@ plugins:
 
 nav:
   - Home: index.md
+  - Getting started: getting-started.md
+  - Concepts:
+    - Overview: concepts/index.md
+    - Schema design: concepts/schema-design.md
+    - Schema publication: concepts/schema-publication.md
+    - Schema registry: concepts/schema-registry.md
+    - Event generation: concepts/event-generation.md
+    - Upcasting: concepts/upcasting.md
+  - Reference:
+    - Implementation details: reference/index.md
+    - Registry adapters: reference/registry-adapters.md
+    - Axon Server plugins: reference/axon-server-plugins.md
+  - Developer Guide: developer-guide.md
