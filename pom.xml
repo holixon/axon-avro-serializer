@@ -4,7 +4,7 @@
 
   <groupId>io.holixon.axon.avro._</groupId>
   <artifactId>axon-avro-serializer_</artifactId>
-  <version>0.0.6-SNAPSHOT</version>
+  <version>0.0.6</version>
   <name>${project.artifactId}</name>
   <description>Axon Avro Serializer</description>
   <url>https://github.com/holixon/axon-avro-serializer/</url>
